@@ -97,9 +97,15 @@
       }
 
       /* ========== HERO ========== */
+      /* ========== HERO ========== */
       .page-hero {
-        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-        padding: 150px 8% 100px;
+        background: linear-gradient(
+            135deg,
+            rgba(20, 30, 70, 0.85),
+            rgba(74, 95, 217, 0.75)
+          ),
+          url("img/frontis.jpg") no-repeat center center/cover;
+        padding: 310px 8% 310px;
         text-align: center;
         color: #fff;
         position: relative;
@@ -109,19 +115,19 @@
       .page-hero::before {
         content: "";
         position: absolute;
-        top: -50%;
-        left: -50%;
-        right: -50%;
-        bottom: -50%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         background: radial-gradient(
             circle at 30% 40%,
-            rgba(255, 215, 0, 0.2) 0%,
-            transparent 50%
+            rgba(255, 215, 0, 0.25) 0%,
+            transparent 60%
           ),
           radial-gradient(
             circle at 70% 60%,
-            rgba(255, 255, 255, 0.15) 0%,
-            transparent 50%
+            rgba(255, 165, 0, 0.2) 0%,
+            transparent 60%
           );
         animation: pulse 8s ease-in-out infinite alternate;
       }
@@ -155,30 +161,6 @@
       }
 
       /* ========== BREADCRUMB ========== */
-      .breadcrumb {
-        background: linear-gradient(135deg, #ffffff, #f8f9fa);
-        padding: 20px 8%;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      }
-
-      .breadcrumb-content {
-        max-width: 1400px;
-        margin: 0 auto;
-        display: flex;
-        gap: 10px;
-        font-size: 0.95em;
-        color: #666;
-      }
-
-      .breadcrumb a {
-        color: #11998e;
-        text-decoration: none;
-        font-weight: 600;
-      }
-
-      .breadcrumb a:hover {
-        color: #ffd700;
-      }
 
       /* ========== NAVEGACIÓN DE SECCIONES ========== */
       .section-nav {
@@ -832,11 +814,6 @@
     </section>
 
     <!-- ========== BREADCRUMB ========== -->
-    <div class="breadcrumb">
-      <div class="breadcrumb-content">
-        <a href="index.html">Inicio</a> / <span>Staff</span>
-      </div>
-    </div>
 
     <!-- ========== NAVEGACIÓN DE SECCIONES ========== -->
     <nav class="section-nav">
@@ -1574,50 +1551,80 @@
       });
 
       // Animación de entrada para tarjetas
-      // Animación de entrada para tarjetas
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.style.opacity = "1";
-              entry.target.style.transform = "translateY(0)";
-            }
-          });
-        },
-        {
-          threshold: 0.1,
-        }
-      );
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
 
-      // Aplicar estilos iniciales y observar elementos
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+          }
+        });
+      }, observerOptions);
+
+      // Aplicar animación a todas las tarjetas y elementos
       document
-        .querySelectorAll(".docente-card, .experiencia-item, .stat-box")
-        .forEach((el) => {
-          el.style.opacity = "0";
-          el.style.transform = "translateY(30px)";
-          el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-          observer.observe(el);
+        .querySelectorAll(".docente-card, .experiencia-item, .equipo-hero")
+        .forEach((card) => {
+          card.style.opacity = "0";
+          card.style.transform = "translateY(30px)";
+          card.style.transition = "all 0.6s ease";
+          observer.observe(card);
         });
 
-      // Efecto parallax para el hero
+      // Efecto parallax sutil en hero
       window.addEventListener("scroll", () => {
-        const scrolled = window.pageYOffset;
         const hero = document.querySelector(".page-hero");
         if (hero) {
+          const scrolled = window.scrollY;
           hero.style.transform = `translateY(${scrolled * 0.5}px)`;
         }
       });
 
-      // Preloader opcional (puedes eliminar si no lo necesitas)
-      window.addEventListener("load", () => {
-        setTimeout(() => {
-          document.body.style.opacity = "1";
-          document.body.style.transition = "opacity 0.5s ease";
-        }, 100);
-      });
+      // Contador animado para estadísticas
+      const animateCounters = () => {
+        const counters = document.querySelectorAll(".stat-box .number");
+        counters.forEach((counter) => {
+          const target = counter.textContent.replace("+", "").replace("%", "");
+          const isPercentage = counter.textContent.includes("%");
+          const hasPlus = counter.textContent.includes("+");
 
-      // Inicializar el body con opacidad 0 para la transición
-      document.body.style.opacity = "0";
+          let current = 0;
+          const increment = parseInt(target) / 50;
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= parseInt(target)) {
+              counter.textContent =
+                target + (isPercentage ? "%" : hasPlus ? "+" : "");
+              clearInterval(timer);
+            } else {
+              counter.textContent =
+                Math.floor(current) + (isPercentage ? "%" : hasPlus ? "+" : "");
+            }
+          }, 30);
+        });
+      };
+
+      // Observar sección de estadísticas para animar
+      const statsObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              animateCounters();
+              statsObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+
+      const statsSection = document.querySelector(".equipo-stats");
+      if (statsSection) {
+        statsObserver.observe(statsSection);
+      }
     </script>
   </body>
 </html>

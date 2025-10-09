@@ -98,8 +98,13 @@
 
       /* ========== HERO ========== */
       .page-hero {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 150px 8% 100px;
+        background: linear-gradient(
+            135deg,
+            rgba(20, 30, 70, 0.85),
+            rgba(74, 95, 217, 0.75)
+          ),
+          url("img/frontis.jpg") no-repeat center center/cover;
+        padding: 310px 8% 310px;
         text-align: center;
         color: #fff;
         position: relative;
@@ -109,19 +114,19 @@
       .page-hero::before {
         content: "";
         position: absolute;
-        top: -50%;
-        left: -50%;
-        right: -50%;
-        bottom: -50%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         background: radial-gradient(
-            circle at 25% 35%,
+            circle at 30% 40%,
             rgba(255, 215, 0, 0.25) 0%,
-            transparent 50%
+            transparent 60%
           ),
           radial-gradient(
-            circle at 75% 65%,
+            circle at 70% 60%,
             rgba(255, 165, 0, 0.2) 0%,
-            transparent 50%
+            transparent 60%
           );
         animation: pulse 8s ease-in-out infinite alternate;
       }
@@ -903,11 +908,6 @@
     </section>
 
     <!-- ========== BREADCRUMB ========== -->
-    <div class="breadcrumb">
-      <div class="breadcrumb-content">
-        <a href="index.html">Inicio</a> / <span>Idiomas</span>
-      </div>
-    </div>
 
     <!-- ========== NAVEGACIÓN DE SECCIONES ========== -->
     <nav class="section-nav">
