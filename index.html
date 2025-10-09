@@ -1,0 +1,2097 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EIE-UNCÍA - Escuela de Idiomas del Ejército</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* ==================== HEADER / NAVEGACIÓN ==================== */
+      header {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        background: linear-gradient(
+          135deg,
+          rgba(20, 30, 70, 0.95),
+          rgba(40, 60, 120, 0.95)
+        );
+        backdrop-filter: blur(10px);
+        padding: 15px 8%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      header.scrolled {
+        padding: 10px 8%;
+        background: linear-gradient(
+          135deg,
+          rgba(20, 30, 70, 0.98),
+          rgba(40, 60, 120, 0.98)
+        );
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .logo-container:hover {
+        transform: scale(1.05);
+      }
+
+      .logo-container img {
+        width: 50px;
+        height: 50px;
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+        transition: all 0.3s ease;
+      }
+
+      .logo-text {
+        font-size: 1.4em;
+        font-weight: 700;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: 1px;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 35px;
+      }
+
+      nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1.05em;
+        position: relative;
+        padding: 5px 0;
+        transition: all 0.3s ease;
+      }
+
+      nav ul li a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%) scaleX(0);
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, #ffd700, #ffa500);
+        border-radius: 2px;
+        transition: transform 0.3s ease;
+      }
+
+      nav ul li a:hover::after {
+        transform: translateX(-50%) scaleX(1);
+      }
+
+      nav ul li a:hover {
+        color: #ffd700;
+      }
+      /* ESTILOS PARA SUBMENÚS */
+      .has-submenu {
+        position: relative;
+      }
+
+      .has-submenu > a::after {
+        content: " ▼";
+        font-size: 0.7em;
+        margin-left: 5px;
+        transition: transform 0.3s ease;
+      }
+
+      .has-submenu:hover > a::after {
+        transform: rotate(180deg);
+      }
+
+      .submenu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(30, 40, 80, 0.98),
+          rgba(50, 70, 130, 0.98)
+        );
+        backdrop-filter: blur(10px);
+        min-width: 250px;
+        padding: 15px 0;
+        border-radius: 15px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        border: 2px solid rgba(255, 215, 0, 0.2);
+      }
+
+      .has-submenu:hover .submenu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .submenu a {
+        color: #fff;
+        padding: 12px 25px;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        font-size: 0.95em;
+        transition: all 0.2s;
+        border-left: 3px solid transparent;
+      }
+
+      .submenu a:hover {
+        background: rgba(255, 215, 0, 0.15);
+        border-left-color: #ffd700;
+        padding-left: 30px;
+      }
+
+      .submenu-icon {
+        margin-right: 10px;
+        font-size: 1.2em;
+      }
+
+      .btn-contacto {
+        padding: 12px 30px;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+      }
+
+      .btn-contacto:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+      }
+      /* BOTONES VER MÁS */
+      .btn-ver-mas {
+        display: inline-block;
+        padding: 18px 45px;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1.15em;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-ver-mas::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transition: left 0.5s ease;
+      }
+
+      .btn-ver-mas:hover::before {
+        left: 100%;
+      }
+
+      .btn-ver-mas:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 10px 35px rgba(255, 215, 0, 0.6);
+      }
+
+      .btn-ver-mas::after {
+        content: " →";
+        margin-left: 10px;
+        transition: margin-left 0.3s ease;
+      }
+
+      .btn-ver-mas:hover::after {
+        margin-left: 15px;
+      }
+
+      /* ==================== HERO SECTION / SLIDER PRINCIPAL ==================== */
+      .hero {
+        height: 100vh;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: url("img/frontis.jpg") no-repeat center center/cover;
+        transition: background 1s ease-in-out;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(20, 30, 70, 0.7),
+          rgba(40, 60, 120, 0.6)
+        );
+        z-index: 1;
+      }
+
+      .overlay {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .hero-text {
+        text-align: center;
+        color: #fff;
+        max-width: 900px;
+        padding: 0 20px;
+        animation: fadeInUp 1s ease-out;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .hero-text h4 {
+        font-size: 1.4em;
+        color: #ffd700;
+        margin-bottom: 15px;
+        font-weight: 400;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        animation: fadeInUp 1s ease-out 0.2s backwards;
+      }
+
+      .titulo-principal {
+        font-size: 3.5em;
+        font-weight: 800;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 10px;
+        line-height: 1.2;
+        animation: fadeInUp 1s ease-out 0.4s backwards;
+      }
+
+      .titulo-secundario {
+        font-size: 2.8em;
+        color: #fff;
+        margin-bottom: 40px;
+        font-weight: 700;
+        text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+        animation: fadeInUp 1s ease-out 0.6s backwards;
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: 25px;
+        justify-content: center;
+        flex-wrap: wrap;
+        animation: fadeInUp 1s ease-out 0.8s backwards;
+      }
+
+      .btn-cta {
+        padding: 15px 40px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.1em;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: #fff;
+        border: 3px solid #ffd700;
+        box-shadow: 0 6px 20px rgba(255, 215, 0, 0.2);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 215, 0, 0.1);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+      }
+
+      /* CARRUSEL DE MINIATURAS - ARREGLADO */
+      .carrusel-container {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 3;
+        width: 90%;
+        max-width: 950px;
+      }
+
+      .carrusel-wrapper {
+        background: rgba(20, 30, 70, 0.85);
+        backdrop-filter: blur(15px);
+        border-radius: 50px;
+        padding: 25px 30px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      }
+
+      .carrusel {
+        display: flex;
+        gap: 15px;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        padding: 5px;
+      }
+
+      .carrusel::-webkit-scrollbar {
+        display: none;
+      }
+
+      .carrusel img {
+        width: 110px;
+        height: 70px;
+        object-fit: cover;
+        border: 3px solid rgba(255, 215, 0, 0.4);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        opacity: 0.5;
+        flex-shrink: 0;
+      }
+
+      .carrusel img:hover {
+        border-color: #ffd700;
+        opacity: 1;
+        box-shadow: 0 5px 20px rgba(255, 215, 0, 0.7);
+        transform: scale(1.08);
+      }
+
+      .carrusel img.active {
+        border-color: #ffd700;
+        opacity: 1;
+        box-shadow: 0 5px 20px rgba(255, 215, 0, 0.6);
+      }
+
+      /* PARTÍCULAS DECORATIVAS */
+      .particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .particle {
+        position: absolute;
+        background: rgba(255, 215, 0, 0.3);
+        border-radius: 50%;
+        animation: float 15s infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* ==================== SECCIÓN DE ESTADÍSTICAS ==================== */
+      .stats-section {
+        background: linear-gradient(135deg, #1a1a2e, #2d3561, #1a1a2e);
+        padding: 80px 8%;
+        margin-top: -1px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stats-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect fill="rgba(255,215,0,0.03)" width="50" height="50"/><rect fill="rgba(255,215,0,0.05)" x="50" y="50" width="50" height="50"/></svg>');
+        opacity: 0.5;
+      }
+
+      .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .stat-card {
+        text-align: center;
+        padding: 50px 30px;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(10px);
+        border-radius: 25px;
+        border: 2px solid rgba(255, 215, 0, 0.3);
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 215, 0, 0.1) 0%,
+          transparent 70%
+        );
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      .stat-card:hover::before {
+        opacity: 1;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-15px) scale(1.05);
+        border-color: #ffd700;
+        box-shadow: 0 20px 50px rgba(255, 215, 0, 0.4);
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      .stat-icon {
+        font-size: 4em;
+        margin-bottom: 25px;
+        filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.3));
+      }
+
+      .stat-number {
+        font-size: 3.5em;
+        font-weight: 900;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 15px;
+        text-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+      }
+
+      .stat-label {
+        color: #fff;
+        font-size: 1.15em;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+
+      .stars {
+        font-size: 1.5em;
+        color: #ffd700;
+        margin-top: 10px;
+      }
+
+      /* ==================== SECCIÓN SOBRE NOSOTROS ==================== */
+      .about-section {
+        padding: 100px 8%;
+        background: linear-gradient(
+          135deg,
+          #4a5fd9 0%,
+          #6b7fd6 50%,
+          #8e94dd 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .about-section::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 215, 0, 0.08) 0%,
+          transparent 70%
+        );
+        animation: pulse 15s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.5;
+        }
+        50% {
+          transform: scale(1.2);
+          opacity: 0.8;
+        }
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 70px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .section-title h2 {
+        font-size: 3.5em;
+        color: #fff;
+        margin-bottom: 20px;
+        position: relative;
+        display: inline-block;
+        text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .section-title h2::after {
+        content: "";
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 5px;
+        background: linear-gradient(90deg, #ffd700, #ffa500);
+        border-radius: 3px;
+        box-shadow: 0 3px 15px rgba(255, 215, 0, 0.5);
+      }
+
+      .section-title p {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.3em;
+        max-width: 700px;
+        margin: 25px auto 0;
+        font-weight: 300;
+      }
+
+      .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 70px;
+        align-items: center;
+        max-width: 1300px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .about-text {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 50px;
+        border-radius: 30px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+      }
+
+      .about-text h3 {
+        font-size: 2.5em;
+        color: #ffd700;
+        margin-bottom: 30px;
+        text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .about-text p {
+        color: rgba(255, 255, 255, 0.95);
+        font-size: 1.15em;
+        line-height: 1.9;
+        margin-bottom: 25px;
+        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .features-list {
+        list-style: none;
+        margin-top: 35px;
+      }
+
+      .features-list li {
+        padding: 18px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        color: #fff;
+        font-size: 1.1em;
+        font-weight: 500;
+      }
+
+      .features-list li:last-child {
+        border-bottom: none;
+      }
+
+      .features-list li::before {
+        content: "✓";
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        flex-shrink: 0;
+        box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+      }
+
+      .about-image {
+        position: relative;
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+        border: 3px solid rgba(255, 215, 0, 0.3);
+      }
+
+      .about-image img {
+        width: 100%;
+        height: 550px;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+
+      .about-image:hover img {
+        transform: scale(1.15);
+      }
+
+      /* ==================== SECCIÓN DE IDIOMAS DISPONIBLES ==================== */
+      .languages-section {
+        padding: 100px 8%;
+        background: linear-gradient(
+          135deg,
+          #f8b195 0%,
+          #f67280 50%,
+          #c06c84 100%
+        );
+        position: relative;
+      }
+
+      .languages-section::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #ffd700, #ffa500, #ffd700);
+      }
+
+      .section-subtitle {
+        text-align: center;
+        font-size: 1.8em;
+        color: #fff;
+        margin: 60px 0 40px;
+        font-weight: 700;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .languages-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 35px;
+        max-width: 1300px;
+        margin: 0 auto 60px;
+      }
+
+      .language-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 25px;
+        padding: 45px 35px;
+        text-align: center;
+        transition: all 0.4s ease;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .language-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #ffd700, #ffa500);
+        transform: scaleX(0);
+        transition: transform 0.4s ease;
+      }
+
+      .language-card:hover {
+        transform: translateY(-15px) scale(1.03);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      }
+
+      .language-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .language-flag {
+        font-size: 5em;
+        margin-bottom: 25px;
+        filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
+      }
+
+      .language-card h3 {
+        font-size: 2em;
+        color: #1a1a2e;
+        margin-bottom: 18px;
+        font-weight: 800;
+      }
+
+      .language-card p {
+        color: #555;
+        font-size: 1.08em;
+        line-height: 1.7;
+      }
+
+      .language-badge {
+        display: inline-block;
+        padding: 8px 20px;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        border-radius: 20px;
+        font-size: 0.9em;
+        font-weight: 700;
+        margin-top: 15px;
+      }
+
+      /* ==================== SECCIÓN DE STAFF / EQUIPO ==================== */
+      .staff-section {
+        padding: 100px 8%;
+        background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
+        position: relative;
+      }
+
+      .staff-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 40px;
+        max-width: 1300px;
+        margin: 0 auto;
+      }
+
+      .staff-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 25px;
+        padding: 40px 30px;
+        text-align: center;
+        transition: all 0.4s ease;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .staff-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #ffd700, #ffa500);
+        transform: scaleX(0);
+        transition: transform 0.4s ease;
+      }
+
+      .staff-card:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      }
+
+      .staff-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .staff-photo {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin: 0 auto 25px;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4em;
+        box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        border: 5px solid #fff;
+      }
+
+      .staff-card h3 {
+        font-size: 1.6em;
+        color: #1a1a2e;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      .staff-role {
+        color: #ffa500;
+        font-size: 1.1em;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .staff-card p {
+        color: #666;
+        font-size: 1em;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      .staff-languages {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 15px;
+      }
+
+      .staff-languages span {
+        background: linear-gradient(135deg, #4a5fd9, #6b7fd6);
+        color: #fff;
+        padding: 5px 15px;
+        border-radius: 15px;
+        font-size: 0.85em;
+        font-weight: 600;
+      }
+
+      /* ==================== SECCIÓN DE BENEFICIOS ==================== */
+      .benefits-section {
+        padding: 100px 8%;
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      }
+
+      .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 35px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .benefit-card {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px 30px;
+        border-radius: 25px;
+        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .benefit-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+      }
+
+      .benefit-icon {
+        font-size: 4em;
+        margin-bottom: 20px;
+      }
+
+      .benefit-card h4 {
+        font-size: 1.6em;
+        color: #1a1a2e;
+        margin-bottom: 15px;
+      }
+
+      .benefit-card p {
+        color: #666;
+        font-size: 1.05em;
+        line-height: 1.6;
+      }
+
+      /* ==================== SECCIÓN DE CONTACTO ==================== */
+      .contact-section {
+        padding: 100px 8%;
+        background: linear-gradient(135deg, #1a1a2e, #2d3561, #1a1a2e);
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .contact-section::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 215, 0, 0.08) 0%,
+          transparent 70%
+        );
+        animation: rotate 30s linear infinite;
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .contact-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 70px;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .contact-info {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        padding: 50px;
+        border-radius: 30px;
+        border: 2px solid rgba(255, 215, 0, 0.3);
+      }
+
+      .contact-info h2 {
+        font-size: 3em;
+        margin-bottom: 30px;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .contact-info p {
+        font-size: 1.2em;
+        line-height: 1.9;
+        margin-bottom: 35px;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .contact-details {
+        list-style: none;
+        margin-bottom: 40px;
+      }
+
+      .contact-details li {
+        padding: 20px 0;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        font-size: 1.15em;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .contact-details li:last-child {
+        border-bottom: none;
+      }
+
+      .contact-icon {
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4em;
+        flex-shrink: 0;
+        box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+      }
+
+      .whatsapp-section {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(15px);
+        padding: 50px;
+        border-radius: 30px;
+        border: 3px solid rgba(37, 211, 102, 0.4);
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+      }
+
+      .whatsapp-section h3 {
+        font-size: 2.5em;
+        margin-bottom: 25px;
+        color: #25d366;
+        text-shadow: 0 3px 15px rgba(37, 211, 102, 0.5);
+      }
+
+      .whatsapp-section p {
+        font-size: 1.15em;
+        margin-bottom: 30px;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .qr-code {
+        background: #fff;
+        padding: 25px;
+        border-radius: 20px;
+        display: inline-block;
+        margin: 25px 0;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .qr-placeholder {
+        width: 220px;
+        height: 220px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3.5em;
+        background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+        border-radius: 15px;
+      }
+
+      .whatsapp-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 15px;
+        padding: 20px 45px;
+        background: #25d366;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 50px;
+        font-size: 1.3em;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(37, 211, 102, 0.5);
+        margin-top: 20px;
+      }
+
+      .whatsapp-btn:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 15px 45px rgba(37, 211, 102, 0.7);
+        background: #20ba5a;
+      }
+
+      /* ==================== FOOTER / PIE DE PÁGINA ==================== */
+      footer {
+        background: linear-gradient(135deg, #0f0f1e, #1a1a2e);
+        color: #fff;
+        padding: 70px 8% 30px;
+        position: relative;
+      }
+
+      footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #ffd700, #ffa500, #ffd700);
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 50px;
+        margin-bottom: 50px;
+      }
+
+      .footer-section h3 {
+        font-size: 1.8em;
+        margin-bottom: 25px;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .footer-section p,
+      .footer-section li {
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.8;
+        margin-bottom: 12px;
+      }
+
+      .footer-section ul {
+        list-style: none;
+      }
+
+      .footer-section ul li a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .footer-section ul li a:hover {
+        color: #ffd700;
+        transform: translateX(5px);
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 25px;
+        flex-wrap: wrap;
+      }
+
+      .social-links a {
+        width: 50px;
+        height: 50px;
+        background: rgba(255, 215, 0, 0.1);
+        border: 2px solid rgba(255, 215, 0, 0.3);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffd700;
+        font-size: 1.5em;
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+
+      .social-links a:hover {
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        transform: translateY(-5px) rotate(10deg);
+        box-shadow: 0 10px 25px rgba(255, 215, 0, 0.5);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 40px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1em;
+      }
+
+      .footer-bottom p {
+        margin-bottom: 10px;
+      }
+
+      /* ==================== RESPONSIVE / DISEÑO ADAPTABLE ==================== */
+      @media (max-width: 968px) {
+        header {
+          flex-direction: column;
+          gap: 15px;
+          padding: 15px 5%;
+        }
+
+        nav ul {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 15px;
+        }
+
+        .titulo-principal {
+          font-size: 2.2em;
+        }
+
+        .titulo-secundario {
+          font-size: 1.8em;
+        }
+
+        .hero-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .about-content,
+        .contact-container {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+
+        .carrusel-wrapper {
+          padding: 18px 20px;
+        }
+
+        .carrusel img {
+          width: 85px;
+          height: 55px;
+        }
+
+        .section-title h2 {
+          font-size: 2.2em;
+        }
+
+        .about-text {
+          padding: 35px;
+        }
+
+        .footer-content {
+          grid-template-columns: 1fr;
+          gap: 35px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ==================== HEADER / NAVEGACIÓN ==================== -->
+    <!-- ==================== HEADER / NAVEGACIÓN ==================== -->
+    <header id="header">
+      <div class="logo-container">
+        <img src="img/logo.png" alt="EIE-UNCIA Logo" />
+        <div class="logo-text">EIE-UNCÍA</div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+
+          <li class="has-submenu">
+            <a href="#nosotros">Nosotros</a>
+            <div class="submenu">
+              <a href="nosotros.html"
+                ><span class="submenu-icon">📖</span>Historia Completa</a
+              >
+              <a href="nosotros.html#mision"
+                ><span class="submenu-icon">🎯</span>Misión y Visión</a
+              >
+              <a href="nosotros.html#logros"
+                ><span class="submenu-icon">🏆</span>Logros</a
+              >
+            </div>
+          </li>
+
+          <li class="has-submenu">
+            <a href="#idiomas">Idiomas</a>
+            <div class="submenu">
+              <a href="idiomas.html"
+                ><span class="submenu-icon">🌍</span>Todos los Idiomas</a
+              >
+              <a href="idiomas.html#presenciales"
+                ><span class="submenu-icon">📍</span>Presenciales</a
+              >
+              <a href="idiomas.html#virtuales"
+                ><span class="submenu-icon">💻</span>Virtuales</a
+              >
+              <a href="idiomas.html#certificaciones"
+                ><span class="submenu-icon">📜</span>Certificaciones</a
+              >
+            </div>
+          </li>
+
+          <li class="has-submenu">
+            <a href="#staff">Staff</a>
+            <div class="submenu">
+              <a href="staff.html"
+                ><span class="submenu-icon">👥</span>Equipo Completo</a
+              >
+              <a href="staff.html#docentes"
+                ><span class="submenu-icon">👨‍🏫</span>Docentes</a
+              >
+              <a href="staff.html#experiencia"
+                ><span class="submenu-icon">⭐</span>Experiencia</a
+              >
+            </div>
+          </li>
+
+          <li class="has-submenu">
+            <a href="#beneficios">Beneficios</a>
+            <div class="submenu">
+              <a href="beneficios.html"
+                ><span class="submenu-icon">⭐</span>Ver Detalles</a
+              >
+              <a href="beneficios.html#certificaciones"
+                ><span class="submenu-icon">📜</span>Certificaciones</a
+              >
+              <a href="beneficios.html#testimonios"
+                ><span class="submenu-icon">💬</span>Testimonios</a
+              >
+            </div>
+          </li>
+
+          <li class="has-submenu">
+            <a href="#contacto">Contacto</a>
+            <div class="submenu">
+              <a href="contacto.html"
+                ><span class="submenu-icon">📝</span>Formulario Completo</a
+              >
+              <a href="contacto.html#ubicacion"
+                ><span class="submenu-icon">📍</span>Cómo Llegar</a
+              >
+              <a href="contacto.html#horarios"
+                ><span class="submenu-icon">⏰</span>Horarios</a
+              >
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <a href="#contacto" class="btn-contacto">Contáctanos</a>
+    </header>
+
+    <!-- ==================== HERO SECTION / SLIDER PRINCIPAL ==================== -->
+    <section class="hero" id="inicio">
+      <div class="particles" id="particles"></div>
+
+      <div class="overlay">
+        <div class="hero-text">
+          <h4>Bienvenido a la</h4>
+          <h1 class="titulo-principal">ESCUELA DE IDIOMAS DEL EJÉRCITO</h1>
+          <h1 class="titulo-secundario">FILIAL UNCÍA</h1>
+          <div class="hero-buttons">
+            <a href="#recorrido3d" class="btn-cta btn-primary">
+              🌐 Recorrido Virtual 3D
+            </a>
+            <a href="#nosotros" class="btn-cta btn-secondary">
+              📚 Más Información
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="carrusel-container">
+        <div class="carrusel-wrapper">
+          <div class="carrusel" id="carrusel">
+            <img src="img/frontis.jpg" alt="Frontis Principal" class="active" />
+            <img src="img/EIE.jpg" alt="Letrero EIE" />
+            <img src="img/EIE_UNCIA.jpg" alt="Vista Nocturna" />
+            <img src="img/frontis.jpg" alt="Fachada Exterior" />
+            <img src="img/EIE.jpg" alt="Entrada Principal" />
+            <img src="img/EIE_UNCIA.jpg" alt="Iluminación Nocturna" />
+            <img src="img/frontis.jpg" alt="Vista Completa" />
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ==================== FIN HERO SECTION ==================== -->
+
+    <!-- ==================== SECCIÓN DE ESTADÍSTICAS ==================== -->
+    <section class="stats-section">
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-icon">🎓</div>
+          <div class="stat-number" data-target="32">0</div>
+          <div class="stat-label">Años de Experiencia</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-number" data-target="8500">0</div>
+          <div class="stat-label">Estudiantes Graduados</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🌍</div>
+          <div class="stat-number" data-target="9">0</div>
+          <div class="stat-label">Idiomas Disponibles</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⭐</div>
+          <div class="stat-number">100</div>
+          <div class="stat-label">% Satisfacción</div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+    </section>
+    <!-- ==================== FIN SECCIÓN DE ESTADÍSTICAS ==================== -->
+
+    <!-- ==================== SECCIÓN SOBRE NOSOTROS ==================== -->
+    <section class="about-section" id="nosotros">
+      <div class="section-title">
+        <h2>Sobre Nosotros</h2>
+        <p>Formando profesionales en idiomas desde 1993</p>
+      </div>
+
+      <div class="about-content">
+        <div class="about-text">
+          <h3>Excelencia en la Enseñanza de Idiomas</h3>
+          <p>
+            La Escuela de Idiomas del Ejército - Filial Uncía es una institución
+            de prestigio dedicada a la enseñanza de idiomas extranjeros, fundada
+            en 1993 con el lema <strong>"Knowing to Teach"</strong> (Conocer
+            para Enseñar).
+          </p>
+          <p>
+            Nos enorgullece ofrecer programas educativos de alta calidad, con
+            docentes altamente capacitados, metodologías modernas y
+            certificaciones internacionales que garantizan el éxito profesional
+            de nuestros estudiantes.
+          </p>
+          <p>
+            Ubicados en Plaza Alonzo de Ibáñez, ofrecemos un ambiente educativo
+            seguro, moderno y equipado con la última tecnología para el
+            aprendizaje de idiomas.
+          </p>
+
+          <ul class="features-list">
+            <li>Certificación Internacional Reconocida</li>
+            <li>Docentes Especializados y Nativos</li>
+            <li>Metodología Comunicativa Moderna</li>
+            <li>Instalaciones con Tecnología de Punta</li>
+            <li>Horarios Flexibles y Accesibles</li>
+            <li>Programas Personalizados por Nivel</li>
+          </ul>
+        </div>
+
+        <div class="about-image">
+          <img src="img/EIE_UNCIA.jpg" alt="Instalaciones EIE-UNCIA" />
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 50px">
+        <a href="nosotros.html" class="btn-ver-mas">
+          📖 Descubre Nuestra Historia Completa
+        </a>
+      </div>
+    </section>
+    <!-- ==================== FIN SECCIÓN SOBRE NOSOTROS ==================== -->
+
+    <!-- ==================== SECCIÓN DE IDIOMAS DISPONIBLES ==================== -->
+    <section class="languages-section" id="idiomas">
+      <div class="section-title">
+        <h2>Idiomas Disponibles</h2>
+        <p>Aprende nuevos idiomas con los mejores profesionales</p>
+      </div>
+
+      <h3 class="section-subtitle">📍 Modalidad Presencial</h3>
+      <div class="languages-grid">
+        <div class="language-card">
+          <div class="language-flag">🇬🇧</div>
+          <h3>Inglés</h3>
+          <p>
+            Desde nivel básico hasta avanzado. Preparación para certificaciones
+            internacionales TOEFL, IELTS y Cambridge.
+          </p>
+          <span class="language-badge">PRESENCIAL</span>
+        </div>
+
+        <div class="language-card">
+          <div class="language-flag">🇰🇷</div>
+          <h3>Coreano</h3>
+          <p>
+            Aprende el idioma de la cultura K-pop y K-drama. Preparación para
+            certificación TOPIK con profesores especializados.
+          </p>
+          <span class="language-badge">PRESENCIAL</span>
+        </div>
+
+        <div class="language-card">
+          <div class="language-flag">🏔️</div>
+          <h3>Quechua</h3>
+          <p>
+            Conecta con nuestras raíces andinas. Aprende el idioma ancestral de
+            nuestros pueblos originarios con hablantes nativos.
+          </p>
+          <span class="language-badge">PRESENCIAL</span>
+        </div>
+      </div>
+
+      <h3 class="section-subtitle">💻 Modalidad Virtual</h3>
+      <div class="languages-grid">
+        <div class="language-card">
+          <div class="language-flag">🇫🇷</div>
+          <h3>Francés</h3>
+          <p>
+            El idioma de la elegancia y la cultura. Certificación DELF/DALF
+            disponible para todos los niveles.
+          </p>
+          <span
+            class="language-badge"
+            style="background: linear-gradient(135deg, #4a5fd9, #6b7fd6)"
+            >VIRTUAL</span
+          >
+        </div>
+
+        <div class="language-card">
+          <div class="language-flag">🇵🇹</div>
+          <h3>Portugués</h3>
+          <p>
+            Domina el idioma más hablado en Sudamérica. Ideal para negocios y
+            turismo en Brasil y Portugal.
+          </p>
+          <span
+            class="language-badge"
+            style="background: linear-gradient(135deg, #4a5fd9, #6b7fd6)"
+            >VIRTUAL</span
+          >
+        </div>
+
+        <div class="language-card">
+          <div class="language-flag">🇨🇳</div>
+          <h3>Chino Mandarín</h3>
+          <p>
+            El idioma del futuro global. Preparación para certificación HSK con
+            metodología especializada.
+          </p>
+          <span
+            class="language-badge"
+            style="background: linear-gradient(135deg, #4a5fd9, #6b7fd6)"
+            >VIRTUAL</span
+          >
+        </div>
+
+        <div class="language-card">
+          <div class="language-flag">🇩🇪</div>
+          <h3>Alemán</h3>
+          <p>
+            Aprende el idioma de la innovación y tecnología. Certificación
+            Goethe-Institut disponible.
+          </p>
+          <span
+            class="language-badge"
+            style="background: linear-gradient(135deg, #4a5fd9, #6b7fd6)"
+            >VIRTUAL</span
+          >
+        </div>
+
+        <div class="language-card">
+          <div class="language-flag">🇮🇹</div>
+          <h3>Italiano</h3>
+          <p>
+            Descubre el idioma del arte y la gastronomía. Certificación CILS y
+            CELI disponibles.
+          </p>
+          <span
+            class="language-badge"
+            style="background: linear-gradient(135deg, #4a5fd9, #6b7fd6)"
+            >VIRTUAL</span
+          >
+        </div>
+
+        <div class="language-card">
+          <div class="language-flag">🇯🇵</div>
+          <h3>Japonés</h3>
+          <p>
+            Sumérgete en la cultura nipona. Preparación para certificación JLPT
+            con expertos nativos.
+          </p>
+          <span
+            class="language-badge"
+            style="background: linear-gradient(135deg, #4a5fd9, #6b7fd6)"
+            >VIRTUAL</span
+          >
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 60px">
+        <a href="idiomas.html" class="btn-ver-mas">
+          🌍 Ver Información Completa de Todos los Idiomas
+        </a>
+      </div>
+    </section>
+    <!-- ==================== FIN SECCIÓN DE IDIOMAS ==================== -->
+
+    <!-- ==================== SECCIÓN DE STAFF / EQUIPO ==================== -->
+    <section class="staff-section" id="staff">
+      <div class="section-title">
+        <h2>Nuestro Equipo</h2>
+        <p>Conoce a los profesionales que te guiarán en tu aprendizaje</p>
+      </div>
+
+      <div class="staff-grid">
+        <div class="staff-card">
+          <div class="staff-photo">👨‍💼</div>
+          <h3>Lic. Juan Pérez</h3>
+          <p class="staff-role">Director General</p>
+          <p>
+            Licenciado en Educación con especialización en enseñanza de idiomas.
+            Más de 20 años de experiencia en educación.
+          </p>
+          <div class="staff-languages">
+            <span>Inglés</span>
+            <span>Francés</span>
+          </div>
+        </div>
+
+        <div class="staff-card">
+          <div class="staff-photo">👩‍🏫</div>
+          <h3>Prof. María García</h3>
+          <p class="staff-role">Coordinadora Académica</p>
+          <p>
+            Profesora certificada en metodologías de enseñanza comunicativa.
+            Especialista en evaluación y certificación.
+          </p>
+          <div class="staff-languages">
+            <span>Inglés</span>
+            <span>Portugués</span>
+          </div>
+        </div>
+
+        <div class="staff-card">
+          <div class="staff-photo">👨‍🏫</div>
+          <h3>Prof. Carlos Mamani</h3>
+          <p class="staff-role">Docente de Quechua</p>
+          <p>
+            Hablante nativo con formación en lingüística andina. Preservando y
+            enseñando nuestra lengua ancestral.
+          </p>
+          <div class="staff-languages">
+            <span>Quechua</span>
+            <span>Español</span>
+          </div>
+        </div>
+
+        <div class="staff-card">
+          <div class="staff-photo">👩‍💼</div>
+          <h3>Prof. Kim Min-ji</h3>
+          <p class="staff-role">Docente de Coreano</p>
+          <p>
+            Profesora nativa de Corea del Sur. Certificada TOPIK nivel 6.
+            Experta en cultura coreana contemporánea.
+          </p>
+          <div class="staff-languages">
+            <span>Coreano</span>
+            <span>Inglés</span>
+          </div>
+        </div>
+
+        <div class="staff-card">
+          <div class="staff-photo">👨‍💼</div>
+          <h3>Prof. Robert Smith</h3>
+          <p class="staff-role">Docente de Inglés</p>
+          <p>
+            Profesor nativo de Estados Unidos. Certificado TESOL y CELTA.
+            Especialista en preparación de exámenes.
+          </p>
+          <div class="staff-languages">
+            <span>Inglés</span>
+            <span>Español</span>
+          </div>
+        </div>
+
+        <div class="staff-card">
+          <div class="staff-photo">👩‍🏫</div>
+          <h3>Lic. Ana Rodríguez</h3>
+          <p class="staff-role">Coordinadora Administrativa</p>
+          <p>
+            Licenciada en Administración de Empresas. Encargada de
+            inscripciones, certificaciones y atención al estudiante.
+          </p>
+          <div class="staff-languages">
+            <span>Español</span>
+            <span>Inglés</span>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 60px">
+        <a href="staff.html" class="btn-ver-mas">
+          👥 Conoce las Biografías Completas del Equipo
+        </a>
+      </div>
+    </section>
+    <!-- ==================== FIN SECCIÓN DE STAFF ==================== -->
+
+    <!-- ==================== SECCIÓN DE BENEFICIOS ==================== -->
+    <section class="benefits-section" id="beneficios">
+      <div class="section-title">
+        <h2>¿Por Qué Elegirnos?</h2>
+        <p>Descubre las ventajas de estudiar en EIE-UNCÍA</p>
+      </div>
+
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon">🏆</div>
+          <h4>Certificación Válida</h4>
+          <p>
+            Certificados con validez internacional reconocidos en todo el mundo.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-icon">👨‍🏫</div>
+          <h4>Profesores Expertos</h4>
+          <p>
+            Docentes certificados, nativos y con amplia experiencia en
+            enseñanza.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-icon">📱</div>
+          <h4>Tecnología Moderna</h4>
+          <p>
+            Plataformas digitales, apps y recursos multimedia de última
+            generación.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-icon">💰</div>
+          <h4>Precios Accesibles</h4>
+          <p>
+            Inversión justa con planes de pago flexibles y descuentos
+            especiales.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-icon">🎯</div>
+          <h4>Método Eficaz</h4>
+          <p>
+            Metodología comunicativa enfocada en resultados rápidos y efectivos.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-icon">🌐</div>
+          <h4>Clases Híbridas</h4>
+          <p>
+            Opciones presenciales y virtuales según tu disponibilidad y
+            preferencia.
+          </p>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 60px">
+        <a href="beneficios.html" class="btn-ver-mas">
+          ⭐ Descubre Todos los Beneficios y Testimonios
+        </a>
+      </div>
+    </section>
+    <!-- ==================== FIN SECCIÓN DE BENEFICIOS ==================== -->
+
+    <!-- ==================== SECCIÓN DE CONTACTO ==================== -->
+    <section class="contact-section" id="contacto">
+      <div class="section-title">
+        <h2>Contáctanos</h2>
+        <p>Estamos aquí para ayudarte en tu camino al éxito</p>
+      </div>
+
+      <div class="contact-container">
+        <div class="contact-info">
+          <h2>Información de Contacto</h2>
+          <p>
+            ¿Tienes preguntas? Comunícate con nosotros a través de cualquiera de
+            nuestros canales. Estamos disponibles para atenderte.
+          </p>
+
+          <ul class="contact-details">
+            <li>
+              <div class="contact-icon">📍</div>
+              <div>
+                <strong>Dirección:</strong><br />
+                Plaza Alonzo de Ibáñez, Uncía - Potosí
+              </div>
+            </li>
+            <li>
+              <div class="contact-icon">📞</div>
+              <div>
+                <strong>Teléfono/WhatsApp:</strong><br />
+                +591 62795652
+              </div>
+            </li>
+            <li>
+              <div class="contact-icon">✉️</div>
+              <div>
+                <strong>Email:</strong><br />
+                info@escuelaidiomasejercito.com
+              </div>
+            </li>
+            <li>
+              <div class="contact-icon">🌐</div>
+              <div>
+                <strong>Sitio Web:</strong><br />
+                www.escueladeidiomasejecito.com
+              </div>
+            </li>
+            <li>
+              <div class="contact-icon">⏰</div>
+              <div>
+                <strong>Horario:</strong><br />
+                Lunes a Viernes: 8:00 - 20:00<br />
+                Sábados: 9:00 - 13:00
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="whatsapp-section">
+          <h3>💬 Chatea con Nosotros</h3>
+          <p>
+            Escanea el código QR o haz clic en el botón para iniciar una
+            conversación por WhatsApp
+          </p>
+
+          <div class="qr-code">
+            <div class="qr-placeholder">
+              <svg width="220" height="220" viewBox="0 0 220 220">
+                <rect fill="#000" width="220" height="220" />
+                <rect fill="#fff" x="20" y="20" width="20" height="20" />
+                <rect fill="#fff" x="60" y="20" width="20" height="20" />
+                <rect fill="#fff" x="100" y="20" width="20" height="20" />
+                <rect fill="#fff" x="140" y="20" width="20" height="20" />
+                <rect fill="#fff" x="180" y="20" width="20" height="20" />
+                <rect fill="#fff" x="20" y="60" width="20" height="20" />
+                <rect fill="#fff" x="180" y="60" width="20" height="20" />
+                <rect fill="#fff" x="20" y="100" width="20" height="20" />
+                <rect fill="#fff" x="60" y="100" width="20" height="20" />
+                <rect fill="#fff" x="100" y="100" width="20" height="20" />
+                <rect fill="#fff" x="140" y="100" width="20" height="20" />
+                <rect fill="#fff" x="180" y="100" width="20" height="20" />
+                <rect fill="#fff" x="20" y="140" width="20" height="20" />
+                <rect fill="#fff" x="180" y="140" width="20" height="20" />
+                <rect fill="#fff" x="20" y="180" width="20" height="20" />
+                <rect fill="#fff" x="60" y="180" width="20" height="20" />
+                <rect fill="#fff" x="100" y="180" width="20" height="20" />
+                <rect fill="#fff" x="140" y="180" width="20" height="20" />
+                <rect fill="#fff" x="180" y="180" width="20" height="20" />
+              </svg>
+            </div>
+          </div>
+
+          <a
+            href="https://wa.me/59162795652?text=Hola,%20quiero%20información%20sobre%20los%20cursos%20de%20idiomas"
+            target="_blank"
+            class="whatsapp-btn"
+          >
+            <span style="font-size: 1.5em">💬</span>
+            Chatear por WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- ==================== FIN SECCIÓN DE CONTACTO ==================== -->
+
+    <!-- ==================== FOOTER / PIE DE PÁGINA ==================== -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>EIE-UNCÍA</h3>
+          <p>
+            Escuela de Idiomas del Ejército - Filial Uncía. Formando
+            profesionales desde 1993 con excelencia y compromiso.
+          </p>
+          <p><strong>Lema:</strong> "Knowing to Teach"</p>
+          <div class="social-links">
+            <a href="https://facebook.com" target="_blank" title="Facebook"
+              >📘</a
+            >
+            <a href="https://instagram.com" target="_blank" title="Instagram"
+              >📷</a
+            >
+            <a href="https://youtube.com" target="_blank" title="YouTube">▶️</a>
+            <a href="https://tiktok.com" target="_blank" title="TikTok">🎵</a>
+            <a href="https://twitter.com" target="_blank" title="Twitter">🐦</a>
+          </div>
+        </div>
+
+        <div class="footer-section">
+          <h3>Enlaces Rápidos</h3>
+          <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#nosotros">Sobre Nosotros</a></li>
+            <li><a href="#idiomas">Idiomas</a></li>
+            <li><a href="#staff">Staff</a></li>
+            <li><a href="#beneficios">Beneficios</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="#recorrido3d">Recorrido 3D</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Idiomas Presenciales</h3>
+          <ul>
+            <li>🇬🇧 Inglés</li>
+            <li>🇰🇷 Coreano</li>
+            <li>🏔️ Quechua</li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Horarios</h3>
+          <p>📅 Lunes a Viernes<br />⏰ 8:00 AM - 8:00 PM</p>
+          <p>📅 Sábados<br />⏰ 9:00 AM - 1:00 PM</p>
+          <p>📅 Domingos: Cerrado</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>
+          &copy; 2025 Escuela de Idiomas del Ejército - Filial Uncía. Todos los
+          derechos reservados.
+        </p>
+        <p>Fundada en 1993 | Plaza Alonzo de Ibáñez, Uncía - Potosí, Bolivia</p>
+        <p>Diseñado con ❤️ para la excelencia educativa</p>
+      </div>
+    </footer>
+    <!-- ==================== FIN FOOTER ==================== -->
+
+    <!-- ==================== JAVASCRIPT / FUNCIONALIDADES ==================== -->
+    <script>
+      // ========== CARRUSEL AUTOMÁTICO ==========
+      const carrusel = document.getElementById("carrusel");
+      const images = carrusel.getElementsByTagName("img");
+      const imageUrls = [
+        "img/frontis.jpg",
+        "img/EIE.jpg",
+        "img/EIE_UNCIA.jpg",
+        "img/frontis.jpg",
+        "img/EIE.jpg",
+        "img/EIE_UNCIA.jpg",
+        "img/frontis.jpg",
+      ];
+      let currentIndex = 0;
+
+      // Función para cambiar fondo
+      function cambiarFondo(index) {
+        const hero = document.querySelector(".hero");
+        hero.style.background = `url('${imageUrls[index]}') no-repeat center center/cover`;
+
+        // Actualizar imagen activa
+        Array.from(images).forEach((img) => img.classList.remove("active"));
+        images[index].classList.add("active");
+
+        currentIndex = index;
+      }
+
+      // Click en miniaturas
+      Array.from(images).forEach((img, index) => {
+        img.addEventListener("click", () => cambiarFondo(index));
+      });
+
+      // Auto-cambio cada 4 segundos
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % images.length;
+        cambiarFondo(currentIndex);
+
+        // Scroll suave del carrusel
+        const scrollAmount =
+          images[currentIndex].offsetLeft -
+          carrusel.offsetWidth / 2 +
+          images[currentIndex].offsetWidth / 2;
+        carrusel.scrollTo({
+          left: scrollAmount,
+          behavior: "smooth",
+        });
+      }, 4000);
+
+      // ========== HEADER SCROLL EFFECT ==========
+      window.addEventListener("scroll", () => {
+        const header = document.getElementById("header");
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+
+      // ========== CREAR PARTÍCULAS DECORATIVAS ==========
+      const particlesContainer = document.getElementById("particles");
+      for (let i = 0; i < 30; i++) {
+        const particle = document.createElement("div");
+        particle.classList.add("particle");
+        particle.style.width = Math.random() * 5 + 2 + "px";
+        particle.style.height = particle.style.width;
+        particle.style.left = Math.random() * 100 + "%";
+        particle.style.animationDelay = Math.random() * 15 + "s";
+        particle.style.animationDuration = Math.random() * 10 + 10 + "s";
+        particlesContainer.appendChild(particle);
+      }
+
+      // ========== ANIMACIÓN DE NÚMEROS (CONTADOR) ==========
+      const statNumbers = document.querySelectorAll(
+        ".stat-number[data-target]"
+      );
+
+      const animateValue = (element, start, end, duration) => {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+          if (!startTimestamp) startTimestamp = timestamp;
+          const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+          element.textContent = Math.floor(progress * (end - start) + start);
+          if (progress < 1) {
+            window.requestAnimationFrame(step);
+          }
+        };
+        window.requestAnimationFrame(step);
+      };
+
+      // ========== OBSERVADOR PARA ANIMAR CUANDO SEA VISIBLE ==========
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const target = parseInt(entry.target.getAttribute("data-target"));
+            animateValue(entry.target, 0, target, 2000);
+            observer.unobserve(entry.target);
+          }
+        });
+      });
+
+      statNumbers.forEach((stat) => observer.observe(stat));
+
+      // ========== SMOOTH SCROLL PARA ENLACES INTERNOS ==========
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+    </script>
+    <!-- ==================== FIN JAVASCRIPT ==================== -->
+  </body>
+</html>

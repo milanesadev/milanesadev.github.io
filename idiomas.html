@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nuestros Idiomas - EIE-UNCÍA</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: #f5f7fa;
+      }
+
+      /* ========== HEADER ========== */
+      header {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        background: linear-gradient(
+          135deg,
+          rgba(20, 30, 70, 0.95),
+          rgba(40, 60, 120, 0.95)
+        );
+        backdrop-filter: blur(10px);
+        padding: 15px 8%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        text-decoration: none;
+      }
+
+      .logo-container img {
+        width: 50px;
+        height: 50px;
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+      }
+
+      .logo-text {
+        font-size: 1.4em;
+        font-weight: 700;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 30px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: #ffd700;
+      }
+
+      .btn-volver {
+        padding: 10px 25px;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+      }
+
+      .btn-volver:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+      }
+
+      /* ========== HERO ========== */
+      .page-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 150px 8% 100px;
+        text-align: center;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page-hero::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        right: -50%;
+        bottom: -50%;
+        background: radial-gradient(
+            circle at 25% 35%,
+            rgba(255, 215, 0, 0.25) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 75% 65%,
+            rgba(255, 165, 0, 0.2) 0%,
+            transparent 50%
+          );
+        animation: pulse 8s ease-in-out infinite alternate;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.7;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .page-hero h1 {
+        font-size: 4em;
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 1;
+        text-shadow: 3px 3px 20px rgba(0, 0, 0, 0.4);
+        font-weight: 900;
+      }
+
+      .page-hero p {
+        font-size: 1.5em;
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      /* ========== BREADCRUMB ========== */
+      .breadcrumb {
+        background: linear-gradient(135deg, #ffffff, #f8f9fa);
+        padding: 20px 8%;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .breadcrumb-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        gap: 10px;
+        font-size: 0.95em;
+        color: #666;
+      }
+
+      .breadcrumb a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .breadcrumb a:hover {
+        color: #ffd700;
+      }
+
+      /* ========== NAVEGACIÓN DE SECCIONES ========== */
+      .section-nav {
+        background: linear-gradient(135deg, #1a1a2e, #2d3561);
+        padding: 30px 8%;
+        position: sticky;
+        top: 80px;
+        z-index: 999;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .section-nav-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+      }
+
+      .section-nav a {
+        color: #fff;
+        text-decoration: none;
+        padding: 12px 30px;
+        border-radius: 25px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 215, 0, 0.3);
+        transition: all 0.3s ease;
+        font-weight: 600;
+      }
+
+      .section-nav a:hover,
+      .section-nav a.active {
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        border-color: #ffd700;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+      }
+
+      /* ========== ESTILOS COMUNES PARA SECCIONES ========== */
+      .section-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 70px;
+      }
+
+      .section-header h2 {
+        font-size: 3.5em;
+        margin-bottom: 20px;
+        position: relative;
+        display: inline-block;
+        font-weight: 900;
+      }
+
+      .section-header h2::after {
+        content: "";
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 5px;
+        background: linear-gradient(90deg, #ffd700, #ffa500);
+        border-radius: 3px;
+        box-shadow: 0 3px 10px rgba(255, 215, 0, 0.4);
+      }
+
+      .section-header p {
+        font-size: 1.3em;
+        margin-top: 35px;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        font-weight: 500;
+      }
+
+      /* ========== SECCIÓN: TODOS LOS IDIOMAS ========== */
+      .todos-idiomas-section {
+        padding: 100px 8%;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .todos-idiomas-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 20% 30%,
+            rgba(255, 255, 255, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(255, 215, 0, 0.12) 0%,
+            transparent 50%
+          );
+      }
+
+      .todos-idiomas-section .section-header h2,
+      .todos-idiomas-section .section-header p {
+        color: #fff;
+        text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .idiomas-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+        gap: 40px;
+      }
+
+      .idioma-card {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        transition: all 0.4s ease;
+        position: relative;
+      }
+
+      .idioma-card:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+      }
+
+      .idioma-imagen {
+        width: 100%;
+        height: 280px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .idioma-imagen img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .idioma-card:hover .idioma-imagen img {
+        transform: scale(1.15);
+      }
+
+      .idioma-flag {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 4em;
+        filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+        z-index: 2;
+      }
+
+      .idioma-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        padding: 10px 22px;
+        border-radius: 20px;
+        font-weight: 800;
+        font-size: 0.9em;
+        box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
+        z-index: 2;
+      }
+
+      .idioma-content {
+        padding: 40px;
+      }
+
+      .idioma-content h3 {
+        font-size: 2.2em;
+        color: #2d3561;
+        margin-bottom: 20px;
+        font-weight: 800;
+      }
+
+      .idioma-content p {
+        color: #555;
+        font-size: 1.08em;
+        line-height: 1.9;
+        margin-bottom: 25px;
+      }
+
+      .idioma-features {
+        list-style: none;
+        margin-bottom: 25px;
+      }
+
+      .idioma-features li {
+        padding: 10px 0;
+        padding-left: 30px;
+        position: relative;
+        color: #444;
+        font-size: 1.05em;
+      }
+
+      .idioma-features li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #f5576c;
+        font-weight: bold;
+        font-size: 1.3em;
+      }
+
+      .idioma-niveles {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+
+      .nivel-tag {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        padding: 8px 18px;
+        border-radius: 15px;
+        font-size: 0.9em;
+        font-weight: 700;
+      }
+
+      /* ========== SECCIÓN: PRESENCIALES ========== */
+      .presenciales-section {
+        padding: 100px 8%;
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .presenciales-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 30% 40%,
+            rgba(255, 255, 255, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 70% 60%,
+            rgba(255, 215, 0, 0.1) 0%,
+            transparent 50%
+          );
+      }
+
+      .presenciales-section .section-header h2,
+      .presenciales-section .section-header p {
+        color: #fff;
+        text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .presencial-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        gap: 50px;
+      }
+
+      .presencial-card {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        transition: all 0.4s ease;
+      }
+
+      .presencial-card:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
+      }
+
+      .presencial-header {
+        position: relative;
+        height: 320px;
+        overflow: hidden;
+      }
+
+      .presencial-header img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+
+      .presencial-card:hover .presencial-header img {
+        transform: scale(1.2);
+      }
+
+      .presencial-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        padding: 40px;
+        color: #fff;
+      }
+
+      .presencial-overlay h3 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        font-weight: 900;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .presencial-overlay .flag {
+        font-size: 3.5em;
+        margin-bottom: 15px;
+        filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.5));
+      }
+
+      .presencial-body {
+        padding: 45px;
+      }
+
+      .presencial-body p {
+        color: #555;
+        font-size: 1.15em;
+        line-height: 1.9;
+        margin-bottom: 30px;
+      }
+
+      .presencial-info {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .info-item {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+      }
+
+      .info-item .icon {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+
+      .info-item strong {
+        display: block;
+        color: #2d3561;
+        font-size: 1.1em;
+        margin-bottom: 5px;
+      }
+
+      .info-item span {
+        color: #666;
+        font-size: 0.95em;
+      }
+
+      /* ========== SECCIÓN: VIRTUALES ========== */
+      .virtuales-section {
+        padding: 100px 8%;
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .virtuales-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 25% 35%,
+            rgba(255, 255, 255, 0.2) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 75% 65%,
+            rgba(255, 215, 0, 0.15) 0%,
+            transparent 50%
+          );
+      }
+
+      .virtuales-section .section-header h2 {
+        color: #2d3561;
+      }
+
+      .virtuales-section .section-header p {
+        color: #444;
+      }
+
+      .virtual-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 40px;
+      }
+
+      .virtual-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        transition: all 0.4s ease;
+        border: 3px solid rgba(255, 215, 0, 0.3);
+      }
+
+      .virtual-card:hover {
+        transform: translateY(-12px) scale(1.02);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        border-color: #ffd700;
+      }
+
+      .virtual-imagen {
+        width: 100%;
+        height: 240px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .virtual-imagen img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .virtual-card:hover .virtual-imagen img {
+        transform: scale(1.15) rotate(2deg);
+      }
+
+      .virtual-tag {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-weight: 800;
+        font-size: 0.85em;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .virtual-flag {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 3.5em;
+        filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.4));
+      }
+
+      .virtual-content {
+        padding: 35px;
+      }
+
+      .virtual-content h3 {
+        font-size: 2em;
+        color: #2d3561;
+        margin-bottom: 15px;
+        font-weight: 800;
+      }
+
+      .virtual-content p {
+        color: #555;
+        font-size: 1.05em;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .virtual-benefits {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .benefit-chip {
+        background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+        color: #2d3561;
+        padding: 8px 16px;
+        border-radius: 15px;
+        font-size: 0.9em;
+        font-weight: 700;
+      }
+
+      /* ========== SECCIÓN: CERTIFICACIONES ========== */
+      .certificaciones-section {
+        padding: 100px 8%;
+        background: linear-gradient(
+          135deg,
+          #ffecd2 0%,
+          #fcb69f 50%,
+          #ffecd2 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .certificaciones-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 30% 30%,
+            rgba(255, 215, 0, 0.2) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 70% 70%,
+            rgba(255, 165, 0, 0.15) 0%,
+            transparent 50%
+          );
+      }
+
+      .certificaciones-section .section-header h2 {
+        color: #2d3561;
+      }
+
+      .certificaciones-section .section-header p {
+        color: #444;
+      }
+
+      .cert-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 45px;
+      }
+
+      .cert-card {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+        transition: all 0.4s ease;
+        border: 3px solid rgba(255, 215, 0, 0.4);
+      }
+
+      .cert-card:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 25px 65px rgba(0, 0, 0, 0.3);
+        border-color: #ffd700;
+      }
+
+      .cert-header {
+        background: linear-gradient(135deg, #2d3561, #4a5fd9);
+        padding: 40px;
+        text-align: center;
+        position: relative;
+      }
+
+      .cert-icon {
+        font-size: 5em;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 5px 20px rgba(255, 215, 0, 0.5));
+      }
+
+      .cert-header h3 {
+        font-size: 2.3em;
+        color: #fff;
+        margin-bottom: 10px;
+        font-weight: 900;
+      }
+
+      .cert-header p {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.1em;
+      }
+
+      .cert-body {
+        padding: 40px;
+      }
+
+      .cert-body p {
+        color: #555;
+        font-size: 1.1em;
+        line-height: 1.9;
+        margin-bottom: 25px;
+      }
+
+      .cert-features {
+        list-style: none;
+        margin-bottom: 25px;
+      }
+
+      .cert-features li {
+        padding: 12px 0;
+        padding-left: 35px;
+        position: relative;
+        color: #444;
+        font-size: 1.05em;
+        font-weight: 500;
+      }
+
+      .cert-features li::before {
+        content: "🏆";
+        position: absolute;
+        left: 0;
+        font-size: 1.3em;
+      }
+
+      .cert-badge {
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        padding: 15px;
+        border-radius: 15px;
+        text-align: center;
+        font-weight: 800;
+        font-size: 1.1em;
+        box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+      }
+
+      /* ========== FOOTER ========== */
+      footer {
+        background: linear-gradient(135deg, #0f0f1e, #1a1a2e);
+        color: #fff;
+        padding: 50px 8% 30px;
+        text-align: center;
+      }
+
+      footer p {
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 10px;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin: 30px 0;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: #ffd700;
+      }
+
+      /* ========== RESPONSIVE ========== */
+      @media (max-width: 968px) {
+        .page-hero h1 {
+          font-size: 2.8em;
+        }
+
+        .idiomas-grid,
+        .presencial-grid,
+        .virtual-grid,
+        .cert-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .header-content {
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .nav-links {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 15px;
+        }
+
+        .section-nav-content {
+          gap: 15px;
+        }
+
+        .section-nav a {
+          padding: 10px 20px;
+          font-size: 0.9em;
+        }
+
+        .presencial-info {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ========== HEADER ========== -->
+    <header>
+      <div class="header-content">
+        <a href="index.html" class="logo-container">
+          <img src="img/logo.png" alt="EIE-UNCIA Logo" />
+          <div class="logo-text">EIE-UNCÍA</div>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html#inicio">Inicio</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="staff.html">Staff</a></li>
+          <li><a href="beneficios.html">Beneficios</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+        <a href="index.html" class="btn-volver">← Volver al Inicio</a>
+      </div>
+    </header>
+
+    <!-- ========== HERO ========== -->
+    <section class="page-hero">
+      <h1>Nuestros Idiomas</h1>
+      <p>
+        9 idiomas disponibles para expandir tus horizontes profesionales y
+        culturales
+      </p>
+    </section>
+
+    <!-- ========== BREADCRUMB ========== -->
+    <div class="breadcrumb">
+      <div class="breadcrumb-content">
+        <a href="index.html">Inicio</a> / <span>Idiomas</span>
+      </div>
+    </div>
+
+    <!-- ========== NAVEGACIÓN DE SECCIONES ========== -->
+    <nav class="section-nav">
+      <div class="section-nav-content">
+        <a href="#todos" class="active">📚 Todos los Idiomas</a>
+        <a href="#presenciales">📍 Presenciales</a>
+        <a href="#virtuales">💻 Virtuales</a>
+        <a href="#certificaciones">📜 Certificaciones</a>
+      </div>
+    </nav>
+
+    <!-- ========== SECCIÓN: TODOS LOS IDIOMAS ========== -->
+    <section class="todos-idiomas-section" id="todos">
+      <div class="section-container">
+        <div class="section-header">
+          <h2>Todos los Idiomas</h2>
+          <p>
+            Explora nuestra amplia oferta académica con metodología moderna y
+            docentes especializados
+          </p>
+        </div>
+
+        <div class="idiomas-grid">
+          <!-- Inglés -->
+          <div class="idioma-card">
+            <div class="idioma-imagen">
+              <div class="idioma-flag">🇬🇧</div>
+              <div class="idioma-badge">PRESENCIAL</div>
+              <img src="img/frontis.jpg" alt="Inglés" />
+            </div>
+            <div class="idioma-content">
+              <h3>Inglés</h3>
+              <p>
+                El idioma global por excelencia. Domina el inglés con
+                certificación internacional TOEFL, IELTS y Cambridge English.
+                Metodología comunicativa con profesores nativos.
+              </p>
+              <ul class="idioma-features">
+                <li>Certificaciones internacionales reconocidas</li>
+                <li>Profesores nativos y certificados</li>
+                <li>Preparación para exámenes oficiales</li>
+                <li>Enfoque conversacional intensivo</li>
+              </ul>
+              <div class="idioma-niveles">
+                <span class="nivel-tag">Básico</span>
+                <span class="nivel-tag">Intermedio</span>
+                <span class="nivel-tag">Avanzado</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coreano -->
+          <div class="idioma-card">
+            <div class="idioma-imagen">
+              <div class="idioma-flag">🇰🇷</div>
+              <div class="idioma-badge">PRESENCIAL</div>
+              <img src="img/EIE.jpg" alt="Coreano" />
+            </div>
+            <div class="idioma-content">
+              <h3>Coreano</h3>
+              <p>
+                Sumérgete en la cultura coreana moderna. Aprende hangul,
+                gramática y conversación con profesores nativos. Preparación
+                para certificación TOPIK con resultados garantizados.
+              </p>
+              <ul class="idioma-features">
+                <li>Profesores nativos de Corea del Sur</li>
+                <li>Preparación certificación TOPIK</li>
+                <li>Inmersión cultural K-pop y K-drama</li>
+                <li>Materiales auténticos actualizados</li>
+              </ul>
+              <div class="idioma-niveles">
+                <span class="nivel-tag">TOPIK I</span>
+                <span class="nivel-tag">TOPIK II</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quechua -->
+          <div class="idioma-card">
+            <div class="idioma-imagen">
+              <div class="idioma-flag">🏔️</div>
+              <div class="idioma-badge">PRESENCIAL</div>
+              <img src="img/EIE_UNCIA.jpg" alt="Quechua" />
+            </div>
+            <div class="idioma-content">
+              <h3>Quechua</h3>
+              <p>
+                Reconecta con nuestras raíces andinas. Aprende la lengua
+                ancestral de los Incas con hablantes nativos. Preservamos y
+                promovemos nuestro patrimonio cultural lingüístico.
+              </p>
+              <ul class="idioma-features">
+                <li>Docentes hablantes nativos</li>
+                <li>Enfoque cultural y tradicional</li>
+                <li>Cosmovisión andina integrada</li>
+                <li>Certificación oficial disponible</li>
+              </ul>
+              <div class="idioma-niveles">
+                <span class="nivel-tag">Básico</span>
+                <span class="nivel-tag">Intermedio</span>
+                <span class="nivel-tag">Avanzado</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Francés -->
+          <div class="idioma-card">
+            <div class="idioma-imagen">
+              <div class="idioma-flag">🇫🇷</div>
+              <div class="idioma-badge">VIRTUAL</div>
+              <img src="img/frontis.jpg" alt="Francés" />
+            </div>
+            <div class="idioma-content">
+              <h3>Francés</h3>
+              <p>
+                El idioma de la elegancia y la diplomacia. Aprende francés con
+                metodología Alliance Française. Preparación para certificaciones
+                DELF y DALF reconocidas internacionalmente.
+              </p>
+              <ul class="idioma-features">
+                <li>Metodología Alliance Française</li>
+                <li>Certificaciones DELF/DALF</li>
+                <li>Profesores certificados</li>
+                <li>Cultura francófona integrada</li>
+              </ul>
+              <div class="idioma-niveles">
+                <span class="nivel-tag">A1-A2</span>
+                <span class="nivel-tag">B1-B2</span>
+                <span class="nivel-tag">C1-C2</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Portugués -->
+          <div class="idioma-card">
+            <div class="idioma-imagen">
+              <div class="idioma-flag">🇵🇹</div>
+              <div class="idioma-badge">VIRTUAL</div>
+              <img src="img/EIE.jpg" alt="Portugués" />
+            </div>
+            <div class="idioma-content">
+              <h3>Portugués</h3>
+              <p>
+                El idioma más hablado de Sudamérica. Domina el portugués
+                brasileño y europeo. Ideal para negocios, turismo y
+                oportunidades laborales en Brasil y Portugal.
+              </p>
+              <ul class="idioma-features">
+                <li>Variantes brasileña y europea</li>
+                <li>Enfoque en negocios y turismo</li>
+                <li>Certificación Celpe-Bras</li>
+                <li>Material multimedia interactivo</li>
+              </ul>
+              <div class="idioma-niveles">
+                <span class="nivel-tag">Básico</span>
+                <span class="nivel-tag">Intermedio</span>
+                <span class="nivel-tag">Avanzado</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chino Mandarín -->
+          <div class="idioma-card">
+            <div class="idioma-imagen">
+              <div class="idioma-flag">🇨🇳</div>
+              <div class="idioma-badge">VIRTUAL</div>
+              <img src="img/EIE_UNCIA.jpg" alt="Chino" />
+            </div>
+            <div class="idioma-content">
+              <h3>Chino Mandarín</h3>
+              <p>
+                El idioma del futuro global. Aprende mandarín con método
+                innovador. Preparación HSK con profesores nativos. Escritura,
+                pinyin y conversación integrados.
+              </p>
+              <ul class="idioma-features">
+                <li>Profesores nativos de China</li>
+                <li>Preparación certificación HSK</li>
+                <li>Caligrafía y escritura tradicional</li>
+                <li>Cultura china contemporánea</li>
+              </ul>
+              <div class="idioma-niveles">
+                <span class="nivel-tag">HSK 1-2</span>
+                <span class="nivel-tag">HSK 3-4</span>
+                <span class="nivel-tag">HSK 5-6</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alemán -->
+          <div class="idioma-card">
+            <div class="idioma-imagen">
+              <div class="idioma-flag">🇩🇪</div>
+              <div class="idioma-badge">VIRTUAL</div>
+              <img src="img/frontis.jpg" alt="Alemán" />
+            </div>
+            <div class="idioma-content">
+              <h3>Alemán</h3>
+              <p>
+                El idioma de la innovación y tecnología. Aprende alemán con
+                método Goethe-Institut. Ideal para estudios superiores, trabajo
+                en Europa y oportunidades académicas.
+              </p>
+              <ul class="idioma-features">
+                <li>Metodología Goethe-Institut</li>
+                <li>Certificación oficial Goethe</li>
+                <li>Alemán técnico y académico</li>
+                <li>Preparación para estudios en Alemania</li>
+              </ul>
+              <div class="idioma-niveles">
+                <span class="nivel-tag">A1-A2</span>
+                <span class="nivel-tag">B1-B2</span>
+                <span class="nivel-tag">C1</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Italiano -->
+          <div class="idioma-card">
+            <div class="idioma-imagen">
+              <div class="idioma-flag">🇮🇹</div>
+              <div class="idioma-badge">VIRTUAL</div>
+              <img src="img/EIE.jpg" alt="Italiano" />
+            </div>
+            <div class="idioma-content">
+              <h3>Italiano</h3>
+              <p>
+                El idioma del arte y la gastronomía. Descubre el italiano con
+                inmersión cultural. Certificaciones CILS y CELI disponibles.
+                Perfecto para turismo y cultura europea.
+              </p>
+              <ul class="idioma-features">
+                <li>Inmersión cultural italiana</li>
+                <li>Certificaciones CILS/CELI</li>
+                <li>Arte, cocina y tradiciones</li>
+                <li>Material audiovisual auténtico</li>
+              </ul>
+              <div class="idioma-niveles">
+                <span class="nivel-tag">Principiante</span>
+                <span class="nivel-tag">Intermedio</span>
+                <span class="nivel-tag">Avanzado</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Japonés -->
+          <div class="idioma-card">
+            <div class="idioma-imagen">
+              <div class="idioma-flag">🇯🇵</div>
+              <div class="idioma-badge">VIRTUAL</div>
+              <img src="img/EIE_UNCIA.jpg" alt="Japonés" />
+            </div>
+            <div class="idioma-content">
+              <h3>Japonés</h3>
+              <p>
+                Sumérgete en la cultura nipona. Aprende hiragana, katakana y
+                kanji con expertos. Preparación JLPT con profesores nativos.
+                Cultura japonesa tradicional y moderna.
+              </p>
+              <ul class="idioma-features">
+                <li>Profesores nativos japoneses</li>
+                <li>Preparación certificación JLPT</li>
+                <li>Tres sistemas de escritura</li>
+                <li>Cultura tradicional y anime/manga</li>
+              </ul>
+              <div class="idioma-niveles">
+                <span class="nivel-tag">N5-N4</span>
+                <span class="nivel-tag">N3-N2</span>
+                <span class="nivel-tag">N1</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECCIÓN: PRESENCIALES ========== -->
+    <section class="presenciales-section" id="presenciales">
+      <div class="section-container">
+        <div class="section-header">
+          <h2>Idiomas Presenciales</h2>
+          <p>
+            Clases presenciales en nuestras modernas instalaciones con
+            tecnología de punta
+          </p>
+        </div>
+
+        <div class="presencial-grid">
+          <!-- Inglés Presencial -->
+          <div class="presencial-card">
+            <div class="presencial-header">
+              <img src="img/frontis.jpg" alt="Inglés Presencial" />
+              <div class="presencial-overlay">
+                <div class="flag">🇬🇧</div>
+                <h3>Inglés</h3>
+              </div>
+            </div>
+            <div class="presencial-body">
+              <p>
+                Nuestro programa insignia con más de 30 años de experiencia.
+                Metodología comunicativa intensiva con profesores nativos
+                certificados TESOL/CELTA. Aulas equipadas con tecnología
+                multimedia y laboratorio de idiomas digital.
+              </p>
+
+              <div class="presencial-info">
+                <div class="info-item">
+                  <div class="icon">⏰</div>
+                  <strong>Duración</strong>
+                  <span>6 niveles / 18 meses</span>
+                </div>
+                <div class="info-item">
+                  <div class="icon">👥</div>
+                  <strong>Grupos</strong>
+                  <span>Máximo 15 estudiantes</span>
+                </div>
+                <div class="info-item">
+                  <div class="icon">📅</div>
+                  <strong>Horarios</strong>
+                  <span>Mañana, tarde y noche</span>
+                </div>
+                <div class="info-item">
+                  <div class="icon">📜</div>
+                  <strong>Certificación</strong>
+                  <span>TOEFL, IELTS, Cambridge</span>
+                </div>
+              </div>
+
+              <ul class="idioma-features">
+                <li>Speaking intensivo con nativos</li>
+                <li>Laboratorio digital multimedia</li>
+                <li>Material Cambridge actualizado</li>
+                <li>Simulacros de exámenes internacionales</li>
+                <li>Conversation clubs semanales</li>
+                <li>Plataforma online complementaria</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Coreano Presencial -->
+          <div class="presencial-card">
+            <div class="presencial-header">
+              <img src="img/EIE.jpg" alt="Coreano Presencial" />
+              <div class="presencial-overlay">
+                <div class="flag">🇰🇷</div>
+                <h3>Coreano</h3>
+              </div>
+            </div>
+            <div class="presencial-body">
+              <p>
+                Programa diseñado para dominar el hangul y la cultura coreana.
+                Profesores nativos con formación en Seoul National University.
+                Metodología inmersiva con contenido K-pop, K-drama y cultura
+                contemporánea.
+              </p>
+
+              <div class="presencial-info">
+                <div class="info-item">
+                  <div class="icon">⏰</div>
+                  <strong>Duración</strong>
+                  <span>5 niveles / 15 meses</span>
+                </div>
+                <div class="info-item">
+                  <div class="icon">👥</div>
+                  <strong>Grupos</strong>
+                  <span>Máximo 12 estudiantes</span>
+                </div>
+                <div class="info-item">
+                  <div class="icon">📅</div>
+                  <strong>Horarios</strong>
+                  <span>Tarde y sábados</span>
+                </div>
+                <div class="info-item">
+                  <div class="icon">📜</div>
+                  <strong>Certificación</strong>
+                  <span>TOPIK I y II</span>
+                </div>
+              </div>
+
+              <ul class="idioma-features">
+                <li>Hangul desde cero con expertos</li>
+                <li>Inmersión cultural coreana</li>
+                <li>Material auténtico de Corea</li>
+                <li>Preparación específica TOPIK</li>
+                <li>Eventos culturales mensuales</li>
+                <li>Intercambio con estudiantes coreanos</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Quechua Presencial -->
+          <div class="presencial-card">
+            <div class="presencial-header">
+              <img src="img/EIE_UNCIA.jpg" alt="Quechua Presencial" />
+              <div class="presencial-overlay">
+                <div class="flag">🏔️</div>
+                <h3>Quechua</h3>
+              </div>
+            </div>
+            <div class="presencial-body">
+              <p>
+                Preservamos nuestra lengua ancestral con hablantes nativos de
+                comunidades originarias. Método comunicativo integrado con
+                cosmovisión andina. Único programa certificado en la región con
+                validez académica.
+              </p>
+
+              <div class="presencial-info">
+                <div class="info-item">
+                  <div class="icon">⏰</div>
+                  <strong>Duración</strong>
+                  <span>4 niveles / 12 meses</span>
+                </div>
+                <div class="info-item">
+                  <div class="icon">👥</div>
+                  <strong>Grupos</strong>
+                  <span>Máximo 15 estudiantes</span>
+                </div>
+                <div class="info-item">
+                  <div class="icon">📅</div>
+                  <strong>Horarios</strong>
+                  <span>Tarde y fin de semana</span>
+                </div>
+                <div class="info-item">
+                  <div class="icon">📜</div>
+                  <strong>Certificación</strong>
+                  <span>Certificación oficial</span>
+                </div>
+              </div>
+
+              <ul class="idioma-features">
+                <li>Docentes hablantes nativos certificados</li>
+                <li>Cosmovisión andina integrada</li>
+                <li>Salidas a comunidades originarias</li>
+                <li>Material didáctico contextualizado</li>
+                <li>Eventos culturales andinos</li>
+                <li>Preservación del patrimonio lingüístico</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECCIÓN: VIRTUALES ========== -->
+    <section class="virtuales-section" id="virtuales">
+      <div class="section-container">
+        <div class="section-header">
+          <h2>Idiomas Virtuales</h2>
+          <p>
+            Aprende desde cualquier lugar con nuestra plataforma educativa de
+            última generación
+          </p>
+        </div>
+
+        <div class="virtual-grid">
+          <!-- Francés Virtual -->
+          <div class="virtual-card">
+            <div class="virtual-imagen">
+              <div class="virtual-tag">100% ONLINE</div>
+              <div class="virtual-flag">🇫🇷</div>
+              <img src="img/frontis.jpg" alt="Francés Virtual" />
+            </div>
+            <div class="virtual-content">
+              <h3>Francés</h3>
+              <p>
+                Clases en vivo con profesores certificados Alliance Française.
+                Plataforma interactiva con recursos multimedia. Preparación
+                DELF/DALF con simulacros virtuales.
+              </p>
+              <div class="virtual-benefits">
+                <span class="benefit-chip">Clases en vivo</span>
+                <span class="benefit-chip">Grabaciones disponibles</span>
+                <span class="benefit-chip">Horarios flexibles</span>
+                <span class="benefit-chip">Material descargable</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Portugués Virtual -->
+          <div class="virtual-card">
+            <div class="virtual-imagen">
+              <div class="virtual-tag">100% ONLINE</div>
+              <div class="virtual-flag">🇵🇹</div>
+              <img src="img/EIE.jpg" alt="Portugués Virtual" />
+            </div>
+            <div class="virtual-content">
+              <h3>Portugués</h3>
+              <p>
+                Domina el portugués brasileño y europeo desde casa. Profesores
+                nativos con experiencia internacional. Ideal para negocios y
+                viajes a Brasil y Portugal.
+              </p>
+              <div class="virtual-benefits">
+                <span class="benefit-chip">Variante brasileña</span>
+                <span class="benefit-chip">Variante europea</span>
+                <span class="benefit-chip">Conversación semanal</span>
+                <span class="benefit-chip">Apps móviles</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chino Virtual -->
+          <div class="virtual-card">
+            <div class="virtual-imagen">
+              <div class="virtual-tag">100% ONLINE</div>
+              <div class="virtual-flag">🇨🇳</div>
+              <img src="img/EIE_UNCIA.jpg" alt="Chino Virtual" />
+            </div>
+            <div class="virtual-content">
+              <h3>Chino Mandarín</h3>
+              <p>
+                Aprende mandarín con profesores nativos de China. Escritura
+                interactiva, pinyin y caracteres. Preparación HSK con resultados
+                garantizados.
+              </p>
+              <div class="virtual-benefits">
+                <span class="benefit-chip">Profesores de Beijing</span>
+                <span class="benefit-chip">Caligrafía digital</span>
+                <span class="benefit-chip">Prep. HSK</span>
+                <span class="benefit-chip">Cultura china</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alemán Virtual -->
+          <div class="virtual-card">
+            <div class="virtual-imagen">
+              <div class="virtual-tag">100% ONLINE</div>
+              <div class="virtual-flag">🇩🇪</div>
+              <img src="img/frontis.jpg" alt="Alemán Virtual" />
+            </div>
+            <div class="virtual-content">
+              <h3>Alemán</h3>
+              <p>
+                Metodología Goethe-Institut adaptada al formato virtual.
+                Profesores certificados con experiencia en Alemania. Perfecto
+                para estudios superiores en Europa.
+              </p>
+              <div class="virtual-benefits">
+                <span class="benefit-chip">Método Goethe</span>
+                <span class="benefit-chip">Alemán académico</span>
+                <span class="benefit-chip">Técnico/Negocios</span>
+                <span class="benefit-chip">Cert. oficial</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Italiano Virtual -->
+          <div class="virtual-card">
+            <div class="virtual-imagen">
+              <div class="virtual-tag">100% ONLINE</div>
+              <div class="virtual-flag">🇮🇹</div>
+              <img src="img/EIE.jpg" alt="Italiano Virtual" />
+            </div>
+            <div class="virtual-content">
+              <h3>Italiano</h3>
+              <p>
+                Inmersión en la cultura italiana sin salir de casa. Arte, cocina
+                y tradiciones integradas. Certificaciones CILS y CELI
+                disponibles con preparación especializada.
+              </p>
+              <div class="virtual-benefits">
+                <span class="benefit-chip">Cultura italiana</span>
+                <span class="benefit-chip">Arte y cocina</span>
+                <span class="benefit-chip">CILS/CELI</span>
+                <span class="benefit-chip">Material auténtico</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Japonés Virtual -->
+          <div class="virtual-card">
+            <div class="virtual-imagen">
+              <div class="virtual-tag">100% ONLINE</div>
+              <div class="virtual-flag">🇯🇵</div>
+              <img src="img/EIE_UNCIA.jpg" alt="Japonés Virtual" />
+            </div>
+            <div class="virtual-content">
+              <h3>Japonés</h3>
+              <p>
+                Tres sistemas de escritura con método innovador. Profesores
+                nativos de Japón. Cultura tradicional y moderna (anime, manga,
+                tecnología). Preparación JLPT completa.
+              </p>
+              <div class="virtual-benefits">
+                <span class="benefit-chip">Hiragana/Katakana</span>
+                <span class="benefit-chip">Kanji interactivo</span>
+                <span class="benefit-chip">Prep. JLPT</span>
+                <span class="benefit-chip">Cultura pop</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECCIÓN: CERTIFICACIONES ========== -->
+    <section class="certificaciones-section" id="certificaciones">
+      <div class="section-container">
+        <div class="section-header">
+          <h2>Certificaciones Internacionales</h2>
+          <p>
+            Somos centro autorizado para certificaciones reconocidas
+            mundialmente
+          </p>
+        </div>
+
+        <div class="cert-grid">
+          <!-- TOEFL/IELTS/Cambridge -->
+          <div class="cert-card">
+            <div class="cert-header">
+              <div class="cert-icon">🎓</div>
+              <h3>Inglés</h3>
+              <p>TOEFL • IELTS • Cambridge</p>
+            </div>
+            <div class="cert-body">
+              <p>
+                Centro oficial autorizado para administrar y preparar exámenes
+                de certificación internacional de inglés. Reconocimiento mundial
+                para estudios, trabajo y migración.
+              </p>
+              <ul class="cert-features">
+                <li>TOEFL iBT - Educational Testing Service (ETS)</li>
+                <li>IELTS Academic & General - British Council</li>
+                <li>Cambridge English: KET, PET, FCE, CAE, CPE</li>
+                <li>Preparación intensiva con simulacros reales</li>
+                <li>Validez internacional permanente</li>
+              </ul>
+              <div class="cert-badge">Centro Autorizado Oficial</div>
+            </div>
+          </div>
+
+          <!-- TOPIK -->
+          <div class="cert-card">
+            <div class="cert-header">
+              <div class="cert-icon">📚</div>
+              <h3>Coreano</h3>
+              <p>TOPIK I & II</p>
+            </div>
+            <div class="cert-body">
+              <p>
+                Test of Proficiency in Korean - Certificación oficial del
+                gobierno de Corea del Sur. Esencial para estudios
+                universitarios, trabajo y becas en Corea.
+              </p>
+              <ul class="cert-features">
+                <li>TOPIK I (Niveles 1-2) - Básico</li>
+                <li>TOPIK II (Niveles 3-6) - Intermedio y Avanzado</li>
+                <li>Reconocido por universidades coreanas</li>
+                <li>Requisito para visas de trabajo en Corea</li>
+                <li>Validez de 2 años</li>
+              </ul>
+              <div class="cert-badge">Centro Preparador Oficial</div>
+            </div>
+          </div>
+
+          <!-- DELF/DALF -->
+          <div class="cert-card">
+            <div class="cert-header">
+              <div class="cert-icon">🎯</div>
+              <h3>Francés</h3>
+              <p>DELF • DALF</p>
+            </div>
+            <div class="cert-body">
+              <p>
+                Diplôme d'Études/Approfondi en Langue Française - Certificación
+                del Ministerio de Educación francés. Reconocimiento mundial para
+                francófonos.
+              </p>
+              <ul class="cert-features">
+                <li>DELF A1, A2, B1, B2 - Básico a Intermedio</li>
+                <li>DALF C1, C2 - Avanzado y Maestría</li>
+                <li>Validez permanente e internacional</li>
+                <li>Requerido para universidades francesas</li>
+                <li>Método Alliance Française</li>
+              </ul>
+              <div class="cert-badge">Metodología Alliance Française</div>
+            </div>
+          </div>
+
+          <!-- HSK -->
+          <div class="cert-card">
+            <div class="cert-header">
+              <div class="cert-icon">🏆</div>
+              <h3>Chino</h3>
+              <p>HSK 1-6</p>
+            </div>
+            <div class="cert-body">
+              <p>
+                Hanyu Shuiping Kaoshi - Certificación oficial del gobierno
+                chino. Estándar internacional para evaluar el dominio del chino
+                mandarín.
+              </p>
+              <ul class="cert-features">
+                <li>HSK 1-2: Nivel Básico (300-600 palabras)</li>
+                <li>HSK 3-4: Nivel Intermedio (1200-2500 palabras)</li>
+                <li>HSK 5-6: Nivel Avanzado (5000+ palabras)</li>
+                <li>Requisito para becas en China</li>
+                <li>Validez de 2 años</li>
+              </ul>
+              <div class="cert-badge">Centro Preparador Autorizado</div>
+            </div>
+          </div>
+
+          <!-- Goethe-Zertifikat -->
+          <div class="cert-card">
+            <div class="cert-header">
+              <div class="cert-icon">✅</div>
+              <h3>Alemán</h3>
+              <p>Goethe-Zertifikat</p>
+            </div>
+            <div class="cert-body">
+              <p>
+                Certificación del Goethe-Institut - Estándar mundial para
+                alemán. Reconocido por empleadores y universidades en países
+                germanoparlantes.
+              </p>
+              <ul class="cert-features">
+                <li>A1-A2: Nivel Elemental</li>
+                <li>B1-B2: Nivel Intermedio</li>
+                <li>C1: Nivel Avanzado (TestDaF)</li>
+                <li>Reconocido por universidades alemanas</li>
+                <li>Validez permanente</li>
+              </ul>
+              <div class="cert-badge">Preparación Goethe-Institut</div>
+            </div>
+          </div>
+
+          <!-- CILS/CELI -->
+          <div class="cert-card">
+            <div class="cert-header">
+              <div class="cert-icon">🌟</div>
+              <h3>Italiano</h3>
+              <p>CILS • CELI</p>
+            </div>
+            <div class="cert-body">
+              <p>
+                Certificazione di Italiano come Lingua Straniera -
+                Certificaciones oficiales de las universidades de Siena y
+                Perugia. Reconocimiento en Italia y Europa.
+              </p>
+              <ul class="cert-features">
+                <li>CILS A1-C2: Universidad de Siena</li>
+                <li>CELI 1-5: Universidad de Perugia</li>
+                <li>Validez permanente en Italia</li>
+                <li>Requisito para ciudadanía italiana</li>
+                <li>Reconocido por empleadores europeos</li>
+              </ul>
+              <div class="cert-badge">Centro Preparador Certificado</div>
+            </div>
+          </div>
+
+          <!-- JLPT -->
+          <div class="cert-card">
+            <div class="cert-header">
+              <div class="cert-icon">⭐</div>
+              <h3>Japonés</h3>
+              <p>JLPT N5-N1</p>
+            </div>
+            <div class="cert-body">
+              <p>
+                Japanese Language Proficiency Test - Certificación oficial del
+                gobierno japonés. Estándar mundial para evaluar competencia en
+                japonés.
+              </p>
+              <ul class="cert-features">
+                <li>N5-N4: Nivel Básico (800-1500 kanji)</li>
+                <li>N3-N2: Nivel Intermedio (2000+ kanji)</li>
+                <li>N1: Nivel Avanzado (dominio completo)</li>
+                <li>Requisito para trabajo en Japón</li>
+                <li>Examen semestral internacional</li>
+              </ul>
+              <div class="cert-badge">Preparación Especializada JLPT</div>
+            </div>
+          </div>
+
+          <!-- Celpe-Bras -->
+          <div class="cert-card">
+            <div class="cert-header">
+              <div class="cert-icon">💎</div>
+              <h3>Portugués</h3>
+              <p>Celpe-Bras</p>
+            </div>
+            <div class="cert-body">
+              <p>
+                Certificado de Proficiência em Língua Portuguesa para
+                Estrangeiros - Única certificación oficial de portugués
+                brasileño reconocida internacionalmente.
+              </p>
+              <ul class="cert-features">
+                <li>Certificación del gobierno brasileño</li>
+                <li>Requisito para universidades en Brasil</li>
+                <li>Niveles: Intermedio, Superior y Avanzado</li>
+                <li>Validez para visas de trabajo</li>
+                <li>Examen semestral</li>
+              </ul>
+              <div class="cert-badge">Centro Aplicador Autorizado</div>
+            </div>
+          </div>
+
+          <!-- Certificación Quechua -->
+          <div class="cert-card">
+            <div class="cert-header">
+              <div class="cert-icon">🏔️</div>
+              <h3>Quechua</h3>
+              <p>Certificación Oficial</p>
+            </div>
+            <div class="cert-body">
+              <p>
+                Certificación oficial de competencia en Quechua emitida por
+                nuestra institución con aval del Ministerio de Educación. Única
+                en la región de Potosí.
+              </p>
+              <ul class="cert-features">
+                <li>Certificación con validez nacional</li>
+                <li>Reconocida por instituciones públicas</li>
+                <li>Niveles: Básico, Intermedio, Avanzado</li>
+                <li>Evaluación oral y escrita</li>
+                <li>Preservación del patrimonio lingüístico</li>
+              </ul>
+              <div class="cert-badge">Única Certificación Regional</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+      <div class="footer-links">
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="idiomas.html">Idiomas</a>
+        <a href="staff.html">Staff</a>
+        <a href="beneficios.html">Beneficios</a>
+        <a href="contacto.html">Contacto</a>
+      </div>
+      <p>
+        &copy; 2025 Escuela de Idiomas del Ejército - Filial Uncía. Todos los
+        derechos reservados.
+      </p>
+      <p>Fundada en 1993 | Plaza Alonzo de Ibáñez, Uncía - Potosí, Bolivia</p>
+      <p>9 idiomas disponibles | Certificaciones internacionales</p>
+    </footer>
+
+    <script>
+      // Smooth scroll para enlaces internos
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            const offset = 150; // Para compensar header + nav
+            const targetPosition = target.offsetTop - offset;
+            window.scrollTo({
+              top: targetPosition,
+              behavior: "smooth",
+            });
+          }
+        });
+      });
+
+      // Activar enlace del nav según scroll
+      window.addEventListener("scroll", () => {
+        const sections = document.querySelectorAll("section[id]");
+        const navLinks = document.querySelectorAll(".section-nav a");
+
+        let current = "";
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          if (scrollY >= sectionTop - 200) {
+            current = section.getAttribute("id");
+          }
+        });
+
+        navLinks.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === `#${current}`) {
+            link.classList.add("active");
+          }
+        });
+      });
+
+      // Animación de entrada para tarjetas
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+          }
+        });
+      }, observerOptions);
+
+      // Aplicar animación a todas las tarjetas
+      document
+        .querySelectorAll(
+          ".idioma-card, .presencial-card, .virtual-card, .cert-card"
+        )
+        .forEach((card) => {
+          card.style.opacity = "0";
+          card.style.transform = "translateY(30px)";
+          card.style.transition = "all 0.6s ease";
+          observer.observe(card);
+        });
+
+      // Efecto parallax sutil en hero
+      window.addEventListener("scroll", () => {
+        const hero = document.querySelector(".page-hero");
+        if (hero) {
+          const scrolled = window.scrollY;
+          hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+        }
+      });
+    </script>
+  </body>
+</html>

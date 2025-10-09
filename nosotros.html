@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sobre Nosotros - EIE-UNCÍA</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: #f5f7fa;
+      }
+
+      /* ========== HEADER ========== */
+      header {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        background: linear-gradient(
+          135deg,
+          rgba(20, 30, 70, 0.95),
+          rgba(40, 60, 120, 0.95)
+        );
+        backdrop-filter: blur(10px);
+        padding: 15px 8%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        text-decoration: none;
+      }
+
+      .logo-container img {
+        width: 50px;
+        height: 50px;
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+      }
+
+      .logo-text {
+        font-size: 1.4em;
+        font-weight: 700;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 30px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: #ffd700;
+      }
+
+      .btn-volver {
+        padding: 10px 25px;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+      }
+
+      .btn-volver:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+      }
+
+      /* ========== HERO SECTION - REVITALIZADO ========== */
+      .page-hero {
+        background: linear-gradient(
+          135deg,
+          #4a5fd9 0%,
+          #6b7fd6 50%,
+          #8e94dd 100%
+        );
+        padding: 150px 8% 100px;
+        text-align: center;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+      }
+      .page-hero {
+        background: linear-gradient(
+            135deg,
+            rgba(26, 35, 80, 0.85),
+            rgba(74, 95, 217, 0.75)
+          ),
+          url("img/frontis.jpg") no-repeat center center/cover;
+        padding: 150px 8% 100px;
+        text-align: center;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page-hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 30% 40%,
+            rgba(255, 215, 0, 0.25) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            circle at 70% 60%,
+            rgba(255, 165, 0, 0.2) 0%,
+            transparent 60%
+          );
+        animation: pulse 6s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .page-hero h1 {
+        font-size: 3.8em;
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 1;
+        text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.3);
+        font-weight: 800;
+      }
+
+      .page-hero p {
+        font-size: 1.4em;
+        max-width: 700px;
+        margin: 0 auto;
+        opacity: 0.95;
+        position: relative;
+        z-index: 1;
+        text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      /* ========== BREADCRUMB ========== */
+      .breadcrumb {
+        background: linear-gradient(135deg, #ffffff, #f8f9fa);
+        padding: 20px 8%;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .breadcrumb-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        gap: 10px;
+        font-size: 0.95em;
+        color: #666;
+      }
+
+      .breadcrumb a {
+        color: #4a5fd9;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .breadcrumb a:hover {
+        color: #ffd700;
+      }
+
+      /* ========== SECCIÓN HISTORIA COMPLETA - REVITALIZADA ========== */
+      .historia-section {
+        padding: 100px 8%;
+        background: linear-gradient(
+          135deg,
+          #fff8e7 0%,
+          #ffe9b8 25%,
+          #ffd98f 50%,
+          #ffe9b8 75%,
+          #fff8e7 100%
+        );
+        position: relative;
+      }
+
+      .historia-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: radial-gradient(
+            circle at 20% 20%,
+            rgba(255, 215, 0, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 80%,
+            rgba(255, 165, 0, 0.12) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 50% 50%,
+            rgba(255, 200, 100, 0.08) 0%,
+            transparent 70%
+          );
+        pointer-events: none;
+      }
+
+      .section-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 70px;
+      }
+
+      .section-header h2 {
+        font-size: 3.2em;
+        color: #2d3561;
+        margin-bottom: 15px;
+        position: relative;
+        display: inline-block;
+        font-weight: 800;
+      }
+
+      .section-header h2::after {
+        content: "";
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 5px;
+        background: linear-gradient(90deg, #ffd700, #ffa500);
+        border-radius: 3px;
+        box-shadow: 0 3px 10px rgba(255, 215, 0, 0.4);
+      }
+
+      .section-header p {
+        font-size: 1.25em;
+        color: #555;
+        margin-top: 35px;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        font-weight: 500;
+      }
+
+      .timeline {
+        position: relative;
+        padding: 50px 0;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 5px;
+        height: 100%;
+        background: linear-gradient(
+          180deg,
+          #ffd700 0%,
+          #ffa500 50%,
+          #ffd700 100%
+        );
+        border-radius: 3px;
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+      }
+
+      .timeline-item {
+        display: flex;
+        gap: 50px;
+        margin-bottom: 80px;
+        position: relative;
+      }
+
+      .timeline-item:nth-child(even) {
+        flex-direction: row-reverse;
+      }
+
+      .timeline-content {
+        flex: 1;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.95),
+          rgba(255, 250, 240, 0.95)
+        );
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        position: relative;
+        border: 2px solid rgba(255, 215, 0, 0.2);
+      }
+
+      .timeline-content::before {
+        content: "";
+        position: absolute;
+        top: 30px;
+        width: 0;
+        height: 0;
+        border: 15px solid transparent;
+      }
+
+      .timeline-item:nth-child(odd) .timeline-content::before {
+        right: -30px;
+        border-left-color: rgba(255, 255, 255, 0.95);
+      }
+
+      .timeline-item:nth-child(even) .timeline-content::before {
+        left: -30px;
+        border-right-color: rgba(255, 255, 255, 0.95);
+      }
+
+      .timeline-year {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        width: 85px;
+        height: 85px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        font-size: 1.4em;
+        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+        z-index: 2;
+        border: 4px solid #fef6e7;
+      }
+
+      .timeline-content h3 {
+        font-size: 1.9em;
+        color: #2d3561;
+        margin-bottom: 18px;
+        font-weight: 700;
+      }
+
+      .timeline-content p {
+        color: #444;
+        font-size: 1.08em;
+        line-height: 1.9;
+      }
+
+      .timeline-image {
+        flex: 1;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+        border: 3px solid rgba(255, 215, 0, 0.3);
+      }
+
+      .timeline-image img {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .timeline-image:hover img {
+        transform: scale(1.1);
+      }
+
+      /* ========== ESTADÍSTICAS - REVITALIZADO ========== */
+      .stats-banner {
+        background: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #2d3561 50%,
+          #1a1a2e 100%
+        );
+        padding: 80px 8%;
+        margin: 100px 0;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stats-banner::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 30% 50%,
+            rgba(255, 215, 0, 0.1) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            circle at 70% 50%,
+            rgba(255, 165, 0, 0.08) 0%,
+            transparent 60%
+          );
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 50px;
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .stat-item {
+        text-align: center;
+        color: #fff;
+      }
+
+      .stat-number {
+        font-size: 4.5em;
+        font-weight: 900;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 10px;
+        filter: drop-shadow(0 3px 8px rgba(255, 215, 0, 0.3));
+      }
+
+      .stat-label {
+        font-size: 1.25em;
+        opacity: 0.95;
+        font-weight: 600;
+      }
+
+      /* ========== MISIÓN Y VISIÓN - REVITALIZADO ========== */
+      .mision-vision-section {
+        padding: 100px 8%;
+        background: linear-gradient(
+          135deg,
+          #f8b195 0%,
+          #f67280 50%,
+          #c06c84 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .mision-vision-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 20% 30%,
+            rgba(255, 255, 255, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(255, 215, 0, 0.1) 0%,
+            transparent 50%
+          );
+      }
+
+      .mision-vision-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .mv-card {
+        background: rgba(255, 255, 255, 0.97);
+        padding: 50px;
+        border-radius: 25px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s ease;
+      }
+
+      .mv-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #ffd700, #ffa500);
+      }
+
+      .mv-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+      }
+
+      .mv-icon {
+        width: 85px;
+        height: 85px;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.8em;
+        margin-bottom: 30px;
+        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+      }
+
+      .mv-card h3 {
+        font-size: 2.3em;
+        color: #2d3561;
+        margin-bottom: 25px;
+        font-weight: 800;
+      }
+
+      .mv-card p {
+        font-size: 1.12em;
+        color: #444;
+        line-height: 1.95;
+        margin-bottom: 20px;
+      }
+
+      .mv-list {
+        list-style: none;
+        margin-top: 30px;
+      }
+
+      .mv-list li {
+        padding: 14px 0;
+        padding-left: 38px;
+        position: relative;
+        color: #333;
+        font-size: 1.08em;
+        font-weight: 500;
+      }
+
+      .mv-list li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #ffa500;
+        font-weight: bold;
+        font-size: 1.4em;
+      }
+
+      /* ========== VALORES - REVITALIZADO ========== */
+      .valores-section {
+        margin-top: 60px;
+        background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
+        padding: 60px;
+        border-radius: 30px;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .valores-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 25% 25%,
+            rgba(255, 255, 255, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 75% 75%,
+            rgba(255, 215, 0, 0.08) 0%,
+            transparent 50%
+          );
+      }
+
+      .valores-section h3 {
+        font-size: 2.5em;
+        color: #fff;
+        margin-bottom: 50px;
+        text-align: center;
+        font-weight: 800;
+        text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2);
+        position: relative;
+        z-index: 1;
+      }
+
+      .valores-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 35px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .valor-item {
+        text-align: center;
+        padding: 35px 25px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .valor-item:hover {
+        transform: translateY(-8px);
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+      }
+
+      .valor-item .icon {
+        font-size: 3.5em;
+        margin-bottom: 18px;
+        filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.1));
+      }
+
+      .valor-item h4 {
+        font-size: 1.4em;
+        color: #2d3561;
+        margin-bottom: 12px;
+        font-weight: 700;
+      }
+
+      .valor-item p {
+        font-size: 1em;
+        color: #555;
+      }
+
+      /* ========== LOGROS - REVITALIZADO ========== */
+      .logros-section {
+        padding: 100px 8%;
+        background: linear-gradient(
+          135deg,
+          #4facfe 0%,
+          #00f2fe 50%,
+          #4facfe 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .logros-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 30% 40%,
+            rgba(255, 255, 255, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 70% 60%,
+            rgba(255, 215, 0, 0.1) 0%,
+            transparent 50%
+          );
+      }
+
+      .logros-section .section-header h2,
+      .logros-section .section-header p {
+        color: #fff;
+        text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .logros-section .section-header h2::after {
+        background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.7));
+        box-shadow: 0 3px 15px rgba(255, 255, 255, 0.3);
+      }
+
+      .logros-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 40px;
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .logro-card {
+        background: rgba(255, 255, 255, 0.97);
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+        transition: all 0.4s ease;
+        position: relative;
+      }
+
+      .logro-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+      }
+
+      .logro-image {
+        width: 100%;
+        height: 250px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .logro-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .logro-card:hover .logro-image img {
+        transform: scale(1.15);
+      }
+
+      .logro-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        padding: 10px 22px;
+        border-radius: 20px;
+        font-weight: 800;
+        font-size: 0.95em;
+        box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+      }
+
+      .logro-content {
+        padding: 35px;
+      }
+
+      .logro-content h3 {
+        font-size: 1.7em;
+        color: #2d3561;
+        margin-bottom: 15px;
+        font-weight: 700;
+      }
+
+      .logro-content p {
+        color: #444;
+        font-size: 1.08em;
+        line-height: 1.85;
+        margin-bottom: 20px;
+      }
+
+      .logro-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 20px;
+        border-top: 2px solid rgba(0, 0, 0, 0.08);
+      }
+
+      .logro-year {
+        color: #ffa500;
+        font-weight: 800;
+        font-size: 1.12em;
+      }
+
+      .logro-icon {
+        font-size: 2.2em;
+      }
+
+      /* ========== FOOTER ========== */
+      footer {
+        background: linear-gradient(135deg, #0f0f1e, #1a1a2e);
+        color: #fff;
+        padding: 50px 8% 30px;
+        text-align: center;
+      }
+
+      footer p {
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 10px;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin: 30px 0;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: #ffd700;
+      }
+
+      /* ========== RESPONSIVE ========== */
+      @media (max-width: 968px) {
+        .page-hero h1 {
+          font-size: 2.5em;
+        }
+
+        .timeline::before {
+          left: 30px;
+        }
+
+        .timeline-item {
+          flex-direction: column !important;
+          padding-left: 80px;
+        }
+
+        .timeline-year {
+          left: 30px;
+          transform: translateX(0);
+        }
+
+        .timeline-content::before {
+          display: none;
+        }
+
+        .mision-vision-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .header-content {
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .nav-links {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ========== HEADER ========== -->
+    <header>
+      <div class="header-content">
+        <a href="index.html" class="logo-container">
+          <img src="img/logo.png" alt="EIE-UNCIA Logo" />
+          <div class="logo-text">EIE-UNCÍA</div>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html#inicio">Inicio</a></li>
+          <li><a href="index.html#idiomas">Idiomas</a></li>
+          <li><a href="staff.html">Staff</a></li>
+          <li><a href="beneficios.html">Beneficios</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+        <a href="index.html" class="btn-volver">← Volver al Inicio</a>
+      </div>
+    </header>
+
+    <!-- ========== HERO ========== -->
+    <section class="page-hero">
+      <h1>Nuestra Historia</h1>
+      <p>
+        Más de tres décadas formando profesionales en idiomas con excelencia y
+        compromiso
+      </p>
+    </section>
+
+    <!-- ========== BREADCRUMB ========== -->
+    <div class="breadcrumb">
+      <div class="breadcrumb-content">
+        <a href="index.html">Inicio</a> / <span>Sobre Nosotros</span>
+      </div>
+    </div>
+
+    <!-- ========== HISTORIA COMPLETA ========== -->
+    <section class="historia-section" id="historia">
+      <div class="section-container">
+        <div class="section-header">
+          <h2>Historia Completa</h2>
+          <p>
+            Un recorrido por más de 30 años de trayectoria educativa en la
+            enseñanza de idiomas
+          </p>
+        </div>
+
+        <div class="timeline">
+          <!-- 1993 - Fundación -->
+          <div class="timeline-item">
+            <div class="timeline-year">1993</div>
+            <div class="timeline-content">
+              <h3>Fundación de la Institución</h3>
+              <p>
+                La Escuela de Idiomas del Ejército establece su Filial en Uncía,
+                con el lema "Knowing to Teach" (Conocer para Enseñar). Iniciamos
+                con cursos de inglés básico, atendiendo a 50 estudiantes en
+                nuestras primeras aulas ubicadas en Plaza Alonzo de Ibáñez.
+              </p>
+            </div>
+            <div class="timeline-image">
+              <img src="img/frontis.jpg" alt="Fundación 1993" />
+            </div>
+          </div>
+
+          <!-- 2000 - Expansión -->
+          <div class="timeline-item">
+            <div class="timeline-year">2000</div>
+            <div class="timeline-content">
+              <h3>Expansión de Programas</h3>
+              <p>
+                Ampliamos nuestra oferta educativa incorporando francés y
+                portugués. La matrícula alcanza los 200 estudiantes anuales. Se
+                implementan laboratorios de idiomas con tecnología audiovisual
+                moderna para la época.
+              </p>
+            </div>
+            <div class="timeline-image">
+              <img src="img/EIE.jpg" alt="Expansión 2000" />
+            </div>
+          </div>
+
+          <!-- 2010 - Certificaciones -->
+          <div class="timeline-item">
+            <div class="timeline-year">2010</div>
+            <div class="timeline-content">
+              <h3>Certificaciones Internacionales</h3>
+              <p>
+                Obtenemos acreditación para certificar en exámenes
+                internacionales TOEFL y Cambridge. Incorporamos docentes nativos
+                y especializados. Más de 1,000 estudiantes graduados hasta la
+                fecha.
+              </p>
+            </div>
+            <div class="timeline-image">
+              <img src="img/EIE_UNCIA.jpg" alt="Certificaciones 2010" />
+            </div>
+          </div>
+
+          <!-- 2018 - Modernización -->
+          <div class="timeline-item">
+            <div class="timeline-year">2018</div>
+            <div class="timeline-content">
+              <h3>Modernización Digital</h3>
+              <p>
+                Implementación de plataformas digitales y aulas inteligentes.
+                Incorporación de coreano y quechua a nuestra oferta académica.
+                Renovación completa de instalaciones con tecnología de punta.
+              </p>
+            </div>
+            <div class="timeline-image">
+              <img src="img/frontis.jpg" alt="Modernización 2018" />
+            </div>
+          </div>
+
+          <!-- 2020 - Virtualización -->
+          <div class="timeline-item">
+            <div class="timeline-year">2020</div>
+            <div class="timeline-content">
+              <h3>Educación Híbrida</h3>
+              <p>
+                Adaptación exitosa a la educación virtual durante la pandemia.
+                Implementación de clases sincrónicas y asincrónicas. Expansión
+                de idiomas virtuales: chino mandarín, alemán, italiano y
+                japonés.
+              </p>
+            </div>
+            <div class="timeline-image">
+              <img src="img/EIE.jpg" alt="Virtualización 2020" />
+            </div>
+          </div>
+
+          <!-- 2025 - Actualidad -->
+          <div class="timeline-item">
+            <div class="timeline-year">2025</div>
+            <div class="timeline-content">
+              <h3>Presente y Futuro</h3>
+              <p>
+                Más de 8,500 estudiantes graduados. 9 idiomas disponibles.
+                Reconocimiento como institución líder en la región. Proyectos de
+                expansión y nuevas certificaciones internacionales en
+                desarrollo.
+              </p>
+            </div>
+            <div class="timeline-image">
+              <img src="img/EIE_UNCIA.jpg" alt="Actualidad 2025" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== ESTADÍSTICAS ========== -->
+    <section class="stats-banner">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number">32+</div>
+          <div class="stat-label">Años de Trayectoria</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">8,500+</div>
+          <div class="stat-label">Estudiantes Graduados</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">9</div>
+          <div class="stat-label">Idiomas Disponibles</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Satisfacción</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== MISIÓN Y VISIÓN ========== -->
+    <section class="mision-vision-section" id="mision">
+      <div class="section-container">
+        <div class="section-header">
+          <h2>Misión y Visión</h2>
+          <p>
+            Nuestro compromiso con la excelencia educativa y el futuro de
+            nuestros estudiantes
+          </p>
+        </div>
+
+        <div class="mision-vision-grid">
+          <div class="mv-card">
+            <div class="mv-icon">🎯</div>
+            <h3>Nuestra Misión</h3>
+            <p>
+              Formar profesionales competentes en idiomas extranjeros mediante
+              una educación de calidad, con metodologías modernas y docentes
+              especializados, contribuyendo al desarrollo personal y profesional
+              de nuestros estudiantes.
+            </p>
+            <ul class="mv-list">
+              <li>Proporcionar educación lingüística de excelencia</li>
+              <li>Implementar metodologías comunicativas efectivas</li>
+              <li>Garantizar certificaciones internacionales reconocidas</li>
+              <li>Fomentar el desarrollo integral del estudiante</li>
+              <li>Mantener instalaciones y tecnología de vanguardia</li>
+            </ul>
+          </div>
+
+          <div class="mv-card">
+            <div class="mv-icon">🔭</div>
+            <h3>Nuestra Visión</h3>
+            <p>
+              Ser la institución líder en enseñanza de idiomas en la región,
+              reconocida por su excelencia académica, innovación educativa y
+              compromiso con el desarrollo de profesionales multilingües capaces
+              de enfrentar los desafíos globales.
+            </p>
+            <ul class="mv-list">
+              <li>Expandir nuestra oferta académica constantemente</li>
+              <li>Implementar tecnologías educativas de última generación</li>
+              <li>Establecer convenios internacionales</li>
+              <li>Alcanzar 15,000 graduados para 2030</li>
+              <li>Abrir nuevas filiales en la región</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="valores-section">
+          <h3>Nuestros Valores</h3>
+          <div class="valores-grid">
+            <div class="valor-item">
+              <div class="icon">🎓</div>
+              <h4>Excelencia</h4>
+              <p>Compromiso con la calidad educativa superior</p>
+            </div>
+            <div class="valor-item">
+              <div class="icon">🤝</div>
+              <h4>Integridad</h4>
+              <p>Honestidad y transparencia en todas nuestras acciones</p>
+            </div>
+            <div class="valor-item">
+              <div class="icon">🌟</div>
+              <h4>Innovación</h4>
+              <p>Actualización constante de métodos y tecnología</p>
+            </div>
+            <div class="valor-item">
+              <div class="icon">❤️</div>
+              <h4>Compromiso</h4>
+              <p>Dedicación total al éxito de nuestros estudiantes</p>
+            </div>
+            <div class="valor-item">
+              <div class="icon">🌍</div>
+              <h4>Inclusión</h4>
+              <p>Educación accesible para toda la comunidad</p>
+            </div>
+            <div class="valor-item">
+              <div class="icon">🔬</div>
+              <h4>Profesionalismo</h4>
+              <p>Estándares académicos de nivel internacional</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== LOGROS Y RECONOCIMIENTOS ========== -->
+    <section class="logros-section" id="logros">
+      <div class="section-container">
+        <div class="section-header">
+          <h2>Logros y Reconocimientos</h2>
+          <p>
+            Nuestros hitos más importantes a lo largo de la historia
+            institucional
+          </p>
+        </div>
+
+        <div class="logros-grid">
+          <!-- Logro 1 -->
+          <div class="logro-card">
+            <div class="logro-image">
+              <img src="img/frontis.jpg" alt="Acreditación Internacional" />
+              <div class="logro-badge">2010</div>
+            </div>
+            <div class="logro-content">
+              <h3>Acreditación Internacional</h3>
+              <p>
+                Primera institución en la región en obtener autorización oficial
+                para administrar exámenes internacionales TOEFL y Cambridge
+                English, certificando a cientos de estudiantes con validez
+                mundial.
+              </p>
+              <div class="logro-meta">
+                <span class="logro-year">📅 Año 2010</span>
+                <span class="logro-icon">🎓</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logro 2 -->
+          <div class="logro-card">
+            <div class="logro-image">
+              <img src="img/EIE.jpg" alt="Reconocimiento Excelencia" />
+              <div class="logro-badge">2015</div>
+            </div>
+            <div class="logro-content">
+              <h3>Reconocimiento a la Excelencia</h3>
+              <p>
+                Premiados por el Ministerio de Educación como "Institución
+                Modelo en Enseñanza de Idiomas" por nuestra metodología
+                innovadora y resultados sobresalientes de nuestros estudiantes.
+              </p>
+              <div class="logro-meta">
+                <span class="logro-year">📅 Año 2015</span>
+                <span class="logro-icon">🏆</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logro 3 -->
+          <div class="logro-card">
+            <div class="logro-image">
+              <img src="img/EIE_UNCIA.jpg" alt="5000 Graduados" />
+              <div class="logro-badge">2018</div>
+            </div>
+            <div class="logro-content">
+              <h3>5,000 Estudiantes Graduados</h3>
+              <p>
+                Alcanzamos el hito de 5,000 estudiantes graduados,
+                consolidándonos como la institución líder en formación
+                lingüística de la región con presencia en más de 10 países.
+              </p>
+              <div class="logro-meta">
+                <span class="logro-year">📅 Año 2018</span>
+                <span class="logro-icon">👥</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logro 4 -->
+          <div class="logro-card">
+            <div class="logro-image">
+              <img src="img/frontis.jpg" alt="Infraestructura Moderna" />
+              <div class="logro-badge">2019</div>
+            </div>
+            <div class="logro-content">
+              <h3>Modernización de Instalaciones</h3>
+              <p>
+                Inauguración de nuevas instalaciones completamente equipadas con
+                tecnología de punta: aulas inteligentes, laboratorios multimedia
+                y biblioteca digital con recursos en 9 idiomas.
+              </p>
+              <div class="logro-meta">
+                <span class="logro-year">📅 Año 2019</span>
+                <span class="logro-icon">🏢</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logro 5 -->
+          <div class="logro-card">
+            <div class="logro-image">
+              <img src="img/EIE.jpg" alt="Plataforma Virtual" />
+              <div class="logro-badge">2020</div>
+            </div>
+            <div class="logro-content">
+              <h3>Plataforma Virtual Propia</h3>
+              <p>
+                Desarrollo e implementación de nuestra plataforma educativa
+                digital, permitiendo educación híbrida de calidad y expandiendo
+                nuestra oferta a 6 idiomas adicionales en modalidad virtual.
+              </p>
+              <div class="logro-meta">
+                <span class="logro-year">📅 Año 2020</span>
+                <span class="logro-icon">💻</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logro 6 -->
+          <div class="logro-card">
+            <div class="logro-image">
+              <img src="img/EIE_UNCIA.jpg" alt="Convenios Internacionales" />
+              <div class="logro-badge">2022</div>
+            </div>
+            <div class="logro-content">
+              <h3>Convenios Internacionales</h3>
+              <p>
+                Establecimiento de acuerdos con instituciones educativas de
+                Estados Unidos, Corea del Sur y Francia para intercambios
+                culturales, becas y programas de inmersión lingüística.
+              </p>
+              <div class="logro-meta">
+                <span class="logro-year">📅 Año 2022</span>
+                <span class="logro-icon">🌍</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logro 7 -->
+          <div class="logro-card">
+            <div class="logro-image">
+              <img src="img/frontis.jpg" alt="Certificación ISO" />
+              <div class="logro-badge">2023</div>
+            </div>
+            <div class="logro-content">
+              <h3>Certificación ISO 9001</h3>
+              <p>
+                Obtención de la certificación ISO 9001 en gestión de calidad
+                educativa, respaldando nuestros procesos académicos y
+                administrativos con estándares internacionales.
+              </p>
+              <div class="logro-meta">
+                <span class="logro-year">📅 Año 2023</span>
+                <span class="logro-icon">✅</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logro 8 -->
+          <div class="logro-card">
+            <div class="logro-image">
+              <img src="img/EIE.jpg" alt="100% Satisfacción" />
+              <div class="logro-badge">2024</div>
+            </div>
+            <div class="logro-content">
+              <h3>100% de Satisfacción</h3>
+              <p>
+                Por tercer año consecutivo alcanzamos el 100% de satisfacción en
+                encuestas estudiantiles, destacando la calidad de nuestros
+                docentes y metodología de enseñanza.
+              </p>
+              <div class="logro-meta">
+                <span class="logro-year">📅 Año 2024</span>
+                <span class="logro-icon">⭐</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logro 9 -->
+          <div class="logro-card">
+            <div class="logro-image">
+              <img src="img/EIE_UNCIA.jpg" alt="Expansión 2025" />
+              <div class="logro-badge">2025</div>
+            </div>
+            <div class="logro-content">
+              <h3>Expansión Regional</h3>
+              <p>
+                Apertura de nuevos programas especializados y proyectos de
+                expansión hacia otras ciudades, consolidando nuestro liderazgo
+                en educación lingüística de calidad.
+              </p>
+              <div class="logro-meta">
+                <span class="logro-year">📅 Año 2025</span>
+                <span class="logro-icon">🚀</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+      <div class="footer-links">
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="idiomas.html">Idiomas</a>
+        <a href="staff.html">Staff</a>
+        <a href="beneficios.html">Beneficios</a>
+        <a href="contacto.html">Contacto</a>
+      </div>
+      <p>
+        &copy; 2025 Escuela de Idiomas del Ejército - Filial Uncía. Todos los
+        derechos reservados.
+      </p>
+      <p>Fundada en 1993 | Plaza Alonzo de Ibáñez, Uncía - Potosí, Bolivia</p>
+      <p>Diseñado con dedicación para la excelencia educativa</p>
+    </footer>
+
+    <script>
+      // Smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Animación de entrada para elementos
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = "1";
+              entry.target.style.transform = "translateY(0)";
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      // Aplicar animación a tarjetas
+      document
+        .querySelectorAll(".timeline-item, .logro-card, .mv-card")
+        .forEach((el) => {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(30px)";
+          el.style.transition = "all 0.6s ease";
+          observer.observe(el);
+        });
+    </script>
+  </body>
+</html>

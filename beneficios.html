@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beneficios - EIE-UNCÍA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        /* ========== HEADER ========== */
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(135deg, rgba(20, 30, 70, 0.95), rgba(40, 60, 120, 0.95));
+            backdrop-filter: blur(10px);
+            padding: 15px 8%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .logo-container img {
+            width: 50px;
+            height: 50px;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+        }
+
+        .logo-text {
+            font-size: 1.4em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #FFD700;
+        }
+
+        .btn-volver {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #1a1a2e;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-volver:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        /* ========== HERO SECTION ========== */
+        .page-hero {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 150px 8% 100px;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle fill="rgba(255,255,255,0.1)" cx="50" cy="50" r="30"/></svg>');
+            opacity: 0.4;
+        }
+
+        .page-hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-hero p {
+            font-size: 1.3em;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========== BREADCRUMB ========== */
+        .breadcrumb {
+            background: #fff;
+            padding: 20px 8%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .breadcrumb-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 10px;
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: #4facfe;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: #FFD700;
+        }
+
+        /* ========== SECCIÓN VER DETALLES ========== */
+        .detalles-section {
+            padding: 80px 8%;
+            background: #fff;
+        }
+
+        .section-container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.8em;
+            color: #2d3561;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #FFD700, #FFA500);
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            font-size: 1.15em;
+            color: #666;
+            margin-top: 25px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .beneficios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            margin-bottom: 60px;
+        }
+
+        .beneficio-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 2px solid transparent;
+        }
+
+        .beneficio-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            border-color: #FFD700;
+        }
+
+        .beneficio-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.1));
+        }
+
+        .beneficio-card h3 {
+            font-size: 1.6em;
+            color: #2d3561;
+            margin-bottom: 15px;
+        }
+
+        .beneficio-card p {
+            color: #555;
+            font-size: 1.05em;
+            line-height: 1.8;
+        }
+
+        .comparativa-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 60px;
+            border-radius: 25px;
+            color: #fff;
+            margin-top: 40px;
+        }
+
+        .comparativa-section h3 {
+            font-size: 2em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .comparativa-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .comparativa-col h4 {
+            font-size: 1.5em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .comparativa-list {
+            list-style: none;
+        }
+
+        .comparativa-list li {
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 1.05em;
+        }
+
+        .comparativa-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #FFD700;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        /* ========== SECCIÓN CERTIFICACIONES ========== */
+        .certificaciones-section {
+            padding: 80px 8%;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 35px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .cert-card {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s ease;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .cert-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .cert-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .cert-card:hover .cert-image img {
+            transform: scale(1.1);
+        }
+
+        .cert-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #1a1a2e;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85em;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .cert-content {
+            padding: 30px;
+        }
+
+        .cert-content h3 {
+            font-size: 1.6em;
+            color: #2d3561;
+            margin-bottom: 12px;
+        }
+
+        .cert-content .cert-org {
+            color: #FFD700;
+            font-weight: 600;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .cert-content p {
+            color: #555;
+            font-size: 1.02em;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .cert-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .cert-features li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        .cert-features li::before {
+            content: '•';
+            position: absolute;
+            left: 8px;
+            color: #4facfe;
+            font-weight: bold;
+        }
+
+        /* ========== SECCIÓN TESTIMONIOS ========== */
+        .testimonios-section {
+            padding: 80px 8%;
+            background: #fff;
+        }
+
+        .testimonios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 35px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .testimonio-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .testimonio-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .testimonio-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 5em;
+            color: rgba(255, 215, 0, 0.2);
+            font-family: Georgia, serif;
+        }
+
+        .testimonio-text {
+            font-size: 1.08em;
+            color: #444;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+            font-style: italic;
+        }
+
+        .testimonio-autor {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .autor-foto {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            flex-shrink: 0;
+        }
+
+        .autor-info h4 {
+            font-size: 1.2em;
+            color: #2d3561;
+            margin-bottom: 5px;
+        }
+
+        .autor-info p {
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        .rating {
+            margin-top: 10px;
+            color: #FFD700;
+            font-size: 1.2em;
+        }
+
+        /* ========== CTA SECTION ========== */
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 8%;
+            text-align: center;
+            color: #fff;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .btn-cta {
+            display: inline-block;
+            padding: 18px 50px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #1a1a2e;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(255, 215, 0, 0.6);
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            background: linear-gradient(135deg, #0f0f1e, #1a1a2e);
+            color: #fff;
+            padding: 50px 8% 30px;
+            text-align: center;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #FFD700;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 968px) {
+            .page-hero h1 {
+                font-size: 2.5em;
+            }
+
+            .comparativa-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .beneficios-grid,
+            .cert-grid,
+            .testimonios-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== HEADER ========== -->
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo-container">
+                <img src="img/logo.png" alt="EIE-UNCIA Logo">
+                <div class="logo-text">EIE-UNCÍA</div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#inicio">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="index.html#idiomas">Idiomas</a></li>
+                <li><a href="staff.html">Staff</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+            <a href="index.html" class="btn-volver">← Volver al Inicio</a>
+        </div>
+    </header>
+
+    <!-- ========== HERO ========== -->
+    <section class="page-hero">
+        <h1>Nuestros Beneficios</h1>
+        <p>Descubre todas las ventajas de estudiar en EIE-UNCÍA</p>
+    </section>
+
+    <!-- ========== BREADCRUMB ========== -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-content">
+            <a href="index.html">Inicio</a> / <span>Beneficios</span>
+        </div>
+    </div>
+
+    <!-- ========== VER DETALLES ========== -->
+    <section class="detalles-section" id="detalles">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Por Qué Somos Tu Mejor Opción</h2>
+                <p>Ventajas exclusivas que nos posicionan como líderes en enseñanza de idiomas</p>
+            </div>
+
+            <div class="beneficios-grid">
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">🏆</div>
+                    <h3>Certificación Internacional</h3>
+                    <p>Certificados con validez mundial reconocidos por instituciones educativas y empresas en más de 50 países. Preparación para TOEFL, IELTS, Cambridge, DELF y más.</p>
+                </div>
+
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">👨‍🏫</div>
+                    <h3>Docentes Expertos</h3>
+                    <p>Profesores certificados internacionalmente, nativos y con más de 10 años de experiencia. Metodología comunicativa moderna y personalizada según tu nivel.</p>
+                </div>
+
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">📱</div>
+                    <h3>Tecnología de Punta</h3>
+                    <p>Aulas inteligentes, plataforma virtual propia, apps móviles, laboratorios multimedia y biblioteca digital con más de 5,000 recursos en 9 idiomas.</p>
+                </div>
+
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">💰</div>
+                    <h3>Precios Competitivos</h3>
+                    <p>Inversión accesible con planes de pago flexibles, descuentos por pronto pago, becas por rendimiento y promociones especiales para grupos familiares.</p>
+                </div>
+
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">🎯</div>
+                    <h3>Resultados Garantizados</h3>
+                    <p>Metodología probada con 98% de aprobación en exámenes internacionales. Grupos reducidos de máximo 15 estudiantes para atención personalizada.</p>
+                </div>
+
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">🌐</div>
+                    <h3>Modalidad Híbrida</h3>
+                    <p>Libertad de elegir entre clases presenciales, virtuales o combinadas. Acceso 24/7 a materiales digitales y grabaciones de clases.</p>
+                </div>
+
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">⏰</div>
+                    <h3>Horarios Flexibles</h3>
+                    <p>Turnos matutino, vespertino y nocturno. Cursos intensivos, regulares y de fin de semana. Adaptamos los horarios a tu disponibilidad.</p>
+                </div>
+
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">🤝</div>
+                    <h3>Convenios Internacionales</h3>
+                    <p>Acuerdos con universidades de USA, Corea del Sur y Francia. Programas de intercambio cultural y becas para estudios en el extranjero.</p>
+                </div>
+
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">📚</div>
+                    <h3>Material Incluido</h3>
+                    <p>Libros digitales, workbooks, audios, videos y acceso completo a plataformas internacionales incluidos en el precio del curso sin costos adicionales.</p>
+                </div>
+            </div>
+
+            <div class="comparativa-section">
+                <h3>EIE-UNCÍA vs Otros Institutos</h3>
+                <div class="comparativa-grid">
+                    <div class="comparativa-col">
+                        <h4>✓ En EIE-UNCÍA</h4>
+                        <ul class="comparativa-list">
+                            <li>Certificados internacionales válidos mundialmente</li>
+                            <li>Docentes nativos y certificados</li>
+                            <li>Máximo 15 estudiantes por aula</li>
+                            <li>Tecnología de última generación</li>
+                            <li>Plataforma virtual propia</li>
+                            <li>Material digital incluido</li>
+                            <li>32 años de experiencia</li>
+                            <li>Convenios internacionales</li>
+                            <li>98% de aprobación en exámenes</li>
+                            <li>Atención personalizada garantizada</li>
+                        </ul>
+                    </div>
+                    <div class="comparativa-col">
+                        <h4>✗ En Otros Institutos</h4>
+                        <ul class="comparativa-list" style="opacity: 0.7;">
+                            <li>Certificados solo locales</li>
+                            <li>Docentes sin certificación internacional</li>
+                            <li>Grupos de 25-30 estudiantes</li>
+                            <li>Tecnología limitada u obsoleta</li>
+                            <li>Sin plataforma propia</li>
+                            <li>Material con costo adicional</li>
+                            <li>Poca trayectoria comprobada</li>
+                            <li>Sin convenios internacionales</li>
+                            <li>Tasas de aprobación variables</li>
+                            <li>Atención masificada</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CERTIFICACIONES ========== -->
+    <section class="certificaciones-section" id="certificaciones">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Certificaciones Internacionales</h2>
+                <p>Avalados por las instituciones más prestigiosas del mundo</p>
+            </div>
+
+            <div class="cert-grid">
+                <div class="cert-card">
+                    <div class="cert-image">
+                        <img src="img/frontis.jpg" alt="TOEFL">
+                        <div class="cert-badge">INGLÉS</div>
+                    </div>
+                    <div class="cert-content">
+                        <h3>TOEFL iBT</h3>
+                        <span class="cert-org">Educational Testing Service (ETS)</span>
+                        <p>Certificación oficial para estudios universitarios y posgrados en países de habla inglesa. Reconocido por más de 11,000 instituciones en 150 países.</p>
+                        <ul class="cert-features">
+                            <li>Validez: 2 años</li>
+                            <li>Nivel: Intermedio a Avanzado</li>
+                            <li>Modalidad: Computer-based</li>
+                            <li>Duración: 3 horas</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-image">
+                        <img src="img/EIE.jpg" alt="Cambridge">
+                        <div class="cert-badge">INGLÉS</div>
+                    </div>
+                    <div class="cert-content">
+                        <h3>Cambridge English</h3>
+                        <span class="cert-org">University of Cambridge</span>
+                        <p>Sistema de certificación más completo del mundo, desde A1 hasta C2. Aceptado por universidades, gobiernos y empresas globalmente.</p>
+                        <ul class="cert-features">
+                            <li>Niveles: KET, PET, FCE, CAE, CPE</li>
+                            <li>Sin fecha de expiración</li>
+                            <li>Reconocimiento global</li>
+                            <li>Preparación personalizada</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-image">
+                        <img src="img/EIE_UNCIA.jpg" alt="DELF">
+                        <div class="cert-badge">FRANCÉS</div>
+                    </div>
+                    <div class="cert-content">
+                        <h3>DELF / DALF</h3>
+                        <span class="cert-org">Ministère de l'Éducation Nationale (Francia)</span>
+                        <p>Diploma oficial del gobierno francés con validez permanente. Requerido para estudios y trabajo en países francófonos.</p>
+                        <ul class="cert-features">
+                            <li>Niveles: A1 a C2</li>
+                            <li>Validez permanente</li>
+                            <li>Reconocimiento oficial</li>
+                            <li>Aplicación internacional</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-image">
+                        <img src="img/frontis.jpg" alt="TOPIK">
+                        <div class="cert-badge">COREANO</div>
+                    </div>
+                    <div class="cert-content">
+                        <h3>TOPIK</h3>
+                        <span class="cert-org">National Institute for International Education (Corea)</span>
+                        <p>Certificación oficial para estudiar o trabajar en Corea del Sur. Requerido para becas del gobierno coreano y universidades.</p>
+                        <ul class="cert-features">
+                            <li>Niveles: TOPIK I y TOPIK II</li>
+                            <li>Validez: 2 años</li>
+                            <li>Becas disponibles</li>
+                            <li>Reconocimiento oficial</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-image">
+                        <img src="img/EIE.jpg" alt="HSK">
+                        <div class="cert-badge">CHINO</div>
+                    </div>
+                    <div class="cert-content">
+                        <h3>HSK (Hanyu Shuiping Kaoshi)</h3>
+                        <span class="cert-org">Hanban - Ministerio de Educación de China</span>
+                        <p>Examen oficial de competencia en chino mandarín. Esencial para estudios universitarios y oportunidades laborales en China.</p>
+                        <ul class="cert-features">
+                            <li>Niveles: HSK 1 a HSK 6</li>
+                            <li>Validez: 2 años</li>
+                            <li>Reconocimiento mundial</li>
+                            <li>Requisito para becas</li
+                                                </ul>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-image">
+                        <img src="img/EIE_UNCIA.jpg" alt="Goethe">
+                        <div class="cert-badge">ALEMÁN</div>
+                    </div>
+                    <div class="cert-content">
+                        <h3>Goethe-Zertifikat</h3>
+                        <span class="cert-org">Goethe-Institut</span>
+                        <p>Certificación oficial del gobierno alemán para estudios, trabajo y residencia en Alemania, Austria y Suiza.</p>
+                        <ul class="cert-features">
+                            <li>Niveles: A1 a C2</li>
+                            <li>Reconocimiento oficial</li>
+                            <li>Para estudios y trabajo</li>
+                            <li>Validez permanente</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TESTIMONIOS ========== -->
+    <section class="testimonios-section" id="testimonios">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Lo Que Dicen Nuestros Estudiantes</h2>
+                <p>Experiencias reales de éxito y superación</p>
+            </div>
+
+            <div class="testimonios-grid">
+                <div class="testimonio-card">
+                    <div class="testimonio-text">
+                        "Gracias a EIE-UNCÍA obtuve mi certificación TOEFL con 108 puntos y conseguí una beca completa en la Universidad de Texas. Los profesores nativos y la metodología fueron clave para mi éxito."
+                    </div>
+                    <div class="testimonio-autor">
+                        <div class="autor-foto">M</div>
+                        <div class="autor-info">
+                            <h4>María Fernanda López</h4>
+                            <p>Estudiante de Ingeniería - Becada en USA</p>
+                            <div class="rating">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonio-card">
+                    <div class="testimonio-text">
+                        "Después de 6 meses de coreano en EIE-UNCÍA, aprobé el TOPIK II nivel 4. Ahora trabajo en una empresa coreana con un salario 3 veces mayor. La calidad de enseñanza superó todas mis expectativas."
+                    </div>
+                    <div class="testimonio-autor">
+                        <div class="autor-foto">C</div>
+                        <div class="autor-info">
+                            <h4>Carlos Andrés Mendoza</h4>
+                            <p>Ejecutivo en Samsung Bolivia</p>
+                            <div class="rating">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonio-card">
+                    <div class="testimonio-text">
+                        "Los horarios flexibles me permitieron trabajar y estudiar simultáneamente. En 1 año completé francés hasta B2 y ahora tengo DELF B2. La plataforma virtual es excelente para practicar."
+                    </div>
+                    <div class="testimonio-autor">
+                        <div class="autor-foto">A</div>
+                        <div class="autor-info">
+                            <h4>Ana Patricia Silva</h4>
+                            <p>Estudiante de Turismo - Certificada DELF</p>
+                            <div class="rating">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonio-card">
+                    <div class="testimonio-text">
+                        "Como profesional, necesitaba inglés técnico para mi área. EIE-UNCÍA diseñó un programa personalizado que me permitió mejorar mi comunicación en reuniones internacionales en solo 4 meses."
+                    </div>
+                    <div class="testimonio-autor">
+                        <div class="autor-foto">J</div>
+                        <div class="autor-info">
+                            <h4>Dr. Javier Ríos</h4>
+                            <p>Médico Cirujano - Especialista</p>
+                            <div class="rating">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonio-card">
+                    <div class="testimonio-text">
+                        "La preparación para Cambridge FCE fue excepcional. Los simulacros de examen y la retroalimentación constante me dieron la confianza para aprobar con Grade A. ¡Super recomendado!"
+                    </div>
+                    <div class="testimonio-autor">
+                        <div class="autor-foto">S</div>
+                        <div class="autor-info">
+                            <h4>Sofía Martínez</h4>
+                            <p>Estudiante Universitaria - Cambridge FCE</p>
+                            <div class="rating">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonio-card">
+                    <div class="testimonio-text">
+                        "Aprendí quechua con profesores nativos y ahora puedo comunicarme mejor con pacientes de comunidades rurales. Fue una experiencia cultural y profesional enriquecedora."
+                    </div>
+                    <div class="testimonio-autor">
+                        <div class="autor-foto">L</div>
+                        <div class="autor-info">
+                            <h4>Lic. Laura Choque</h4>
+                            <p>Enfermera - Servicio Rural</p>
+                            <div class="rating">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CTA SECTION ========== -->
+    <section class="cta-section">
+        <div class="section-container">
+            <h2>¿Listo para Cambiar tu Futuro?</h2>
+            <p>Únete a más de 8,500 estudiantes que han transformado sus vidas con nosotros</p>
+            <a href="contacto.html" class="btn-cta">¡Inscríbete Ahora!</a>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <div class="footer-links">
+            <a href="index.html">Inicio</a>
+            <a href="nosotros.html">Nosotros</a>
+            <a href="index.html#idiomas">Idiomas</a>
+            <a href="staff.html">Staff</a>
+            <a href="beneficios.html">Beneficios</a>
+            <a href="contacto.html">Contacto</a>
+        </div>
+        <p>&copy; 2025 Escuela de Idiomas del Ejército - Filial Uncía. Todos los derechos reservados.</p>
+        <p>Fundada en 1993 | Plaza Alonzo de Ibáñez, Uncía - Potosí, Bolivia</p>
+        <p>Transformando vidas a través de los idiomas desde hace 32 años</p>
+    </footer>
+
+    <script>
+        // Smooth scroll para enlaces internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 120;
+                    const targetPosition = target.offsetTop - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Animación de entrada para elementos
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        // Aplicar animaciones a los elementos
+        document.querySelectorAll('.beneficio-card, .cert-card, .testimonio-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Contador animado para estadísticas (opcional)
+        const counters = document.querySelectorAll('.stat-number');
+        counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            const increment = target / 100;
+            let current = 0;
+            
+            const updateCounter = () => {
+                if (current < target) {
+                    current += increment;
+                    counter.textContent = Math.ceil(current);
+                    setTimeout(updateCounter, 20);
+                } else {
+                    counter.textContent = target;
+                }
+            };
+            
+            // Iniciar cuando el elemento sea visible
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        updateCounter();
+                        counterObserver.unobserve(entry.target);
+                    }
+                });
+            });
+            
+            counterObserver.observe(counter);
+        });
+
+        // Efecto hover mejorado para tarjetas
+        document.querySelectorAll('.beneficio-card, .cert-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Preloader suave
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+                document.body.style.transition = 'opacity 0.5s ease';
+            }, 100);
+        });
+
+        // Inicializar opacidad del body
+        document.body.style.opacity = '0';
+    </script>
+</body>
+</html>
+                                

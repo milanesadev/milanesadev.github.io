@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>EIE - Logo 3D</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+        color: white;
+        min-height: 100vh;
+      }
+
+      header {
+        background: rgba(0, 0, 0, 0.7);
+        padding: 15px 0;
+        backdrop-filter: blur(10px);
+      }
+
+      .flex-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .logo {
+        height: 50px;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        padding: 10px 15px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 5px;
+        transition: all 0.3s ease;
+      }
+
+      nav a:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .main-content {
+        text-align: center;
+        padding: 50px 20px;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .model-container {
+        width: 100%;
+        max-width: 600px;
+        height: 400px;
+        margin: 0 auto;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        background: rgba(0, 0, 0, 0.3);
+        position: relative;
+      }
+
+      #canvas3d {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.2rem;
+      }
+
+      .error {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #ff6b6b;
+        text-align: center;
+        display: none;
+      }
+
+      .controls {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      button {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      button:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="flex-container">
+        <div>
+          <img src="img/logo.png" alt="EIE Logo" class="logo" />
+        </div>
+        <nav>
+          <a href="index.html">Inicio</a>
+          <a href="nosotros.html">Nosotros</a>
+          <a href="beneficios.html">Beneficios</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="main-content">
+      <h1>LOGO 3D INTERACTIVO</h1>
+
+      <div class="model-container">
+        <div class="loading" id="loading">Cargando modelo 3D...</div>
+        <div class="error" id="error">
+          Error cargando el modelo 3D<br />
+          <small>Verifica la consola para más detalles</small>
+        </div>
+        <canvas id="canvas3d"></canvas>
+      </div>
+
+      <div class="controls">
+        <button id="rotateBtn">Pausar Rotación</button>
+        <button id="resetBtn">Reset Vista</button>
+      </div>
+    </div>
+
+    <!-- Three.js desde CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/controls/OrbitControls.js"></script>
+
+    <script>
+      // Variables globales
+      let scene, camera, renderer, controls, model;
+      let isRotating = true;
+
+      // Inicializar la escena 3D
+      function init() {
+        console.log("🚀 Iniciando Three.js...");
+
+        // 1. Crear escena
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x1a1a2e);
+
+        // 2. Crear cámara
+        const canvas = document.getElementById("canvas3d");
+        camera = new THREE.PerspectiveCamera(
+          75,
+          canvas.clientWidth / canvas.clientHeight,
+          0.1,
+          1000
+        );
+        camera.position.z = 5;
+
+        // 3. Crear renderizador
+        renderer = new THREE.WebGLRenderer({
+          canvas: canvas,
+          antialias: true,
+        });
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+
+        // 4. Controles de órbita
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        // 5. Agregar luces
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(5, 5, 5);
+        scene.add(directionalLight);
+
+        // 6. Cargar modelo
+        loadModel();
+
+        // 7. Configurar controles UI
+        setupControls();
+
+        // 8. Iniciar animación
+        animate();
+
+        // 9. Manejar redimensionamiento
+        window.addEventListener("resize", onWindowResize);
+      }
+
+      function loadModel() {
+        console.log("📦 Cargando modelo GLB...");
+
+        const loader = new THREE.GLTFLoader();
+
+        // Intentar diferentes rutas posibles
+        const possiblePaths = [
+          "img/Logo3d.glb",
+          "./img/Logo3d.glb",
+          "Logo3d.glb",
+          "./Logo3d.glb",
+        ];
+
+        let currentPathIndex = 0;
+
+        function tryLoad(path) {
+          console.log(`🔍 Intentando cargar: ${path}`);
+
+          loader.load(
+            path,
+            // Éxito
+            function (gltf) {
+              console.log("✅ Modelo cargado exitosamente!");
+              model = gltf.scene;
+              scene.add(model);
+
+              // Ajustar escala y posición
+              model.scale.set(1, 1, 1);
+              model.position.set(0, 0, 0);
+
+              // Ocultar loading
+              document.getElementById("loading").style.display = "none";
+
+              // Centrar modelo en vista
+              centerModel();
+            },
+            // Progreso
+            function (xhr) {
+              const percent = (xhr.loaded / xhr.total) * 100 || 0;
+              document.getElementById(
+                "loading"
+              ).textContent = `Cargando modelo 3D... ${percent.toFixed(1)}%`;
+            },
+            // Error
+            function (error) {
+              console.error(`❌ Error cargando ${path}:`, error);
+
+              currentPathIndex++;
+              if (currentPathIndex < possiblePaths.length) {
+                // Intentar siguiente ruta
+                tryLoad(possiblePaths[currentPathIndex]);
+              } else {
+                // Todas las rutas fallaron
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("error").style.display = "block";
+                createFallbackModel();
+              }
+            }
+          );
+        }
+
+        // Comenzar con la primera ruta
+        tryLoad(possiblePaths[0]);
+      }
+
+      function centerModel() {
+        if (!model) return;
+
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+
+        // Ajustar cámara para que el modelo sea visible
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const fov = camera.fov * (Math.PI / 180);
+        let cameraZ = Math.abs(maxDim / Math.sin(fov / 2));
+        cameraZ *= 1.5; // Margen adicional
+
+        camera.position.z = cameraZ;
+        controls.target.copy(center);
+        controls.update();
+      }
+
+      function createFallbackModel() {
+        console.log("🔄 Creando modelo de respaldo...");
+
+        // Crear un grupo para el logo EIE
+        const logoGroup = new THREE.Group();
+
+        // Crear geometrías para las letras E I E
+        const material = new THREE.MeshPhongMaterial({
+          color: 0x00a8ff,
+          shininess: 100,
+        });
+
+        // Letra E (primera)
+        const e1 = createLetterE();
+        e1.position.x = -2;
+        logoGroup.add(e1);
+
+        // Letra I
+        const i = new THREE.Mesh(new THREE.BoxGeometry(0.3, 2, 0.3), material);
+        logoGroup.add(i);
+
+        // Letra E (segunda)
+        const e2 = createLetterE();
+        e2.position.x = 2;
+        logoGroup.add(e2);
+
+        scene.add(logoGroup);
+        model = logoGroup;
+      }
+
+      function createLetterE() {
+        const group = new THREE.Group();
+        const material = new THREE.MeshPhongMaterial({ color: 0x00a8ff });
+
+        // Partes de la E
+        const vertical = new THREE.Mesh(
+          new THREE.BoxGeometry(0.3, 2, 0.3),
+          material
+        );
+        const top = new THREE.Mesh(
+          new THREE.BoxGeometry(1, 0.3, 0.3),
+          material
+        );
+        const middle = new THREE.Mesh(
+          new THREE.BoxGeometry(0.7, 0.3, 0.3),
+          material
+        );
+        const bottom = new THREE.Mesh(
+          new THREE.BoxGeometry(1, 0.3, 0.3),
+          material
+        );
+
+        top.position.set(0.5, 0.85, 0);
+        middle.position.set(0.35, 0, 0);
+        bottom.position.set(0.5, -0.85, 0);
+
+        group.add(vertical);
+        group.add(top);
+        group.add(middle);
+        group.add(bottom);
+
+        return group;
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        if (isRotating && model) {
+          model.rotation.y += 0.01;
+        }
+
+        controls.update();
+        renderer.render(scene, camera);
+      }
+
+      function onWindowResize() {
+        const canvas = document.getElementById("canvas3d");
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+      }
+
+      function setupControls() {
+        document
+          .getElementById("rotateBtn")
+          .addEventListener("click", function () {
+            isRotating = !isRotating;
+            this.textContent = isRotating
+              ? "Pausar Rotación"
+              : "Reanudar Rotación";
+          });
+
+        document
+          .getElementById("resetBtn")
+          .addEventListener("click", function () {
+            controls.reset();
+            if (model) {
+              model.rotation.set(0, 0, 0);
+            }
+          });
+      }
+
+      // Iniciar cuando el DOM esté listo
+      document.addEventListener("DOMContentLoaded", init);
+    </script>
+  </body>
+</html>

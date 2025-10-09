@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nuestro Equipo - EIE-UNCÍA</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: #f5f7fa;
+      }
+
+      /* ========== HEADER ========== */
+      header {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        background: linear-gradient(
+          135deg,
+          rgba(20, 30, 70, 0.95),
+          rgba(40, 60, 120, 0.95)
+        );
+        backdrop-filter: blur(10px);
+        padding: 15px 8%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        text-decoration: none;
+      }
+
+      .logo-container img {
+        width: 50px;
+        height: 50px;
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+      }
+
+      .logo-text {
+        font-size: 1.4em;
+        font-weight: 700;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 30px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: #ffd700;
+      }
+
+      .btn-volver {
+        padding: 10px 25px;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+      }
+
+      .btn-volver:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+      }
+
+      /* ========== HERO ========== */
+      .page-hero {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        padding: 150px 8% 100px;
+        text-align: center;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page-hero::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        right: -50%;
+        bottom: -50%;
+        background: radial-gradient(
+            circle at 30% 40%,
+            rgba(255, 215, 0, 0.2) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 70% 60%,
+            rgba(255, 255, 255, 0.15) 0%,
+            transparent 50%
+          );
+        animation: pulse 8s ease-in-out infinite alternate;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.7;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .page-hero h1 {
+        font-size: 4em;
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 1;
+        text-shadow: 3px 3px 20px rgba(0, 0, 0, 0.4);
+        font-weight: 900;
+      }
+
+      .page-hero p {
+        font-size: 1.5em;
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      /* ========== BREADCRUMB ========== */
+      .breadcrumb {
+        background: linear-gradient(135deg, #ffffff, #f8f9fa);
+        padding: 20px 8%;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .breadcrumb-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        gap: 10px;
+        font-size: 0.95em;
+        color: #666;
+      }
+
+      .breadcrumb a {
+        color: #11998e;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .breadcrumb a:hover {
+        color: #ffd700;
+      }
+
+      /* ========== NAVEGACIÓN DE SECCIONES ========== */
+      .section-nav {
+        background: linear-gradient(135deg, #1a1a2e, #2d3561);
+        padding: 30px 8%;
+        position: sticky;
+        top: 80px;
+        z-index: 999;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .section-nav-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+      }
+
+      .section-nav a {
+        color: #fff;
+        text-decoration: none;
+        padding: 12px 35px;
+        border-radius: 25px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 215, 0, 0.3);
+        transition: all 0.3s ease;
+        font-weight: 600;
+        font-size: 1.05em;
+      }
+
+      .section-nav a:hover,
+      .section-nav a.active {
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        border-color: #ffd700;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+      }
+
+      /* ========== ESTILOS COMUNES ========== */
+      .section-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 70px;
+      }
+
+      .section-header h2 {
+        font-size: 3.5em;
+        margin-bottom: 20px;
+        position: relative;
+        display: inline-block;
+        font-weight: 900;
+      }
+
+      .section-header h2::after {
+        content: "";
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 5px;
+        background: linear-gradient(90deg, #ffd700, #ffa500);
+        border-radius: 3px;
+        box-shadow: 0 3px 10px rgba(255, 215, 0, 0.4);
+      }
+
+      .section-header p {
+        font-size: 1.3em;
+        margin-top: 35px;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        font-weight: 500;
+      }
+
+      /* ========== SECCIÓN: EQUIPO COMPLETO ========== */
+      .equipo-section {
+        padding: 100px 8%;
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .equipo-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 25% 30%,
+            rgba(255, 255, 255, 0.2) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 75% 70%,
+            rgba(255, 215, 0, 0.15) 0%,
+            transparent 50%
+          );
+      }
+
+      .equipo-section .section-header h2,
+      .equipo-section .section-header p {
+        color: #fff;
+        text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .equipo-hero {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        margin-bottom: 60px;
+      }
+
+      .equipo-imagen {
+        width: 100%;
+        height: 500px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .equipo-imagen img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+
+      .equipo-hero:hover .equipo-imagen img {
+        transform: scale(1.08);
+      }
+
+      .equipo-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+        padding: 50px;
+        color: #fff;
+      }
+
+      .equipo-overlay h3 {
+        font-size: 3em;
+        margin-bottom: 15px;
+        font-weight: 900;
+        text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+      }
+
+      .equipo-overlay p {
+        font-size: 1.3em;
+        text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
+      }
+
+      .equipo-content {
+        padding: 50px;
+      }
+
+      .equipo-content p {
+        color: #444;
+        font-size: 1.15em;
+        line-height: 1.95;
+        margin-bottom: 30px;
+        text-align: justify;
+      }
+
+      .equipo-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+      }
+
+      .stat-box {
+        background: linear-gradient(135deg, #fa709a, #fee140);
+        padding: 30px;
+        border-radius: 20px;
+        text-align: center;
+        color: #fff;
+        box-shadow: 0 8px 25px rgba(250, 112, 154, 0.4);
+        transition: all 0.3s ease;
+      }
+
+      .stat-box:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(250, 112, 154, 0.5);
+      }
+
+      .stat-box .number {
+        font-size: 3.5em;
+        font-weight: 900;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .stat-box .label {
+        font-size: 1.1em;
+        font-weight: 600;
+      }
+
+      /* ========== SECCIÓN: DOCENTES ========== */
+      .docentes-section {
+        padding: 100px 8%;
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .docentes-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 30% 35%,
+            rgba(255, 255, 255, 0.25) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 70% 65%,
+            rgba(255, 215, 0, 0.12) 0%,
+            transparent 50%
+          );
+      }
+
+      .docentes-section .section-header h2 {
+        color: #2d3561;
+      }
+
+      .docentes-section .section-header p {
+        color: #444;
+      }
+
+      .docentes-categoria {
+        margin-bottom: 80px;
+      }
+
+      .categoria-title {
+        font-size: 2.5em;
+        color: #2d3561;
+        margin-bottom: 40px;
+        text-align: center;
+        font-weight: 800;
+        position: relative;
+        display: inline-block;
+        width: 100%;
+      }
+
+      .categoria-title::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -15px;
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, #a8edea, #fed6e3);
+        border-radius: 2px;
+      }
+
+      .docentes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 40px;
+      }
+
+      .docente-card {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        transition: all 0.4s ease;
+        border: 3px solid rgba(255, 215, 0, 0.2);
+      }
+
+      .docente-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        border-color: #ffd700;
+      }
+
+      .docente-imagen {
+        width: 100%;
+        height: 280px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .docente-imagen img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .docente-card:hover .docente-imagen img {
+        transform: scale(1.15);
+      }
+
+      .docente-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        padding: 10px 22px;
+        border-radius: 20px;
+        font-weight: 800;
+        font-size: 0.9em;
+        box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
+      }
+
+      .docente-content {
+        padding: 35px;
+      }
+
+      .docente-content h3 {
+        font-size: 1.9em;
+        color: #2d3561;
+        margin-bottom: 10px;
+        font-weight: 800;
+      }
+
+      .docente-cargo {
+        color: #fa709a;
+        font-size: 1.15em;
+        font-weight: 700;
+        margin-bottom: 20px;
+        display: block;
+      }
+
+      .docente-content p {
+        color: #555;
+        font-size: 1.05em;
+        line-height: 1.85;
+        margin-bottom: 20px;
+      }
+
+      .docente-especialidades {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .especialidad-tag {
+        background: linear-gradient(135deg, #a8edea, #85d8d5);
+        color: #1a1a2e;
+        padding: 8px 18px;
+        border-radius: 15px;
+        font-size: 0.9em;
+        font-weight: 700;
+      }
+
+      .docente-certificaciones {
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 2px solid rgba(0, 0, 0, 0.08);
+      }
+
+      .docente-certificaciones strong {
+        display: block;
+        color: #2d3561;
+        margin-bottom: 10px;
+        font-size: 1.05em;
+      }
+
+      .docente-certificaciones ul {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      .docente-certificaciones li {
+        padding: 8px 0;
+        padding-left: 25px;
+        position: relative;
+        color: #666;
+        font-size: 0.95em;
+      }
+
+      .docente-certificaciones li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #fa709a;
+        font-weight: bold;
+      }
+
+      /* ========== SECCIÓN: EXPERIENCIA ========== */
+      .experiencia-section {
+        padding: 100px 8%;
+        background: linear-gradient(
+          135deg,
+          #ffecd2 0%,
+          #fcb69f 50%,
+          #ffecd2 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .experiencia-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 25% 25%,
+            rgba(255, 215, 0, 0.2) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 75% 75%,
+            rgba(255, 165, 0, 0.15) 0%,
+            transparent 50%
+          );
+      }
+
+      .experiencia-section .section-header h2 {
+        color: #2d3561;
+      }
+
+      .experiencia-section .section-header p {
+        color: #444;
+      }
+
+      .experiencia-grid {
+        display: grid;
+        gap: 60px;
+      }
+
+      .experiencia-item {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        transition: all 0.4s ease;
+      }
+
+      .experiencia-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
+      }
+
+      .experiencia-item:nth-child(odd) {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+      }
+
+      .experiencia-item:nth-child(even) {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+      }
+
+      .experiencia-imagen {
+        width: 100%;
+        height: 450px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .experiencia-imagen img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+
+      .experiencia-item:hover .experiencia-imagen img {
+        transform: scale(1.12);
+      }
+
+      .experiencia-content {
+        padding: 60px 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .experiencia-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        padding: 10px 25px;
+        border-radius: 20px;
+        font-weight: 800;
+        font-size: 0.95em;
+        margin-bottom: 25px;
+        width: fit-content;
+        box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+      }
+
+      .experiencia-content h3 {
+        font-size: 2.5em;
+        color: #2d3561;
+        margin-bottom: 25px;
+        font-weight: 900;
+        line-height: 1.2;
+      }
+
+      .experiencia-content p {
+        color: #555;
+        font-size: 1.15em;
+        line-height: 1.95;
+        margin-bottom: 25px;
+      }
+
+      .experiencia-highlights {
+        list-style: none;
+        margin-top: 30px;
+      }
+
+      .experiencia-highlights li {
+        padding: 15px 0;
+        padding-left: 40px;
+        position: relative;
+        color: #444;
+        font-size: 1.1em;
+        font-weight: 500;
+      }
+
+      .experiencia-highlights li::before {
+        content: "★";
+        position: absolute;
+        left: 0;
+        color: #ffd700;
+        font-size: 1.5em;
+      }
+
+      /* ========== FOOTER ========== */
+      footer {
+        background: linear-gradient(135deg, #0f0f1e, #1a1a2e);
+        color: #fff;
+        padding: 50px 8% 30px;
+        text-align: center;
+      }
+
+      footer p {
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 10px;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin: 30px 0;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: #ffd700;
+      }
+
+      /* ========== RESPONSIVE ========== */
+      @media (max-width: 968px) {
+        .page-hero h1 {
+          font-size: 2.8em;
+        }
+
+        .equipo-imagen {
+          height: 350px;
+        }
+
+        .docentes-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .experiencia-item:nth-child(odd),
+        .experiencia-item:nth-child(even) {
+          grid-template-columns: 1fr !important;
+        }
+
+        .experiencia-imagen {
+          height: 300px;
+        }
+
+        .experiencia-content {
+          padding: 40px 30px;
+        }
+
+        .header-content {
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .nav-links {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 15px;
+        }
+
+        .section-nav-content {
+          gap: 15px;
+        }
+
+        .section-nav a {
+          padding: 10px 20px;
+          font-size: 0.95em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ========== HEADER ========== -->
+    <header>
+      <div class="header-content">
+        <a href="index.html" class="logo-container">
+          <img src="img/logo.png" alt="EIE-UNCIA Logo" />
+          <div class="logo-text">EIE-UNCÍA</div>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html#inicio">Inicio</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="idiomas.html">Idiomas</a></li>
+          <li><a href="beneficios.html">Beneficios</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+        <a href="index.html" class="btn-volver">← Volver al Inicio</a>
+      </div>
+    </header>
+
+    <!-- ========== HERO ========== -->
+    <section class="page-hero">
+      <h1>Nuestro Equipo</h1>
+      <p>
+        Profesionales apasionados dedicados a tu éxito en el aprendizaje de
+        idiomas
+      </p>
+    </section>
+
+    <!-- ========== BREADCRUMB ========== -->
+    <div class="breadcrumb">
+      <div class="breadcrumb-content">
+        <a href="index.html">Inicio</a> / <span>Staff</span>
+      </div>
+    </div>
+
+    <!-- ========== NAVEGACIÓN DE SECCIONES ========== -->
+    <nav class="section-nav">
+      <div class="section-nav-content">
+        <a href="#equipo" class="active">👥 Equipo Completo</a>
+        <a href="#docentes">👨‍🏫 Docentes</a>
+        <a href="#experiencia">⭐ Experiencia</a>
+      </div>
+    </nav>
+
+    <!-- ========== SECCIÓN: EQUIPO COMPLETO ========== -->
+    <section class="equipo-section" id="equipo">
+      <div class="section-container">
+        <div class="section-header">
+          <h2>Equipo Completo</h2>
+          <p>
+            Conoce al equipo humano que hace posible la excelencia educativa en
+            EIE-UNCÍA
+          </p>
+        </div>
+
+        <div class="equipo-hero">
+          <div class="equipo-imagen">
+            <img src="img/frontis.jpg" alt="Equipo Completo EIE-UNCÍA" />
+            <div class="equipo-overlay">
+              <h3>Equipo EIE-UNCÍA 2025</h3>
+              <p>Más de 30 profesionales comprometidos con tu educación</p>
+            </div>
+          </div>
+          <div class="equipo-content">
+            <p>
+              Nuestro equipo está conformado por profesionales altamente
+              calificados con amplia experiencia en la enseñanza de idiomas
+              extranjeros. Contamos con docentes nativos, licenciados en
+              educación, traductores e intérpretes especializados, todos unidos
+              por una misión común: brindarte la mejor educación lingüística de
+              la región.
+            </p>
+            <p>
+              Cada miembro de nuestro equipo aporta su experiencia única, desde
+              directores con décadas de trayectoria hasta jóvenes profesores con
+              metodologías innovadoras. Trabajamos en constante capacitación y
+              actualización para ofrecerte los más altos estándares de calidad
+              educativa internacional.
+            </p>
+            <p>
+              Contamos con personal administrativo dedicado, coordinadores
+              académicos expertos, y un equipo de soporte técnico que garantiza
+              el funcionamiento óptimo de nuestras plataformas virtuales y
+              presenciales. Todos compartimos la pasión por los idiomas y el
+              compromiso con tu aprendizaje exitoso.
+            </p>
+
+            <div class="equipo-stats">
+              <div class="stat-box">
+                <div class="number">30+</div>
+                <div class="label">Profesionales</div>
+              </div>
+              <div class="stat-box">
+                <div class="number">15</div>
+                <div class="label">Docentes Certificados</div>
+              </div>
+              <div class="stat-box">
+                <div class="number">8</div>
+                <div class="label">Profesores Nativos</div>
+              </div>
+              <div class="stat-box">
+                <div class="number">100%</div>
+                <div class="label">Compromiso</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECCIÓN: DOCENTES ========== -->
+    <section class="docentes-section" id="docentes">
+      <div class="section-container">
+        <div class="section-header">
+          <h2>Nuestros Docentes</h2>
+          <p>
+            Profesores especializados, nativos y certificados internacionalmente
+          </p>
+        </div>
+
+        <!-- DIRECCIÓN -->
+        <div class="docentes-categoria">
+          <h3 class="categoria-title">Dirección y Coordinación</h3>
+          <div class="docentes-grid">
+            <div class="docente-card">
+              <div class="docente-imagen">
+                <img src="img/frontis.jpg" alt="Director General" />
+                <div class="docente-badge">DIRECTOR</div>
+              </div>
+              <div class="docente-content">
+                <h3>Lic. Juan Carlos Pérez Mamani</h3>
+                <span class="docente-cargo">Director General</span>
+                <p>
+                  Licenciado en Lingüística Aplicada con maestría en Gestión
+                  Educativa. Más de 25 años de experiencia en enseñanza de
+                  idiomas y administración educativa. Fundador de la metodología
+                  institucional enfocada en resultados.
+                </p>
+                <div class="docente-especialidades">
+                  <span class="especialidad-tag">Inglés Avanzado</span>
+                  <span class="especialidad-tag">Francés</span>
+                  <span class="especialidad-tag">Gestión Educativa</span>
+                </div>
+                <div class="docente-certificaciones">
+                  <strong>Certificaciones:</strong>
+                  <ul>
+                    <li>TESOL Certificate - Universidad de Cambridge</li>
+                    <li>DELF C1 - Alliance Française</li>
+                    <li>Maestría en Gestión Educativa - UMSA</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="docente-card">
+              <div class="docente-imagen">
+                <img src="img/EIE.jpg" alt="Coordinadora Académica" />
+                <div class="docente-badge">COORDINADORA</div>
+              </div>
+              <div class="docente-content">
+                <h3>Lic. María Elena García Flores</h3>
+                <span class="docente-cargo">Coordinadora Académica</span>
+                <p>
+                  Licenciada en Ciencias de la Educación con especialización en
+                  Evaluación y Currículo. Experta en diseño de programas
+                  académicos y metodologías de enseñanza comunicativa. 18 años
+                  de experiencia.
+                </p>
+                <div class="docente-especialidades">
+                  <span class="especialidad-tag">Inglés</span>
+                  <span class="especialidad-tag">Portugués</span>
+                  <span class="especialidad-tag">Diseño Curricular</span>
+                </div>
+                <div class="docente-certificaciones">
+                  <strong>Certificaciones:</strong>
+                  <ul>
+                    <li>CELTA - Universidad de Cambridge</li>
+                    <li>Celpe-Bras Avanzado</li>
+                    <li>Especialista en Evaluación Educativa</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOCENTES DE INGLÉS -->
+        <div class="docentes-categoria">
+          <h3 class="categoria-title">Docentes de Inglés</h3>
+          <div class="docentes-grid">
+            <div class="docente-card">
+              <div class="docente-imagen">
+                <img src="img/EIE_UNCIA.jpg" alt="Profesor Nativo" />
+                <div class="docente-badge">NATIVO USA</div>
+              </div>
+              <div class="docente-content">
+                <h3>Prof. Robert Smith</h3>
+                <span class="docente-cargo">Profesor de Inglés - Nativo</span>
+                <p>
+                  Profesor nativo de Estados Unidos con 12 años de experiencia
+                  internacional. Especialista en preparación de exámenes TOEFL e
+                  IELTS. Método comunicativo enfocado en fluidez conversacional.
+                </p>
+                <div class="docente-especialidades">
+                  <span class="especialidad-tag">Inglés Nativo</span>
+                  <span class="especialidad-tag">TOEFL</span>
+                  <span class="especialidad-tag">IELTS</span>
+                </div>
+                <div class="docente-certificaciones">
+                  <strong>Certificaciones:</strong>
+                  <ul>
+                    <li>TESOL Certificate - Arizona State University</li>
+                    <li>IELTS Examiner Certification</li>
+                    <li>Bachelor in Education - UCLA</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="docente-card">
+              <div class="docente-imagen">
+                <img src="img/frontis.jpg" alt="Profesora Inglés" />
+                <div class="docente-badge">CERTIFICADA</div>
+              </div>
+              <div class="docente-content">
+                <h3>Lic. Ana Patricia Condori</h3>
+                <span class="docente-cargo">Profesora de Inglés</span>
+                <p>
+                  Licenciada en Lenguas Extranjeras con especialización en
+                  metodología comunicativa. 10 años de experiencia. Experta en
+                  gramática avanzada y preparación Cambridge English.
+                </p>
+                <div class="docente-especialidades">
+                  <span class="especialidad-tag">Cambridge English</span>
+                  <span class="especialidad-tag">Gramática</span>
+                  <span class="especialidad-tag">Writing</span>
+                </div>
+                <div class="docente-certificaciones">
+                  <strong>Certificaciones:</strong>
+                  <ul>
+                    <li>CAE Certificate (C1) - Cambridge</li>
+                    <li>CELTA - British Council</li>
+                    <li>Licenciatura en Lenguas - UMSS</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="docente-card">
+              <div class="docente-imagen">
+                <img src="img/EIE.jpg" alt="Profesor Inglés" />
+                <div class="docente-badge">EXPERTO</div>
+              </div>
+              <div class="docente-content">
+                <h3>Lic. Carlos Quispe Mamani</h3>
+                <span class="docente-cargo">Profesor de Inglés</span>
+                <p>
+                  Traductor e intérprete oficial con maestría en Lingüística
+                  Aplicada. Especialista en inglés técnico y académico. 14 años
+                  formando profesionales exitosos.
+                </p>
+                <div class="docente-especialidades">
+                  <span class="especialidad-tag">Inglés Técnico</span>
+                  <span class="especialidad-tag">Traducción</span>
+                  <span class="especialidad-tag">Business English</span>
+                </div>
+                <div class="docente-certificaciones">
+                  <strong>Certificaciones:</strong>
+                  <ul>
+                    <li>CPE Certificate (C2) - Cambridge</li>
+                    <li>Traductor Oficial Jurado</li>
+                    <li>Maestría en Lingüística - UMSA</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOCENTES DE COREANO -->
+        <div class="docentes-categoria">
+          <h3 class="categoria-title">Docentes de Coreano</h3>
+          <div class="docentes-grid">
+            <div class="docente-card">
+              <div class="docente-imagen">
+                <img src="img/EIE_UNCIA.jpg" alt="Profesora Coreana" />
+                <div class="docente-badge">NATIVA COREA</div>
+              </div>
+              <div class="docente-content">
+                <h3>Prof. Kim Min-ji (김민지)</h3>
+                <span class="docente-cargo">Profesora de Coreano - Nativa</span>
+                <p>
+                  Profesora nativa de Seúl, Corea del Sur. Licenciada en
+                  Educación por Seoul National University. 8 años de experiencia
+                  enseñando coreano como lengua extranjera. Especialista en
+                  TOPIK.
+                </p>
+                <div class="docente-especialidades">
+                  <span class="especialidad-tag">Coreano Nativo</span>
+                  <span class="especialidad-tag">TOPIK</span>
+                  <span class="especialidad-tag">Cultura Coreana</span>
+                </div>
+                <div class="docente-certificaciones">
+                  <strong>Certificaciones:</strong>
+                  <ul>
+                    <li>TOPIK Nivel 6 (Nativo)</li>
+                    <li>Certificación en Enseñanza de Coreano - SNU</li>
+                    <li>Bachelor in Korean Education - Seoul</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="docente-card">
+              <div class="docente-imagen">
+                <img src="img/frontis.jpg" alt="Profesor Coreano" />
+                <div class="docente-badge">CERTIFICADO</div>
+              </div>
+              <div class="docente-content">
+                <h3>Lic. Diego Fernández Choque</h3>
+                <span class="docente-cargo">Profesor de Coreano</span>
+                <p>
+                  Becario del gobierno coreano con estudios en Yonsei
+                  University. TOPIK nivel 6. Especialista en gramática y
+                  preparación de exámenes. 6 años de experiencia docente.
+                </p>
+                <div class="docente-especialidades">
+                  <span class="especialidad-tag">TOPIK II</span>
+                  <span class="especialidad-tag">Gramática</span>
+                  <span class="especialidad-tag">Hangul</span>
+                </div>
+                <div class="docente-certificaciones">
+                  <strong>Certificaciones:</strong>
+                  <ul>
+                    <li>TOPIK Nivel 6 (Máximo)</li>
+                    <li>Becario Gobierno de Corea 2015-2017</li>
+                    <li>Estudios en Yonsei University</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOCENTES DE QUECHUA -->
+        <div class="docentes-categoria">
+          <h3 class="categoria-title">Docentes de Quechua</h3>
+          <div class="docentes-grid">
+            <div class="docente-card">
+              <div class="docente-imagen">
+                <img src="img/EIE.jpg" alt="Profesor Quechua" />
+                <div class="docente-badge">HABLANTE NATIVO</div>
+              </div>
+              <div class="docente-content">
+                <h3>Prof. Carlos Mamani Condori</h3>
+                <span class="docente-cargo">Profesor de Quechua - Nativo</span>
+                <p>
+                  Hablante nativo de Quechua de la comunidad de Llallagua.
+                  Licenciado en Lingüística Andina. Más de 15 años preservando y
+                  enseñando nuestra lengua ancestral con pasión y compromiso
+                  cultural.
+                </p>
+                <div class="docente-especialidades">
+                  <span class="especialidad-tag">Quechua Nativo</span>
+                  <span class="especialidad-tag">Cosmovisión Andina</span>
+                  <span class="especialidad-tag">Cultura Originaria</span>
+                </div>
+                <div class="docente-certificaciones">
+                  <strong>Certificaciones:</strong>
+                  <ul>
+                    <li>Licenciatura en Lingüística Andina</li>
+                    <li>Hablante Nativo Certificado</li>
+                    <li>Investigador de Lenguas Originarias</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="docente-card">
+              <div class="docente-imagen">
+                <img src="img/EIE_UNCIA.jpg" alt="Profesora Quechua" />
+                <div class="docente-badge">NATIVA</div>
+              </div>
+              <div class="docente-content">
+                <h3>Prof. Juana Quispe Huanca</h3>
+                <span class="docente-cargo">Profesora de Quechua - Nativa</span>
+                <p>
+                  Profesora bilingüe Quechua-Español de comunidad originaria.
+                  Especialista en metodología intercultural. 12 años dedicados a
+                  la revitalización lingüística de nuestras raíces.
+                </p>
+                <div class="docente-especialidades">
+                  <span class="especialidad-tag">Quechua-Español</span>
+                  <span class="especialidad-tag">Educación Intercultural</span>
+                  <span class="especialidad-tag">Tradición Oral</span>
+                </div>
+                <div class="docente-certificaciones">
+                  <strong>Certificaciones:</strong>
+                  <ul>
+                    <li>Profesora de Educación Intercultural</li>
+                    <li>Hablante Nativa Certificada</li>
+                    <li>Especialista en Revitalización Lingüística</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOCENTES VIRTUALES -->
+        <div class="docentes-categoria">
+          <h3 class="categoria-title">Docentes Modalidad Virtual</h3>
+          <div class="docentes-grid">
+            <div class="docente-card">
+              <div class="docente-imagen">
+                <img src="img/frontis.jpg" alt="Profesor Francés" />
+                <div class="docente-badge">FRANCÉS</div>
+              </div>
+              <div class="docente-content">
+                <h3>Prof. Jean-Pierre Dubois</h3>
+                <span class="docente-cargo">Profesor de Francés - Nativo</span>
+                <p>
+                  Profesor nativo de París, Francia. Certificado Alliance
+                  Française. 10 años enseñando francés online. Especialista en
+                  preparación DELF/DALF con metodología inmersiva.
+                </p>
+                <div class="docente-especialidades">
+                  <span class="especialidad-tag">Francés Nativo</span>
+                  <span class="especialidad-tag">DELF/DALF</span>
+                  <span class="especialidad-tag">Cultura Francesa</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="docente-card">
+              <div class="docente-imagen">
+                <img src="img/EIE.jpg" alt="Profesora Chino" />
+                <div class="docente-badge">CHINO</div>
+              </div>
+              <div class="docente-content">
+                <h3>Prof. Li Wei (李伟)</h3>
+                <span class="docente-cargo">Profesora de Chino - Nativa</span>
+                <p>
+                  Profesora nativa de Beijing, China. Licenciada en Enseñanza de
+                  Chino como Lengua Extranjera. HSK nivel 6. Experta en
+                  caligrafía y preparación HSK online.
+                </p>
+                <div class="docente-especialidades">
+                  <span class="especialidad-tag">Mandarín Nativo</span>
+                  <span class="especialidad-tag">HSK</span>
+                  <span class="especialidad-tag">Caligrafía</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="docente-card">
+              <div class="docente-imagen">
+                <img src="img/EIE_UNCIA.jpg" alt="Profesor Alemán" />
+                <div class="docente-badge">ALEMÁN</div>
+              </div>
+              <div class="docente-content">
+                <h3>Prof. Klaus Müller</h3>
+                <span class="docente-cargo">Profesor de Alemán - Nativo</span>
+                <p>
+                  Profesor nativo de Berlín, Alemania. Certificado
+                  Goethe-Institut. 9 años de experiencia en educación virtual.
+                  Especialista en alemán académico y TestDaF.
+                </p>
+                <div class="docente-especialidades">
+                  <span class="especialidad-tag">Alemán Nativo</span>
+                  <span class="especialidad-tag">Goethe</span>
+                  <span class="especialidad-tag">Alemán Técnico</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="docente-card">
+              <div class="docente-imagen">
+                <img src="img/frontis.jpg" alt="Profesor Japonés" />
+                <div class="docente-badge">JAPONÉS</div>
+              </div>
+              <div class="docente-content">
+                <h3>Prof. Tanaka Yuki (田中 ゆき)</h3>
+                <span class="docente-cargo">Profesora de Japonés - Nativa</span>
+                <p>
+                  Profesora nativa de Tokio, Japón. Certificada en Enseñanza de
+                  Japonés. JLPT N1. Especialista en los tres sistemas de
+                  escritura y preparación JLPT online.
+                </p>
+                <div class="docente-especialidades">
+                  <span class="especialidad-tag">Japonés Nativo</span>
+                  <span class="especialidad-tag">JLPT</span>
+                  <span class="especialidad-tag">Kanji</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="docente-card">
+              <div class="docente-imagen">
+                <img src="img/EIE.jpg" alt="Profesora Italiano" />
+                <div class="docente-badge">ITALIANO</div>
+              </div>
+              <div class="docente-content">
+                <h3>Prof. Sofia Rossi</h3>
+                <span class="docente-cargo"
+                  >Profesora de Italiano - Nativa</span
+                >
+                <p>
+                  Profesora nativa de Roma, Italia. Certificada Universidad de
+                  Perugia. Especialista en cultura italiana, arte y preparación
+                  CILS/CELI. 7 años en educación digital.
+                </p>
+                <div class="docente-especialidades">
+                  <span class="especialidad-tag">Italiano Nativo</span>
+                  <span class="especialidad-tag">CILS/CELI</span>
+                  <span class="especialidad-tag">Cultura</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="docente-card">
+              <div class="docente-imagen">
+                <img src="img/EIE_UNCIA.jpg" alt="Profesor Portugués" />
+                <div class="docente-badge">PORTUGUÉS</div>
+              </div>
+              <div class="docente-content">
+                <h3>Prof. João Silva</h3>
+                <span class="docente-cargo"
+                  >Profesor de Portugués - Nativo</span
+                >
+                <p>
+                  Profesor nativo de São Paulo, Brasil. Certificado Celpe-Bras.
+                  Especialista en portugués brasileño para negocios y
+                  preparación de certificaciones oficiales.
+                </p>
+                <div class="docente-especialidades">
+                  <span class="especialidad-tag">Portugués Nativo</span>
+                  <span class="especialidad-tag">Celpe-Bras</span>
+                  <span class="especialidad-tag">Negocios</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECCIÓN: EXPERIENCIA ========== -->
+    <section class="experiencia-section" id="experiencia">
+      <div class="section-container">
+        <div class="section-header">
+          <h2>Nuestra Experiencia</h2>
+          <p>
+            Décadas de trayectoria formando profesionales exitosos en idiomas
+          </p>
+        </div>
+
+        <div class="experiencia-grid">
+          <!-- Item 1 -->
+          <div class="experiencia-item">
+            <div class="experiencia-imagen">
+              <img src="img/frontis.jpg" alt="32 años de experiencia" />
+            </div>
+            <div class="experiencia-content">
+              <span class="experiencia-badge">1993 - 2025</span>
+              <h3>Más de 32 Años Formando Profesionales</h3>
+              <p>
+                Desde nuestra fundación en 1993, hemos mantenido un compromiso
+                inquebrantable con la excelencia educativa. Nuestro equipo
+                docente ha evolucionado constantemente, adaptándose a las nuevas
+                metodologías y tecnologías sin perder nunca de vista nuestra
+                misión fundamental.
+              </p>
+              <p>
+                Generaciones de estudiantes han pasado por nuestras aulas,
+                llevando el sello de calidad EIE-UNCÍA a todos los rincones del
+                mundo. Nuestros egresados trabajan en empresas multinacionales,
+                estudian en universidades prestigiosas y se desempeñan como
+                profesionales destacados en sus áreas.
+              </p>
+              <ul class="experiencia-highlights">
+                <li>32 años de trayectoria ininterrumpida</li>
+                <li>8,500+ estudiantes graduados exitosamente</li>
+                <li>Presencia en más de 15 países</li>
+                <li>100% de satisfacción estudiantil</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="experiencia-item">
+            <div class="experiencia-content">
+              <span class="experiencia-badge">METODOLOGÍA</span>
+              <h3>Innovación Pedagógica Constante</h3>
+              <p>
+                Nuestro equipo se mantiene a la vanguardia de las metodologías
+                de enseñanza de idiomas. Participamos regularmente en congresos
+                internacionales, workshops especializados y programas de
+                actualización certificados por instituciones de prestigio
+                mundial.
+              </p>
+              <p>
+                La combinación de experiencia acumulada y apertura a la
+                innovación nos permite ofrecer programas que integran lo mejor
+                de las técnicas tradicionales probadas con las herramientas
+                digitales más avanzadas del mercado educativo actual.
+              </p>
+              <ul class="experiencia-highlights">
+                <li>Metodología comunicativa de última generación</li>
+                <li>Capacitación docente semestral obligatoria</li>
+                <li>Implementación de IA y apps educativas</li>
+                <li>Certificaciones internacionales del equipo</li>
+              </ul>
+            </div>
+            <div class="experiencia-imagen">
+              <img src="img/EIE.jpg" alt="Metodología innovadora" />
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="experiencia-item">
+            <div class="experiencia-imagen">
+              <img src="img/EIE_UNCIA.jpg" alt="Equipo multicultural" />
+            </div>
+            <div class="experiencia-content">
+              <span class="experiencia-badge">MULTICULTURALIDAD</span>
+              <h3>Equipo Multicultural y Diverso</h3>
+              <p>
+                Contamos con profesores nativos de 8 países diferentes, creando
+                un ambiente verdaderamente internacional. Esta diversidad
+                cultural enriquece enormemente la experiencia de aprendizaje,
+                exponiendo a nuestros estudiantes a diferentes acentos,
+                expresiones y perspectivas culturales auténticas.
+              </p>
+              <p>
+                Nuestro equipo boliviano aporta el conocimiento profundo de las
+                necesidades locales, mientras que nuestros docentes
+                internacionales traen experiencias globales que amplían los
+                horizontes de cada estudiante, preparándolos para un mundo cada
+                vez más interconectado.
+              </p>
+              <ul class="experiencia-highlights">
+                <li>Profesores de 8 nacionalidades diferentes</li>
+                <li>Inmersión cultural auténtica en cada clase</li>
+                <li>Intercambios culturales mensuales</li>
+                <li>Celebración de festividades internacionales</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="experiencia-item">
+            <div class="experiencia-content">
+              <span class="experiencia-badge">RESULTADOS</span>
+              <h3>Tasa de Éxito Sobresaliente</h3>
+              <p>
+                Nuestro orgullo más grande son los resultados de nuestros
+                estudiantes. El 95% de quienes se presentan a certificaciones
+                internacionales las aprueban en su primer intento, superando
+                ampliamente el promedio nacional. Esta efectividad se debe a la
+                dedicación y experiencia de nuestro equipo docente.
+              </p>
+              <p>
+                Seguimos la trayectoria de nuestros egresados y celebramos sus
+                logros: becas internacionales obtenidas, ascensos laborales
+                conseguidos, negocios expandidos y sueños cumplidos. Cada
+                historia de éxito reafirma nuestro compromiso con la excelencia
+                educativa.
+              </p>
+              <ul class="experiencia-highlights">
+                <li>95% de aprobación en certificaciones internacionales</li>
+                <li>85% de estudiantes obtiene empleo en área lingüística</li>
+                <li>200+ becas internacionales conseguidas</li>
+                <li>Convenios con 12 universidades extranjeras</li>
+              </ul>
+            </div>
+            <div class="experiencia-imagen">
+              <img src="img/frontis.jpg" alt="Resultados exitosos" />
+            </div>
+          </div>
+
+          <!-- Item 5 -->
+          <div class="experiencia-item">
+            <div class="experiencia-imagen">
+              <img src="img/EIE.jpg" alt="Compromiso continuo" />
+            </div>
+            <div class="experiencia-content">
+              <span class="experiencia-badge">FUTURO</span>
+              <h3>Compromiso con el Futuro</h3>
+              <p>
+                Miramos hacia adelante con la misma pasión del primer día.
+                Nuestro equipo está comprometido con la expansión de programas,
+                la incorporación de nuevas tecnologías educativas y la apertura
+                de oportunidades para más estudiantes en toda la región.
+              </p>
+              <p>
+                Estamos invirtiendo en la formación continua de nuestro equipo,
+                en la modernización de instalaciones y en el desarrollo de
+                alianzas estratégicas internacionales que beneficien
+                directamente a nuestros estudiantes. El futuro de EIE-UNCÍA es
+                brillante gracias a nuestro equipo excepcional.
+              </p>
+              <ul class="experiencia-highlights">
+                <li>Plan de expansión a 3 nuevas ciudades</li>
+                <li>Incorporación de 4 idiomas adicionales</li>
+                <li>Plataforma propia con IA en desarrollo</li>
+                <li>Meta: 15,000 graduados para 2030</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+      <div class="footer-links">
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="idiomas.html">Idiomas</a>
+        <a href="staff.html">Staff</a>
+        <a href="beneficios.html">Beneficios</a>
+        <a href="contacto.html">Contacto</a>
+      </div>
+      <p>
+        &copy; 2025 Escuela de Idiomas del Ejército - Filial Uncía. Todos los
+        derechos reservados.
+      </p>
+      <p>Fundada en 1993 | Plaza Alonzo de Ibáñez, Uncía - Potosí, Bolivia</p>
+      <p>Equipo profesional comprometido con tu éxito</p>
+    </footer>
+
+    <script>
+      // Smooth scroll para enlaces internos
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            const offset = 150;
+            const targetPosition = target.offsetTop - offset;
+            window.scrollTo({
+              top: targetPosition,
+              behavior: "smooth",
+            });
+          }
+        });
+      });
+
+      // Activar enlace del nav según scroll
+      window.addEventListener("scroll", () => {
+        const sections = document.querySelectorAll("section[id]");
+        const navLinks = document.querySelectorAll(".section-nav a");
+
+        let current = "";
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop;
+          if (scrollY >= sectionTop - 200) {
+            current = section.getAttribute("id");
+          }
+        });
+
+        navLinks.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === `#${current}`) {
+            link.classList.add("active");
+          }
+        });
+      });
+
+      // Animación de entrada para tarjetas
+      // Animación de entrada para tarjetas
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = "1";
+              entry.target.style.transform = "translateY(0)";
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+        }
+      );
+
+      // Aplicar estilos iniciales y observar elementos
+      document
+        .querySelectorAll(".docente-card, .experiencia-item, .stat-box")
+        .forEach((el) => {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(30px)";
+          el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+          observer.observe(el);
+        });
+
+      // Efecto parallax para el hero
+      window.addEventListener("scroll", () => {
+        const scrolled = window.pageYOffset;
+        const hero = document.querySelector(".page-hero");
+        if (hero) {
+          hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+        }
+      });
+
+      // Preloader opcional (puedes eliminar si no lo necesitas)
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          document.body.style.opacity = "1";
+          document.body.style.transition = "opacity 0.5s ease";
+        }, 100);
+      });
+
+      // Inicializar el body con opacidad 0 para la transición
+      document.body.style.opacity = "0";
+    </script>
+  </body>
+</html>

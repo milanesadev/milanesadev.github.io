@@ -1,0 +1,215 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  line-height: 1.6;
+}
+
+/* HEADER */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 15px 10%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 1.5em;
+  color: #4e00c2;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+  color: #4e00c2;
+}
+
+.btn-reserva a {
+  padding: 10px 20px;
+  background: #a24bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+/* HERO */
+.hero {
+  background: url("../img/frontis.jpg") no-repeat center center/cover;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-text {
+  color: white;
+  text-align: center;
+  max-width: 700px;
+}
+
+.hero-text h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+}
+
+.btn-cta {
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.btn-cta:hover {
+  background: #a24bff;
+  border-color: #a24bff;
+}
+
+/* FORMULARIO */
+.formulario {
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin: -50px auto 50px auto;
+  width: 90%;
+  max-width: 1000px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
+}
+
+form input,
+form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  width: 180px;
+  border-radius: 5px;
+}
+
+form button {
+  padding: 10px 20px;
+  background: #a24bff;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/*  LOGO    */
+
+.logo-container {
+  display: flex; /* Usa flexbox para alinear elementos horizontalmente */
+  align-items: center; /* Alinea verticalmente */
+  gap: 10px; /* Espaciado entre el logo y el texto (ajusta según necesites) */
+}
+
+.logo-text {
+  font-size: 18px; /* Ajusta el tamaño del texto si lo deseas */
+  font-weight: bold;
+}
+
+/*  LOGO    */
+
+/*  CARRUSEL   */
+
+/* NUEVO HERO MODIFICADO */
+.hero {
+  height: 100vh;
+  position: relative;
+  background: url("../img/frontis.jpg") no-repeat center center/cover;
+  transition: background 0.3s ease-in-out;
+}
+
+.carrusel {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 5;
+}
+
+.carrusel img {
+  width: 100px;
+  height: 60px;
+  object-fit: cover;
+  border: 2px solid white;
+  cursor: pointer;
+  transition: transform 0.3s, border-color 0.3s;
+  border-radius: 5px;
+}
+
+.carrusel img:hover {
+  transform: scale(1.1);
+  border-color: #a24bff;
+}
+
+/* TEXTO HERO MEJORADO */
+.hero-text h1,
+.hero-text h4 {
+  font-family: "Segoe UI", sans-serif;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.titulo-principal {
+  font-size: 3em;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.titulo-secundario {
+  font-size: 2.5em;
+  color: #ffffff;
+  margin-bottom: 30px;
+}
+
+.hero-text h4 {
+  font-size: 1.3em;
+  margin-bottom: 10px;
+  color: #eee;
+}
+
+/*  CARRUSEL   */
