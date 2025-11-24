@@ -4,7 +4,359 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nuestros Idiomas - EIE-UNCÍA</title>
+    <!-- Agrega esto en el head, después del meta viewport -->
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"
+    ></script>
     <style>
+      /* ========== SISTEMAS THREE.JS - ESTILOS MEJORADOS ========== */
+      #threejs-particles,
+      #threejs-cursor,
+      #threejs-waves {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1; /* Partículas y ondas detrás del contenido */
+      }
+
+      #threejs-cursor {
+        z-index: 9999; /* Cursor siempre arriba */
+      }
+
+      /* Asegurar que el contenido esté por encima */
+      .section-container,
+      .hero-content-wrapper,
+      .nav-links,
+      footer {
+        position: relative;
+        z-index: 2;
+      }
+      /* ==================== MASCOTA BANDERA INTELIGENTE - CORREGIDO ==================== */
+      .flag-companion {
+        position: fixed;
+        z-index: 9999;
+        pointer-events: auto;
+        filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.4));
+        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        opacity: 0.95 !important; /* Forzar visibilidad */
+        display: block !important; /* Asegurar que se muestre */
+      }
+
+      .flag-companion model-viewer {
+        background: transparent !important;
+        --progress-bar-color: transparent;
+        --poster-color: transparent;
+        transition: all 0.6s ease;
+      }
+
+      /* Estados de posición - CORREGIDOS */
+      .flag-left {
+        left: 30px !important;
+        transform: translateX(0) scale(1) !important;
+      }
+
+      .flag-right {
+        right: 30px !important;
+        transform: translateX(0) scale(1) !important;
+      }
+
+      .flag-center {
+        left: 50% !important;
+        transform: translateX(-50%) scale(1.1) !important;
+      }
+
+      /* Tamaños para diferentes secciones - CORREGIDOS */
+      .flag-small {
+        width: 150px !important;
+        height: 100px !important;
+        bottom: 120px !important;
+      }
+
+      .flag-medium {
+        width: 200px !important;
+        height: 130px !important;
+        bottom: 100px !important;
+      }
+
+      .flag-large {
+        width: 250px !important;
+        height: 160px !important;
+        bottom: 80px !important;
+      }
+
+      /* Animaciones - CORREGIDAS */
+      @keyframes flagFloat {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(-1deg);
+        }
+        50% {
+          transform: translateY(-10px) rotate(1deg);
+        }
+      }
+
+      @keyframes flagWave {
+        0%,
+        100% {
+          transform: rotate(-3deg);
+        }
+        50% {
+          transform: rotate(3deg);
+        }
+      }
+
+      .flag-floating {
+        animation: flagFloat 3s ease-in-out infinite !important;
+      }
+
+      .flag-waving {
+        animation: flagWave 2s ease-in-out infinite !important;
+      }
+
+      /* Burbujas de mensaje - CORREGIDAS */
+      .flag-message {
+        position: absolute;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        padding: 12px 18px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9em;
+        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease;
+        white-space: nowrap;
+        pointer-events: none;
+        z-index: 10000;
+      }
+
+      .flag-message.show {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+      }
+
+      .flag-message-top {
+        bottom: 100%;
+        margin-bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      /* Efectos de interacción */
+      .flag-companion:hover {
+        filter: drop-shadow(0 20px 45px rgba(255, 215, 0, 0.5)) !important;
+        transform: scale(1.05) !important;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .flag-companion {
+          display: none !important;
+        }
+      }
+      /* ==================== MASCOTA BANDERA INTELIGENTE - CORREGIDO ==================== */
+      .flag-companion {
+        position: fixed;
+        z-index: 9999;
+        pointer-events: auto;
+        filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.4));
+        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        opacity: 0.95 !important; /* Forzar visibilidad */
+        display: block !important; /* Asegurar que se muestre */
+      }
+
+      .flag-companion model-viewer {
+        background: transparent !important;
+        --progress-bar-color: transparent;
+        --poster-color: transparent;
+        transition: all 0.6s ease;
+      }
+
+      /* Estados de posición - CORREGIDOS */
+      .flag-left {
+        left: 30px !important;
+        transform: translateX(0) scale(1) !important;
+      }
+
+      .flag-right {
+        right: 30px !important;
+        transform: translateX(0) scale(1) !important;
+      }
+
+      .flag-center {
+        left: 50% !important;
+        transform: translateX(-50%) scale(1.1) !important;
+      }
+
+      /* Tamaños para diferentes secciones - CORREGIDOS */
+      .flag-small {
+        width: 150px !important;
+        height: 100px !important;
+        bottom: 120px !important;
+      }
+
+      .flag-medium {
+        width: 200px !important;
+        height: 130px !important;
+        bottom: 100px !important;
+      }
+
+      .flag-large {
+        width: 250px !important;
+        height: 160px !important;
+        bottom: 80px !important;
+      }
+
+      /* Animaciones - CORREGIDAS */
+      @keyframes flagFloat {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(-1deg);
+        }
+        50% {
+          transform: translateY(-10px) rotate(1deg);
+        }
+      }
+
+      @keyframes flagWave {
+        0%,
+        100% {
+          transform: rotate(-3deg);
+        }
+        50% {
+          transform: rotate(3deg);
+        }
+      }
+
+      .flag-floating {
+        animation: flagFloat 3s ease-in-out infinite !important;
+      }
+
+      .flag-waving {
+        animation: flagWave 2s ease-in-out infinite !important;
+      }
+
+      /* Burbujas de mensaje - CORREGIDAS */
+      .flag-message {
+        position: absolute;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        padding: 12px 18px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9em;
+        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease;
+        white-space: nowrap;
+        pointer-events: none;
+        z-index: 10000;
+      }
+
+      .flag-message.show {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+      }
+
+      .flag-message-top {
+        bottom: 100%;
+        margin-bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      /* Efectos de interacción */
+      .flag-companion:hover {
+        filter: drop-shadow(0 20px 45px rgba(255, 215, 0, 0.5)) !important;
+        transform: scale(1.05) !important;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .flag-companion {
+          display: none !important;
+        }
+      }
+      /* ==================== ESTILOS PARA MODELO 3D EN IDIOMAS ==================== */
+      .hero-content-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+      }
+
+      .hero-text-content {
+        flex: 1;
+        text-align: center;
+      }
+
+      .model-3d-container {
+        position: absolute;
+        right: 1000px; /* 20px desde el borde derecho */
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2;
+      }
+
+      .model-3d-container model-viewer {
+        width: 480px !important; /* Compacto */
+        height: 480px !important; /* Compacto */
+      }
+
+      /* Ajustes responsivos */
+      @media (max-width: 968px) {
+        .hero-content-wrapper {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .model-3d-container {
+          position: relative;
+          right: auto;
+          top: auto;
+          transform: none;
+          margin: 30px auto 0;
+        }
+
+        .model-3d-container model-viewer {
+          width: 200px !important;
+          height: 200px !important;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .model-3d-container {
+          display: none;
+        }
+      }
+
+      /* Estilos para el botón AR */
+      #ar-button {
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 8px;
+        font-size: 0.8em;
+      }
+
+      #ar-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+      }
       * {
         margin: 0;
         padding: 0;
@@ -103,7 +455,7 @@
             rgba(20, 30, 70, 0.85),
             rgba(74, 95, 217, 0.75)
           ),
-          url("img/frontis.jpg") no-repeat center center/cover;
+          url("img/idiomas.jpg") no-repeat center center/cover;
         padding: 310px 8% 310px;
         text-align: center;
         color: #fff;
@@ -897,14 +1249,72 @@
         <a href="index.html" class="btn-volver">← Volver al Inicio</a>
       </div>
     </header>
+    <!-- ========== SISTEMAS THREE.JS ========== -->
+    <!-- Partículas Doradas -->
+    <div id="threejs-particles"></div>
+
+    <!-- Cursor 3D con Estela -->
+    <div id="threejs-cursor"></div>
+
+    <!-- Ondas 3D (Opcional) -->
+    <div id="threejs-waves"></div>
+
+    <!-- ========== MASCOTA BANDERA INTELIGENTE ========== -->
+    <div
+      id="flagCompanion"
+      class="flag-companion flag-left flag-medium flag-floating"
+    >
+      <model-viewer
+        id="flagModel"
+        src="https://milanesadev.github.io/models3Dof/eggbert-owl.glb"
+        auto-rotate
+        auto-rotate-delay="0"
+        rotation-per-second="20deg"
+        camera-orbit="0deg 75deg 105%"
+        style="width: 200px; height: 130px; background: transparent"
+        camera-controls="false"
+        interaction-prompt="none"
+        ar-modes="none"
+        shadow-intensity="1.5"
+        exposure="1.4"
+        disable-zoom
+      >
+      </model-viewer>
+      <div id="flagMessage" class="flag-message flag-message-top"></div>
+    </div>
 
     <!-- ========== HERO ========== -->
     <section class="page-hero">
-      <h1>Nuestros Idiomas</h1>
-      <p>
-        9 idiomas disponibles para expandir tus horizontes profesionales y
-        culturales
-      </p>
+      <div class="hero-content-wrapper">
+        <div class="hero-text-content">
+          <h1>Nuestros Idiomas</h1>
+          <p>
+            9 idiomas disponibles para expandir tus horizontes profesionales y
+            culturales
+          </p>
+        </div>
+
+        <!-- Modelo 3D de Banderas -->
+        <div class="model-3d-container">
+          <model-viewer
+            src="https://milanesadev.github.io/models3Dof/flags.glb"
+            ar
+            ar-modes="webxr scene-viewer quick-look"
+            tone-mapping="neutral"
+            shadow-intensity="1"
+            auto-rotate
+            auto-rotate-delay="0"
+            rotation-per-second="50deg"
+            camera-orbit="0deg 75deg 105%"
+            style="width: 250px; height: 250px; background: transparent"
+          >
+            <div class="progress-bar hide" slot="progress-bar">
+              <div class="update-bar"></div>
+            </div>
+            <button slot="ar-button" id="ar-button">Ver en AR</button>
+          </model-viewer>
+        </div>
+      </div>
     </section>
 
     <!-- ========== BREADCRUMB ========== -->
@@ -936,7 +1346,7 @@
             <div class="idioma-imagen">
               <div class="idioma-flag">🇬🇧</div>
               <div class="idioma-badge">PRESENCIAL</div>
-              <img src="img/frontis.jpg" alt="Inglés" />
+              <img src="img/ingles.png" alt="Inglés" />
             </div>
             <div class="idioma-content">
               <h3>Inglés</h3>
@@ -964,7 +1374,7 @@
             <div class="idioma-imagen">
               <div class="idioma-flag">🇰🇷</div>
               <div class="idioma-badge">PRESENCIAL</div>
-              <img src="img/EIE.jpg" alt="Coreano" />
+              <img src="img/coreano.png" alt="Coreano" />
             </div>
             <div class="idioma-content">
               <h3>Coreano</h3>
@@ -991,7 +1401,7 @@
             <div class="idioma-imagen">
               <div class="idioma-flag">🏔️</div>
               <div class="idioma-badge">PRESENCIAL</div>
-              <img src="img/EIE_UNCIA.jpg" alt="Quechua" />
+              <img src="img/quechua.jpg" alt="Quechua" />
             </div>
             <div class="idioma-content">
               <h3>Quechua</h3>
@@ -1019,7 +1429,7 @@
             <div class="idioma-imagen">
               <div class="idioma-flag">🇫🇷</div>
               <div class="idioma-badge">VIRTUAL</div>
-              <img src="img/frontis.jpg" alt="Francés" />
+              <img src="img/frances.jpg" alt="Francés" />
             </div>
             <div class="idioma-content">
               <h3>Francés</h3>
@@ -1047,7 +1457,7 @@
             <div class="idioma-imagen">
               <div class="idioma-flag">🇵🇹</div>
               <div class="idioma-badge">VIRTUAL</div>
-              <img src="img/EIE.jpg" alt="Portugués" />
+              <img src="img/portugues.jpg" alt="Portugués" />
             </div>
             <div class="idioma-content">
               <h3>Portugués</h3>
@@ -1075,7 +1485,7 @@
             <div class="idioma-imagen">
               <div class="idioma-flag">🇨🇳</div>
               <div class="idioma-badge">VIRTUAL</div>
-              <img src="img/EIE_UNCIA.jpg" alt="Chino" />
+              <img src="img/chino.jpg" alt="Chino" />
             </div>
             <div class="idioma-content">
               <h3>Chino Mandarín</h3>
@@ -1103,7 +1513,7 @@
             <div class="idioma-imagen">
               <div class="idioma-flag">🇩🇪</div>
               <div class="idioma-badge">VIRTUAL</div>
-              <img src="img/frontis.jpg" alt="Alemán" />
+              <img src="img/aleman.jpg" alt="Alemán" />
             </div>
             <div class="idioma-content">
               <h3>Alemán</h3>
@@ -1131,7 +1541,7 @@
             <div class="idioma-imagen">
               <div class="idioma-flag">🇮🇹</div>
               <div class="idioma-badge">VIRTUAL</div>
-              <img src="img/EIE.jpg" alt="Italiano" />
+              <img src="img/italiano.jpg" alt="Italiano" />
             </div>
             <div class="idioma-content">
               <h3>Italiano</h3>
@@ -1159,7 +1569,7 @@
             <div class="idioma-imagen">
               <div class="idioma-flag">🇯🇵</div>
               <div class="idioma-badge">VIRTUAL</div>
-              <img src="img/EIE_UNCIA.jpg" alt="Japonés" />
+              <img src="img/japones.png" alt="Japonés" />
             </div>
             <div class="idioma-content">
               <h3>Japonés</h3>
@@ -1200,7 +1610,7 @@
           <!-- Inglés Presencial -->
           <div class="presencial-card">
             <div class="presencial-header">
-              <img src="img/frontis.jpg" alt="Inglés Presencial" />
+              <img src="img/ingles.png" alt="Inglés Presencial" />
               <div class="presencial-overlay">
                 <div class="flag">🇬🇧</div>
                 <h3>Inglés</h3>
@@ -1251,7 +1661,7 @@
           <!-- Coreano Presencial -->
           <div class="presencial-card">
             <div class="presencial-header">
-              <img src="img/EIE.jpg" alt="Coreano Presencial" />
+              <img src="img/coreano.png" alt="Coreano Presencial" />
               <div class="presencial-overlay">
                 <div class="flag">🇰🇷</div>
                 <h3>Coreano</h3>
@@ -1302,7 +1712,7 @@
           <!-- Quechua Presencial -->
           <div class="presencial-card">
             <div class="presencial-header">
-              <img src="img/EIE_UNCIA.jpg" alt="Quechua Presencial" />
+              <img src="img/quechua.jpg" alt="Quechua Presencial" />
               <div class="presencial-overlay">
                 <div class="flag">🏔️</div>
                 <h3>Quechua</h3>
@@ -1370,7 +1780,7 @@
             <div class="virtual-imagen">
               <div class="virtual-tag">100% ONLINE</div>
               <div class="virtual-flag">🇫🇷</div>
-              <img src="img/frontis.jpg" alt="Francés Virtual" />
+              <img src="img/frances.jpg" alt="Francés Virtual" />
             </div>
             <div class="virtual-content">
               <h3>Francés</h3>
@@ -1393,7 +1803,7 @@
             <div class="virtual-imagen">
               <div class="virtual-tag">100% ONLINE</div>
               <div class="virtual-flag">🇵🇹</div>
-              <img src="img/EIE.jpg" alt="Portugués Virtual" />
+              <img src="img/portugues.jpg" alt="Portugués Virtual" />
             </div>
             <div class="virtual-content">
               <h3>Portugués</h3>
@@ -1416,7 +1826,7 @@
             <div class="virtual-imagen">
               <div class="virtual-tag">100% ONLINE</div>
               <div class="virtual-flag">🇨🇳</div>
-              <img src="img/EIE_UNCIA.jpg" alt="Chino Virtual" />
+              <img src="img/chino.jpg" alt="Chino Virtual" />
             </div>
             <div class="virtual-content">
               <h3>Chino Mandarín</h3>
@@ -1439,7 +1849,7 @@
             <div class="virtual-imagen">
               <div class="virtual-tag">100% ONLINE</div>
               <div class="virtual-flag">🇩🇪</div>
-              <img src="img/frontis.jpg" alt="Alemán Virtual" />
+              <img src="img/aleman.jpg" alt="Alemán Virtual" />
             </div>
             <div class="virtual-content">
               <h3>Alemán</h3>
@@ -1462,7 +1872,7 @@
             <div class="virtual-imagen">
               <div class="virtual-tag">100% ONLINE</div>
               <div class="virtual-flag">🇮🇹</div>
-              <img src="img/EIE.jpg" alt="Italiano Virtual" />
+              <img src="img/italiano.jpg" alt="Italiano Virtual" />
             </div>
             <div class="virtual-content">
               <h3>Italiano</h3>
@@ -1485,7 +1895,7 @@
             <div class="virtual-imagen">
               <div class="virtual-tag">100% ONLINE</div>
               <div class="virtual-flag">🇯🇵</div>
-              <img src="img/EIE_UNCIA.jpg" alt="Japonés Virtual" />
+              <img src="img/japones.png" alt="Japonés Virtual" />
             </div>
             <div class="virtual-content">
               <h3>Japonés</h3>
@@ -1829,6 +2239,633 @@
           hero.style.transform = `translateY(${scrolled * 0.5}px)`;
         }
       });
+      // ========== ROTACIÓN DEL MODELO 3D DE BANDERAS ==========
+      document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(() => {
+          const modelViewer = document.querySelector("model-viewer");
+          if (modelViewer) {
+            // Rotación automática
+            modelViewer.autoRotate = true;
+            modelViewer.autoRotateDelay = 0;
+
+            // Configurar rotación
+            try {
+              modelViewer.setAttribute("rotation-per-second", "50deg");
+            } catch (e) {
+              console.log("Rotación configurada para modelo de banderas");
+            }
+          }
+        }, 500);
+      });
+      // ========== MASCOTA BANDERA INTELIGENTE ==========
+      document.addEventListener("DOMContentLoaded", function () {
+        const flagCompanion = document.getElementById("flagCompanion");
+        const flagModel = document.getElementById("flagModel");
+        const flagMessage = document.getElementById("flagMessage");
+
+        // Configuración de secciones y comportamientos
+        const sectionConfig = {
+          todos: {
+            position: "flag-left",
+            size: "flag-medium",
+            message: "🌍 ¡9 idiomas disponibles! Elige tu favorito",
+            animation: "flag-floating",
+          },
+          presenciales: {
+            position: "flag-right",
+            size: "flag-large",
+            message: "📍 Clases presenciales con tecnología de punta",
+            animation: "flag-waving",
+          },
+          virtuales: {
+            position: "flag-left",
+            size: "flag-small",
+            message: "💻 Aprende desde cualquier lugar del mundo",
+            animation: "flag-floating",
+          },
+          certificaciones: {
+            position: "flag-center",
+            size: "flag-large",
+            message: "🏆 Certificaciones internacionales reconocidas",
+            animation: "flag-waving",
+          },
+        };
+
+        // Mensajes aleatorios para cada sección
+        const randomMessages = {
+          todos: [
+            "🌍 ¡Habla con el mundo! 9 idiomas te esperan",
+            "🎯 ¿Cuál idioma quieres dominar?",
+            "🚀 Amplía tus oportunidades profesionales",
+          ],
+          presenciales: [
+            "📍 Aprende en nuestras modernas instalaciones",
+            "👥 Grupos reducidos para mejor aprendizaje",
+            "💫 Experiencia educativa de primera calidad",
+          ],
+          virtuales: [
+            "💻 Flexibilidad total desde tu hogar",
+            "📱 Plataforma interactiva 24/7",
+            "🌐 Conecta con estudiantes de todo el mundo",
+          ],
+          certificaciones: [
+            "🏆 Certificaciones con validez internacional",
+            "⭐ Prepara tu futuro global",
+            "🎓 Reconocimiento mundial garantizado",
+          ],
+        };
+
+        let currentSection = "";
+        let messageTimeout;
+
+        // Detectar sección actual y actualizar bandera
+        function updateFlagPosition() {
+          const sections = document.querySelectorAll("section[id]");
+          const scrollY = window.scrollY + 200; // Offset para detección temprana
+
+          let newSection = "";
+
+          sections.forEach((section) => {
+            const rect = section.getBoundingClientRect();
+            const sectionTop = rect.top + window.scrollY;
+            const sectionBottom = sectionTop + rect.height;
+
+            if (scrollY >= sectionTop && scrollY < sectionBottom) {
+              newSection = section.id;
+            }
+          });
+
+          // Si cambió la sección, actualizar bandera
+          if (
+            newSection &&
+            newSection !== currentSection &&
+            sectionConfig[newSection]
+          ) {
+            currentSection = newSection;
+            const config = sectionConfig[newSection];
+
+            // Remover clases anteriores
+            flagCompanion.className = "flag-companion";
+
+            // Aplicar nuevas clases con delay para transición suave
+            setTimeout(() => {
+              flagCompanion.classList.add(
+                config.position,
+                config.size,
+                config.animation
+              );
+            }, 100);
+
+            // Mostrar mensaje
+            showRandomMessage(newSection);
+
+            // Cambiar modelo ocasionalmente (simulando cambio de bandera)
+            if (Math.random() > 0.7) {
+              toggleFlagModel();
+            }
+          }
+        }
+
+        // Mostrar mensaje aleatorio
+        function showRandomMessage(section) {
+          const messages = randomMessages[section];
+          const randomMessage =
+            messages[Math.floor(Math.random() * messages.length)];
+
+          // Limpiar timeout anterior
+          if (messageTimeout) clearTimeout(messageTimeout);
+
+          // Ocultar mensaje actual
+          flagMessage.classList.remove("show");
+
+          // Mostrar nuevo mensaje después de delay
+          setTimeout(() => {
+            flagMessage.textContent = randomMessage;
+            flagMessage.classList.add("show");
+
+            // Ocultar mensaje después de 4 segundos
+            messageTimeout = setTimeout(() => {
+              flagMessage.classList.remove("show");
+            }, 4000);
+          }, 500);
+        }
+
+        // Alternar entre modelos de bandera
+        function toggleFlagModel() {
+          const currentSrc = flagModel.getAttribute("src");
+          const newSrc = currentSrc.includes("EU.glb")
+            ? "https://milanesadev.github.io/models3Dof/eggbert-owl.glb"
+            : "https://milanesadev.github.io/models3Dof/eggbert-owl.glb";
+
+          flagModel.setAttribute("src", newSrc);
+
+          // Efecto visual al cambiar
+          flagCompanion.style.filter =
+            "drop-shadow(0 0 30px rgba(255, 215, 0, 0.8))";
+          setTimeout(() => {
+            flagCompanion.style.filter =
+              "drop-shadow(0 15px 35px rgba(0, 0, 0, 0.4))";
+          }, 1000);
+        }
+
+        // Efectos de interacción
+        flagCompanion.style.pointerEvents = "auto";
+
+        flagCompanion.addEventListener("click", function () {
+          // Efecto especial al hacer click
+          flagCompanion.style.animation = "none";
+          void flagCompanion.offsetWidth; // Trigger reflow
+          flagCompanion.style.animation = "flagWave 0.5s ease-in-out";
+
+          // Mensaje especial al click
+          const specialMessages = [
+            "¡Hola! 👋 Soy tu guía de idiomas",
+            "¿Necesitas ayuda? 🎯",
+            "¡Vamos a aprender juntos! 📚",
+            "El mundo te espera 🌎",
+          ];
+          const specialMessage =
+            specialMessages[Math.floor(Math.random() * specialMessages.length)];
+
+          showCustomMessage(specialMessage);
+        });
+
+        function showCustomMessage(message) {
+          flagMessage.textContent = message;
+          flagMessage.classList.add("show");
+
+          if (messageTimeout) clearTimeout(messageTimeout);
+          messageTimeout = setTimeout(() => {
+            flagMessage.classList.remove("show");
+          }, 3000);
+        }
+
+        // Efectos de scroll suaves
+        let scrollTimeout;
+        window.addEventListener("scroll", function () {
+          // Actualizar posición
+          updateFlagPosition();
+
+          // Efecto de "respiración" al hacer scroll
+          flagCompanion.style.transform += " scale(1.02)";
+
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => {
+            flagCompanion.style.transform =
+              flagCompanion.style.transform.replace(" scale(1.02)", "");
+          }, 200);
+        });
+
+        // Inicializar
+        setTimeout(() => {
+          updateFlagPosition();
+          showCustomMessage("¡Bienvenido a nuestros idiomas! 🎉");
+        }, 1000);
+      });
+      // ========== SISTEMA DE PARTÍCULAS DORADAS ==========
+      function initParticles(config = {}) {
+        const container = document.getElementById("threejs-particles");
+        if (!container) return;
+
+        // Configuración personalizable
+        const defaults = {
+          particleCount: 150,
+          colors: [0xffd700, 0xffa500, 0xffec8b], // Dorados
+          size: 0.1,
+          speed: 0.05,
+          area: 20,
+        };
+
+        const settings = { ...defaults, ...config };
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        );
+        const renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true,
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        camera.position.z = 5;
+
+        // Crear partículas
+        const particlesGeometry = new THREE.BufferGeometry();
+        const posArray = new Float32Array(settings.particleCount * 3);
+        const colorsArray = new Float32Array(settings.particleCount * 3);
+        const sizesArray = new Float32Array(settings.particleCount);
+
+        for (let i = 0; i < settings.particleCount * 3; i += 3) {
+          posArray[i] = (Math.random() - 0.5) * settings.area;
+          posArray[i + 1] = (Math.random() - 0.5) * settings.area;
+          posArray[i + 2] = (Math.random() - 0.5) * (settings.area / 2);
+
+          sizesArray[i / 3] = Math.random() * settings.size + settings.size / 2;
+
+          const colorIndex = Math.floor(Math.random() * settings.colors.length);
+          const color = new THREE.Color(settings.colors[colorIndex]);
+
+          colorsArray[i] = color.r;
+          colorsArray[i + 1] = color.g;
+          colorsArray[i + 2] = color.b;
+        }
+
+        particlesGeometry.setAttribute(
+          "position",
+          new THREE.BufferAttribute(posArray, 3)
+        );
+        particlesGeometry.setAttribute(
+          "color",
+          new THREE.BufferAttribute(colorsArray, 3)
+        );
+        particlesGeometry.setAttribute(
+          "size",
+          new THREE.BufferAttribute(sizesArray, 1)
+        );
+
+        const particlesMaterial = new THREE.PointsMaterial({
+          size: settings.size,
+          vertexColors: true,
+          transparent: true,
+          opacity: 0.8,
+          blending: THREE.AdditiveBlending,
+          sizeAttenuation: true,
+        });
+
+        const particlesMesh = new THREE.Points(
+          particlesGeometry,
+          particlesMaterial
+        );
+        scene.add(particlesMesh);
+
+        // Animación mejorada
+        const clock = new THREE.Clock();
+
+        function animate() {
+          const elapsedTime = clock.getElapsedTime();
+
+          particlesMesh.rotation.y = elapsedTime * settings.speed;
+          particlesMesh.rotation.x = elapsedTime * (settings.speed * 0.6);
+
+          const positions = particlesMesh.geometry.attributes.position.array;
+          for (let i = 0; i < settings.particleCount * 3; i += 3) {
+            const i3 = i / 3;
+            positions[i + 1] += Math.sin(elapsedTime + i3) * 0.002;
+            positions[i] += Math.cos(elapsedTime + i3) * 0.001;
+
+            // Rebote suave en los bordes
+            if (Math.abs(positions[i + 1]) > settings.area / 2)
+              positions[i + 1] *= -0.99;
+            if (Math.abs(positions[i]) > settings.area / 2)
+              positions[i] *= -0.99;
+          }
+          particlesMesh.geometry.attributes.position.needsUpdate = true;
+
+          renderer.render(scene, camera);
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Responsive mejorado
+        function handleResize() {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener("resize", handleResize);
+
+        // Limpiar recursos
+        return () => {
+          window.removeEventListener("resize", handleResize);
+          renderer.dispose();
+          particlesGeometry.dispose();
+          particlesMaterial.dispose();
+          container.removeChild(renderer.domElement);
+        };
+      }
+
+      // ========== SISTEMA DE CURSOR 3D CON ESTELA ==========
+      function initCursor3D(config = {}) {
+        const container = document.getElementById("threejs-cursor");
+        if (!container) return;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          100
+        );
+        const renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true,
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+        camera.position.z = 5;
+
+        // Configuración personalizable
+        const defaults = {
+          cursorColor: 0xffd700,
+          trailColor: 0xffd700,
+          cursorSize: 0.1,
+          trailSize: 0.05,
+          trailLength: 15,
+          smoothness: 0.1,
+        };
+
+        const settings = { ...defaults, ...config };
+
+        // Sistema de estela/rastro
+        const trailParticles = [];
+        const trailGeometry = new THREE.BufferGeometry();
+        const trailMaterial = new THREE.PointsMaterial({
+          size: settings.trailSize,
+          color: settings.trailColor,
+          transparent: true,
+          opacity: 0.7,
+          blending: THREE.AdditiveBlending,
+          sizeAttenuation: true,
+        });
+
+        const trailMesh = new THREE.Points(trailGeometry, trailMaterial);
+        scene.add(trailMesh);
+
+        // Cursor principal
+        const cursor = new THREE.Mesh(
+          new THREE.SphereGeometry(settings.cursorSize, 16, 16),
+          new THREE.MeshBasicMaterial({
+            color: settings.cursorColor,
+            transparent: true,
+            opacity: 0.9,
+          })
+        );
+        scene.add(cursor);
+
+        // Calibración mejorada
+        const CALIBRATION = {
+          multiplierX: 8,
+          multiplierY: -3.9,
+          offsetX: 0,
+          offsetY: 0,
+          smoothness: settings.smoothness,
+        };
+
+        const mouse = { x: 0, y: 0 };
+        const target = { x: 0, y: 0 };
+
+        document.addEventListener("mousemove", (event) => {
+          target.x = (event.clientX / window.innerWidth) * 2 - 1;
+          target.y = (event.clientY / window.innerHeight) * 2 - 1;
+        });
+
+        // Efectos de click mejorados
+        document.addEventListener("click", (event) => {
+          createClickWave(mouse.x, mouse.y);
+        });
+
+        function createClickWave(x, y) {
+          const waveGeometry = new THREE.RingGeometry(0.08, 0.2, 20);
+          const waveMaterial = new THREE.MeshBasicMaterial({
+            color: 0xffa500,
+            transparent: true,
+            opacity: 0.8,
+            side: THREE.DoubleSide,
+          });
+
+          const waveMesh = new THREE.Mesh(waveGeometry, waveMaterial);
+          waveMesh.position.set(
+            x * CALIBRATION.multiplierX,
+            y * CALIBRATION.multiplierY,
+            0
+          );
+          scene.add(waveMesh);
+
+          let scale = 1;
+          let opacity = 0.8;
+
+          function animateWave() {
+            scale += 0.3;
+            opacity -= 0.04;
+
+            waveMesh.scale.set(scale, scale, 1);
+            waveMaterial.opacity = opacity;
+
+            if (opacity > 0) {
+              requestAnimationFrame(animateWave);
+            } else {
+              scene.remove(waveMesh);
+              waveGeometry.dispose();
+              waveMaterial.dispose();
+            }
+          }
+          animateWave();
+        }
+
+        // Sistema de estela mejorado
+        function updateTrail() {
+          const positions = [];
+
+          trailParticles.push({
+            x: mouse.x * CALIBRATION.multiplierX,
+            y: mouse.y * CALIBRATION.multiplierY,
+            life: 1.0,
+          });
+
+          if (trailParticles.length > settings.trailLength) {
+            trailParticles.shift();
+          }
+
+          trailParticles.forEach((particle, index) => {
+            particle.life -= 0.07;
+
+            if (particle.life > 0) {
+              positions.push(particle.x, particle.y, 0);
+              trailMaterial.opacity = particle.life * 0.7;
+            }
+          });
+
+          if (positions.length > 0) {
+            trailGeometry.setAttribute(
+              "position",
+              new THREE.Float32BufferAttribute(positions, 3)
+            );
+          }
+
+          while (trailParticles.length > 0 && trailParticles[0].life <= 0) {
+            trailParticles.shift();
+          }
+        }
+
+        // Animación principal
+        function animate() {
+          mouse.x += (target.x - mouse.x) * CALIBRATION.smoothness;
+          mouse.y += (target.y - mouse.y) * CALIBRATION.smoothness;
+
+          cursor.position.x =
+            mouse.x * CALIBRATION.multiplierX + CALIBRATION.offsetX;
+          cursor.position.y =
+            mouse.y * CALIBRATION.multiplierY + CALIBRATION.offsetY;
+
+          updateTrail();
+
+          const pulse =
+            Math.sin(Date.now() * 0.01) * 0.04 + settings.cursorSize;
+          cursor.scale.set(pulse, pulse, pulse);
+
+          renderer.render(scene, camera);
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        function handleResize() {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener("resize", handleResize);
+
+        // Limpiar recursos
+        return () => {
+          window.removeEventListener("resize", handleResize);
+          document.removeEventListener("mousemove");
+          document.removeEventListener("click");
+          renderer.dispose();
+          trailGeometry.dispose();
+          trailMaterial.dispose();
+          container.removeChild(renderer.domElement);
+        };
+      }
+
+      // ========== INICIALIZADOR GLOBAL MEJORADO ==========
+      class ThreeJSManager {
+        constructor() {
+          this.cleanupFunctions = [];
+          this.isInitialized = false;
+        }
+
+        init(options = {}) {
+          if (this.isInitialized) return;
+
+          // Cargar Three.js si no está disponible
+          if (typeof THREE === "undefined") {
+            this.loadThreeJS(() => this.initializeSystems(options));
+          } else {
+            this.initializeSystems(options);
+          }
+        }
+
+        loadThreeJS(callback) {
+          const script = document.createElement("script");
+          script.src =
+            "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+          script.onload = callback;
+          document.head.appendChild(script);
+        }
+
+        initializeSystems(options) {
+          const { particles = true, cursor = true, waves = false } = options;
+
+          if (particles) {
+            const cleanupParticles = initParticles(options.particlesConfig);
+            if (cleanupParticles) this.cleanupFunctions.push(cleanupParticles);
+          }
+
+          if (cursor) {
+            const cleanupCursor = initCursor3D(options.cursorConfig);
+            if (cleanupCursor) this.cleanupFunctions.push(cleanupCursor);
+          }
+
+          // (Opcional) Puedes agregar initWaves() aquí si lo necesitas
+
+          this.isInitialized = true;
+          console.log("✅ Sistemas Three.js inicializados");
+        }
+
+        destroy() {
+          this.cleanupFunctions.forEach((cleanup) => cleanup());
+          this.cleanupFunctions = [];
+          this.isInitialized = false;
+          console.log("🧹 Sistemas Three.js limpiados");
+        }
+      }
+
+      // ========== USO FÁCIL ==========
+      // Crear instancia global
+      const threeManager = new ThreeJSManager();
+
+      // Inicializar cuando la página cargue
+      window.addEventListener("DOMContentLoaded", () => {
+        threeManager.init({
+          particles: true,
+          cursor: true,
+          particlesConfig: {
+            particleCount: 200, // Más partículas
+            colors: [0xffd700, 0xffa500, 0xffffff], // Dorado + blanco
+            size: 0.08,
+          },
+          cursorConfig: {
+            cursorColor: 0x00ff00, // Cursor verde
+            trailColor: 0x00ff00, // Estela verde
+            cursorSize: 0.12,
+          },
+        });
+      });
+
+      // Para limpiar (si es necesario)
+      // threeManager.destroy();
     </script>
   </body>
 </html>

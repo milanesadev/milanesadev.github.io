@@ -17,6 +17,192 @@
         color: #333;
         background: #f5f7fa;
       }
+      /* ========== SISTEMAS THREE.JS - ESTILOS MEJORADOS ========== */
+      #threejs-particles,
+      #threejs-cursor,
+      #threejs-waves {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1; /* Partículas y ondas detrás del contenido */
+      }
+
+      #threejs-cursor {
+        z-index: 9999; /* Cursor siempre arriba */
+      }
+
+      /* Asegurar que el contenido esté por encima */
+      .section-container,
+      .hero-content-wrapper,
+      .nav-links,
+      footer {
+        position: relative;
+        z-index: 2;
+      }
+      /* ========== LIBRO 3D ANIMADO - MISMOS ESTILOS QUE BANDERA ========== */
+      .book-companion {
+        position: fixed;
+        z-index: 9998;
+        pointer-events: auto;
+        filter: drop-shadow(0 15px 35px rgba(139, 69, 19, 0.4));
+        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        opacity: 0.95 !important;
+        display: block !important;
+      }
+
+      .book-companion model-viewer {
+        background: transparent !important;
+        --progress-bar-color: transparent;
+        --poster-color: transparent;
+        transition: all 0.6s ease;
+      }
+
+      /* Posiciones */
+      .book-left {
+        left: 30px !important;
+        transform: translateX(0) scale(1) !important;
+      }
+
+      .book-right {
+        right: 30px !important;
+        transform: translateX(0) scale(1) !important;
+      }
+
+      .book-center {
+        left: 50% !important;
+        transform: translateX(-50%) scale(1.1) !important;
+      }
+
+      /* Tamaños */
+      .book-small {
+        width: 120px !important;
+        height: 90px !important;
+        bottom: 100px !important;
+      }
+
+      .book-medium {
+        width: 180px !important;
+        height: 130px !important;
+        bottom: 80px !important;
+      }
+
+      .book-large {
+        width: 220px !important;
+        height: 160px !important;
+        bottom: 60px !important;
+      }
+
+      /* Animaciones del libro */
+      @keyframes bookFloat {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(-2deg);
+        }
+        50% {
+          transform: translateY(-12px) rotate(2deg);
+        }
+      }
+
+      @keyframes bookOpen {
+        0%,
+        100% {
+          transform: scale(1) rotate(-1deg);
+        }
+        50% {
+          transform: scale(1.05) rotate(1deg);
+        }
+      }
+
+      @keyframes bookCelebrate {
+        0%,
+        100% {
+          transform: translateY(0px) scale(1);
+        }
+        25% {
+          transform: translateY(-15px) scale(1.1);
+        }
+        50% {
+          transform: translateY(0px) scale(1.05);
+        }
+        75% {
+          transform: translateY(-10px) scale(1.08);
+        }
+      }
+
+      @keyframes bookBounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-20px);
+        }
+        60% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .book-floating {
+        animation: bookFloat 4s ease-in-out infinite !important;
+      }
+
+      .book-open {
+        animation: bookOpen 3s ease-in-out infinite !important;
+      }
+
+      .book-celebrate {
+        animation: bookCelebrate 2s ease-in-out infinite !important;
+      }
+
+      /* Mensajes del libro */
+      .book-message {
+        position: absolute;
+        background: linear-gradient(135deg, #8b4513, #a0522d);
+        color: #fff8dc;
+        padding: 12px 18px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9em;
+        box-shadow: 0 8px 25px rgba(139, 69, 19, 0.3);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease;
+        white-space: nowrap;
+        pointer-events: none;
+        z-index: 10000;
+        border: 2px solid #deb887;
+      }
+
+      .book-message.show {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+      }
+
+      .book-message-top {
+        bottom: 100%;
+        margin-bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      /* Efectos de interacción */
+      .book-companion:hover {
+        filter: drop-shadow(0 20px 45px rgba(139, 69, 19, 0.6)) !important;
+        transform: scale(1.08) !important;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .book-companion {
+          display: none !important;
+        }
+      }
 
       /* ========== HEADER ========== */
       header {
@@ -103,7 +289,7 @@
             rgba(20, 30, 70, 0.85),
             rgba(74, 95, 217, 0.75)
           ),
-          url("img/frontis.jpg") no-repeat center center/cover;
+          url("img/instalacion.jpg") no-repeat center center/cover;
         padding: 320px 8% 320px;
         text-align: center;
         color: #fff;
@@ -913,6 +1099,15 @@
         <a href="index.html" class="btn-volver">← Volver al Inicio</a>
       </div>
     </header>
+    <!-- ========== SISTEMAS THREE.JS ========== -->
+    <!-- Partículas Doradas -->
+    <div id="threejs-particles"></div>
+
+    <!-- Cursor 3D con Estela -->
+    <div id="threejs-cursor"></div>
+
+    <!-- Ondas 3D (Opcional) -->
+    <div id="threejs-waves"></div>
 
     <!-- ========== HERO ========== -->
     <section class="page-hero">
@@ -959,7 +1154,7 @@
               </p>
             </div>
             <div class="timeline-image">
-              <img src="img/frontis.jpg" alt="Fundación 1993" />
+              <img src="img/instalacion.jpg" alt="Fundación 1993" />
             </div>
           </div>
 
@@ -976,7 +1171,7 @@
               </p>
             </div>
             <div class="timeline-image">
-              <img src="img/EIE.jpg" alt="Expansión 2000" />
+              <img src="img/everyone.jpg" alt="Expansión 2000" />
             </div>
           </div>
 
@@ -1009,7 +1204,7 @@
               </p>
             </div>
             <div class="timeline-image">
-              <img src="img/frontis.jpg" alt="Modernización 2018" />
+              <img src="img/front.jpg" alt="Modernización 2018" />
             </div>
           </div>
 
@@ -1026,7 +1221,7 @@
               </p>
             </div>
             <div class="timeline-image">
-              <img src="img/EIE.jpg" alt="Virtualización 2020" />
+              <img src="img/poster.jpg" alt="Virtualización 2020" />
             </div>
           </div>
 
@@ -1433,6 +1628,410 @@
           }
         });
       });
+      // ========== SISTEMA DE PARTÍCULAS DORADAS ==========
+      function initParticles(config = {}) {
+        const container = document.getElementById("threejs-particles");
+        if (!container) return;
+
+        // Configuración personalizable
+        const defaults = {
+          particleCount: 150,
+          colors: [0xffd700, 0xffa500, 0xffec8b], // Dorados
+          size: 0.1,
+          speed: 0.05,
+          area: 20,
+        };
+
+        const settings = { ...defaults, ...config };
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        );
+        const renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true,
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        camera.position.z = 5;
+
+        // Crear partículas
+        const particlesGeometry = new THREE.BufferGeometry();
+        const posArray = new Float32Array(settings.particleCount * 3);
+        const colorsArray = new Float32Array(settings.particleCount * 3);
+        const sizesArray = new Float32Array(settings.particleCount);
+
+        for (let i = 0; i < settings.particleCount * 3; i += 3) {
+          posArray[i] = (Math.random() - 0.5) * settings.area;
+          posArray[i + 1] = (Math.random() - 0.5) * settings.area;
+          posArray[i + 2] = (Math.random() - 0.5) * (settings.area / 2);
+
+          sizesArray[i / 3] = Math.random() * settings.size + settings.size / 2;
+
+          const colorIndex = Math.floor(Math.random() * settings.colors.length);
+          const color = new THREE.Color(settings.colors[colorIndex]);
+
+          colorsArray[i] = color.r;
+          colorsArray[i + 1] = color.g;
+          colorsArray[i + 2] = color.b;
+        }
+
+        particlesGeometry.setAttribute(
+          "position",
+          new THREE.BufferAttribute(posArray, 3)
+        );
+        particlesGeometry.setAttribute(
+          "color",
+          new THREE.BufferAttribute(colorsArray, 3)
+        );
+        particlesGeometry.setAttribute(
+          "size",
+          new THREE.BufferAttribute(sizesArray, 1)
+        );
+
+        const particlesMaterial = new THREE.PointsMaterial({
+          size: settings.size,
+          vertexColors: true,
+          transparent: true,
+          opacity: 0.8,
+          blending: THREE.AdditiveBlending,
+          sizeAttenuation: true,
+        });
+
+        const particlesMesh = new THREE.Points(
+          particlesGeometry,
+          particlesMaterial
+        );
+        scene.add(particlesMesh);
+
+        // Animación mejorada
+        const clock = new THREE.Clock();
+
+        function animate() {
+          const elapsedTime = clock.getElapsedTime();
+
+          particlesMesh.rotation.y = elapsedTime * settings.speed;
+          particlesMesh.rotation.x = elapsedTime * (settings.speed * 0.6);
+
+          const positions = particlesMesh.geometry.attributes.position.array;
+          for (let i = 0; i < settings.particleCount * 3; i += 3) {
+            const i3 = i / 3;
+            positions[i + 1] += Math.sin(elapsedTime + i3) * 0.002;
+            positions[i] += Math.cos(elapsedTime + i3) * 0.001;
+
+            // Rebote suave en los bordes
+            if (Math.abs(positions[i + 1]) > settings.area / 2)
+              positions[i + 1] *= -0.99;
+            if (Math.abs(positions[i]) > settings.area / 2)
+              positions[i] *= -0.99;
+          }
+          particlesMesh.geometry.attributes.position.needsUpdate = true;
+
+          renderer.render(scene, camera);
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Responsive mejorado
+        function handleResize() {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener("resize", handleResize);
+
+        // Limpiar recursos
+        return () => {
+          window.removeEventListener("resize", handleResize);
+          renderer.dispose();
+          particlesGeometry.dispose();
+          particlesMaterial.dispose();
+          container.removeChild(renderer.domElement);
+        };
+      }
+
+      // ========== SISTEMA DE CURSOR 3D CON ESTELA ==========
+      function initCursor3D(config = {}) {
+        const container = document.getElementById("threejs-cursor");
+        if (!container) return;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          100
+        );
+        const renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true,
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+        camera.position.z = 5;
+
+        // Configuración personalizable
+        const defaults = {
+          cursorColor: 0xffd700,
+          trailColor: 0xffd700,
+          cursorSize: 0.1,
+          trailSize: 0.05,
+          trailLength: 15,
+          smoothness: 0.1,
+        };
+
+        const settings = { ...defaults, ...config };
+
+        // Sistema de estela/rastro
+        const trailParticles = [];
+        const trailGeometry = new THREE.BufferGeometry();
+        const trailMaterial = new THREE.PointsMaterial({
+          size: settings.trailSize,
+          color: settings.trailColor,
+          transparent: true,
+          opacity: 0.7,
+          blending: THREE.AdditiveBlending,
+          sizeAttenuation: true,
+        });
+
+        const trailMesh = new THREE.Points(trailGeometry, trailMaterial);
+        scene.add(trailMesh);
+
+        // Cursor principal
+        const cursor = new THREE.Mesh(
+          new THREE.SphereGeometry(settings.cursorSize, 16, 16),
+          new THREE.MeshBasicMaterial({
+            color: settings.cursorColor,
+            transparent: true,
+            opacity: 0.9,
+          })
+        );
+        scene.add(cursor);
+
+        // Calibración mejorada
+        const CALIBRATION = {
+          multiplierX: 8,
+          multiplierY: -3.9,
+          offsetX: 0,
+          offsetY: 0,
+          smoothness: settings.smoothness,
+        };
+
+        const mouse = { x: 0, y: 0 };
+        const target = { x: 0, y: 0 };
+
+        document.addEventListener("mousemove", (event) => {
+          target.x = (event.clientX / window.innerWidth) * 2 - 1;
+          target.y = (event.clientY / window.innerHeight) * 2 - 1;
+        });
+
+        // Efectos de click mejorados
+        document.addEventListener("click", (event) => {
+          createClickWave(mouse.x, mouse.y);
+        });
+
+        function createClickWave(x, y) {
+          const waveGeometry = new THREE.RingGeometry(0.08, 0.2, 20);
+          const waveMaterial = new THREE.MeshBasicMaterial({
+            color: 0xffa500,
+            transparent: true,
+            opacity: 0.8,
+            side: THREE.DoubleSide,
+          });
+
+          const waveMesh = new THREE.Mesh(waveGeometry, waveMaterial);
+          waveMesh.position.set(
+            x * CALIBRATION.multiplierX,
+            y * CALIBRATION.multiplierY,
+            0
+          );
+          scene.add(waveMesh);
+
+          let scale = 1;
+          let opacity = 0.8;
+
+          function animateWave() {
+            scale += 0.3;
+            opacity -= 0.04;
+
+            waveMesh.scale.set(scale, scale, 1);
+            waveMaterial.opacity = opacity;
+
+            if (opacity > 0) {
+              requestAnimationFrame(animateWave);
+            } else {
+              scene.remove(waveMesh);
+              waveGeometry.dispose();
+              waveMaterial.dispose();
+            }
+          }
+          animateWave();
+        }
+
+        // Sistema de estela mejorado
+        function updateTrail() {
+          const positions = [];
+
+          trailParticles.push({
+            x: mouse.x * CALIBRATION.multiplierX,
+            y: mouse.y * CALIBRATION.multiplierY,
+            life: 1.0,
+          });
+
+          if (trailParticles.length > settings.trailLength) {
+            trailParticles.shift();
+          }
+
+          trailParticles.forEach((particle, index) => {
+            particle.life -= 0.07;
+
+            if (particle.life > 0) {
+              positions.push(particle.x, particle.y, 0);
+              trailMaterial.opacity = particle.life * 0.7;
+            }
+          });
+
+          if (positions.length > 0) {
+            trailGeometry.setAttribute(
+              "position",
+              new THREE.Float32BufferAttribute(positions, 3)
+            );
+          }
+
+          while (trailParticles.length > 0 && trailParticles[0].life <= 0) {
+            trailParticles.shift();
+          }
+        }
+
+        // Animación principal
+        function animate() {
+          mouse.x += (target.x - mouse.x) * CALIBRATION.smoothness;
+          mouse.y += (target.y - mouse.y) * CALIBRATION.smoothness;
+
+          cursor.position.x =
+            mouse.x * CALIBRATION.multiplierX + CALIBRATION.offsetX;
+          cursor.position.y =
+            mouse.y * CALIBRATION.multiplierY + CALIBRATION.offsetY;
+
+          updateTrail();
+
+          const pulse =
+            Math.sin(Date.now() * 0.01) * 0.04 + settings.cursorSize;
+          cursor.scale.set(pulse, pulse, pulse);
+
+          renderer.render(scene, camera);
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        function handleResize() {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener("resize", handleResize);
+
+        // Limpiar recursos
+        return () => {
+          window.removeEventListener("resize", handleResize);
+          document.removeEventListener("mousemove");
+          document.removeEventListener("click");
+          renderer.dispose();
+          trailGeometry.dispose();
+          trailMaterial.dispose();
+          container.removeChild(renderer.domElement);
+        };
+      }
+
+      // ========== INICIALIZADOR GLOBAL MEJORADO ==========
+      class ThreeJSManager {
+        constructor() {
+          this.cleanupFunctions = [];
+          this.isInitialized = false;
+        }
+
+        init(options = {}) {
+          if (this.isInitialized) return;
+
+          // Cargar Three.js si no está disponible
+          if (typeof THREE === "undefined") {
+            this.loadThreeJS(() => this.initializeSystems(options));
+          } else {
+            this.initializeSystems(options);
+          }
+        }
+
+        loadThreeJS(callback) {
+          const script = document.createElement("script");
+          script.src =
+            "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+          script.onload = callback;
+          document.head.appendChild(script);
+        }
+
+        initializeSystems(options) {
+          const { particles = true, cursor = true, waves = false } = options;
+
+          if (particles) {
+            const cleanupParticles = initParticles(options.particlesConfig);
+            if (cleanupParticles) this.cleanupFunctions.push(cleanupParticles);
+          }
+
+          if (cursor) {
+            const cleanupCursor = initCursor3D(options.cursorConfig);
+            if (cleanupCursor) this.cleanupFunctions.push(cleanupCursor);
+          }
+
+          // (Opcional) Puedes agregar initWaves() aquí si lo necesitas
+
+          this.isInitialized = true;
+          console.log("✅ Sistemas Three.js inicializados");
+        }
+
+        destroy() {
+          this.cleanupFunctions.forEach((cleanup) => cleanup());
+          this.cleanupFunctions = [];
+          this.isInitialized = false;
+          console.log("🧹 Sistemas Three.js limpiados");
+        }
+      }
+
+      // ========== USO FÁCIL ==========
+      // Crear instancia global
+      const threeManager = new ThreeJSManager();
+
+      // Inicializar cuando la página cargue
+      window.addEventListener("DOMContentLoaded", () => {
+        threeManager.init({
+          particles: true,
+          cursor: true,
+          particlesConfig: {
+            particleCount: 200, // Más partículas
+            colors: [0xffd700, 0xffa500, 0xffffff], // Dorado + blanco
+            size: 0.08,
+          },
+          cursorConfig: {
+            cursorColor: 0x00ff00, // Cursor verde
+            trailColor: 0x00ff00, // Estela verde
+            cursorSize: 0.12,
+          },
+        });
+      });
+
+      // Para limpiar (si es necesario)
+      // threeManager.destroy();
     </script>
   </body>
 </html>

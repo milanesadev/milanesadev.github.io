@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E.I.E. - Filial Uncia</title>
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"
+    ></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        overflow: hidden;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #0a0a2a;
+      }
+
+      #canvas {
+        display: block;
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      }
+
+      .home-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        transition: opacity 0.7s, transform 0.7s;
+      }
+
+      .home-screen.hidden {
+        opacity: 0;
+        transform: scale(0.9);
+        pointer-events: none;
+      }
+
+      .main-title {
+        position: fixed;
+        top: 32%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.9);
+        text-align: center;
+        opacity: 0;
+        animation: fadeInScale 1.2s ease-out 0.5s forwards;
+      }
+
+      @keyframes fadeInScale {
+        to {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+
+      .main-title h1 {
+        font-size: 4.5em;
+        font-weight: 700;
+        color: #ffd700;
+        text-shadow: 0 0 30px rgba(255, 215, 0, 0.9),
+          0 0 60px rgba(255, 215, 0, 0.6), 0 0 90px rgba(255, 215, 0, 0.3),
+          4px 4px 15px rgba(0, 0, 0, 0.9);
+        letter-spacing: 6px;
+        margin-bottom: 20px;
+        animation: glow 3s ease-in-out infinite;
+      }
+
+      @keyframes glow {
+        0%,
+        100% {
+          text-shadow: 0 0 30px rgba(255, 215, 0, 0.9),
+            0 0 60px rgba(255, 215, 0, 0.6), 0 0 90px rgba(255, 215, 0, 0.3),
+            4px 4px 15px rgba(0, 0, 0, 0.9);
+        }
+        50% {
+          text-shadow: 0 0 40px rgba(255, 215, 0, 1),
+            0 0 80px rgba(255, 215, 0, 0.8), 0 0 120px rgba(255, 215, 0, 0.5),
+            4px 4px 15px rgba(0, 0, 0, 0.9);
+        }
+      }
+
+      .main-title h2 {
+        font-size: 2em;
+        font-weight: 400;
+        color: #a0c4e0;
+        text-shadow: 0 0 20px rgba(160, 196, 224, 0.7),
+          0 0 40px rgba(160, 196, 224, 0.4), 3px 3px 10px rgba(0, 0, 0, 0.8);
+        letter-spacing: 4px;
+        margin-bottom: 30px;
+      }
+
+      .web-button {
+        background: rgba(255, 215, 0, 0.15);
+        border: 2px solid #ffd700;
+        color: #ffd700;
+        padding: 15px 40px;
+        font-size: 1.2em;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.4s;
+        font-weight: 600;
+        letter-spacing: 2px;
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+        display: inline-block;
+        text-decoration: none;
+      }
+
+      .web-button:hover {
+        background: rgba(255, 215, 0, 0.3);
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.7);
+        transform: scale(1.08);
+      }
+
+      .navigation-arrows {
+        position: fixed;
+        top: 50%;
+        width: 100%;
+        z-index: 25;
+        pointer-events: none;
+      }
+
+      .arrow {
+        position: absolute;
+        width: 90px;
+        height: 90px;
+        background: rgba(10, 10, 42, 0.85);
+        backdrop-filter: blur(12px);
+        border: 3px solid rgba(255, 215, 0, 0.7);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.4s;
+        pointer-events: all;
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.5),
+          inset 0 0 20px rgba(255, 215, 0, 0.1);
+        opacity: 0;
+        animation: fadeInScale 1.2s ease-out 1.8s forwards;
+      }
+
+      .arrow:hover {
+        transform: translateY(-50%) scale(1.2);
+        box-shadow: 0 0 50px rgba(255, 215, 0, 0.9),
+          inset 0 0 30px rgba(255, 215, 0, 0.2);
+        border-color: #ffd700;
+      }
+
+      .arrow.left {
+        left: 50px;
+        transform: translateY(-50%);
+      }
+
+      .arrow.right {
+        right: 50px;
+        transform: translateY(-50%);
+      }
+
+      .arrow svg {
+        width: 45px;
+        height: 45px;
+        fill: #ffd700;
+        filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.8));
+      }
+
+      .assistant-container {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) scale(0.9);
+        width: 90%;
+        max-width: 550px;
+        opacity: 0;
+        animation: fadeInScale 1.2s ease-out 2.2s forwards;
+        z-index: 15;
+      }
+
+      .hologram-panel {
+        background: rgba(10, 10, 42, 0.8);
+        backdrop-filter: blur(12px);
+        border: 2px solid rgba(255, 215, 0, 0.5);
+        border-radius: 15px;
+        padding: 18px;
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.25);
+      }
+
+      .message-area {
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 215, 0, 0.3);
+        border-radius: 10px;
+        padding: 12px;
+        min-height: 50px;
+      }
+
+      #assistant-message {
+        color: #ffffff;
+        font-size: 0.9em;
+        line-height: 1.5;
+      }
+
+      .typing-cursor {
+        display: inline-block;
+        width: 6px;
+        height: 14px;
+        background: #ffd700;
+        margin-left: 2px;
+        animation: blink 0.8s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        51%,
+        100% {
+          opacity: 0;
+        }
+      }
+
+      .card-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.7);
+        width: 90%;
+        max-width: 850px;
+        opacity: 0;
+        z-index: 20;
+        pointer-events: none;
+        transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+
+      .card-container.active {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        pointer-events: all;
+      }
+
+      .info-card {
+        background: rgba(10, 10, 42, 0.92);
+        backdrop-filter: blur(20px);
+        border: 3px solid rgba(255, 215, 0, 0.7);
+        border-radius: 25px;
+        padding: 45px;
+        box-shadow: 0 0 70px rgba(255, 215, 0, 0.5),
+          inset 0 0 50px rgba(255, 215, 0, 0.05);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card-glow {
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 215, 0, 0.1),
+          transparent
+        );
+        animation: cardShimmer 4s infinite;
+      }
+
+      @keyframes cardShimmer {
+        0% {
+          transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        }
+        100% {
+          transform: translateX(100%) translateY(100%) rotate(45deg);
+        }
+      }
+
+      .card-image-container {
+        width: 100%;
+        height: 320px;
+        margin-bottom: 35px;
+        perspective: 1200px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .rotating-image {
+        width: 300px;
+        height: 300px;
+        margin: 0 auto;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: rotate360 8s linear infinite;
+      }
+
+      @keyframes rotate360 {
+        from {
+          transform: rotateY(0deg);
+        }
+        to {
+          transform: rotateY(360deg);
+        }
+      }
+
+      .card-image {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          #ffd700 0%,
+          #ffa500 50%,
+          #ffd700 100%
+        );
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 25px 70px rgba(255, 215, 0, 0.5),
+          inset 0 0 40px rgba(0, 0, 0, 0.3);
+        border: 3px solid rgba(255, 215, 0, 0.9);
+        background-size: cover;
+        background-position: center;
+      }
+
+      .card-content {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+      }
+
+      .card-title {
+        font-size: 2.8em;
+        color: #ffd700;
+        text-shadow: 0 0 30px rgba(255, 215, 0, 0.9),
+          0 0 60px rgba(255, 215, 0, 0.5);
+        margin-bottom: 25px;
+        font-weight: 700;
+        letter-spacing: 3px;
+      }
+
+      .card-description {
+        color: #ffffff;
+        font-size: 1.25em;
+        line-height: 1.9;
+        text-shadow: 0 0 18px rgba(255, 255, 255, 0.4);
+        margin-bottom: 30px;
+      }
+
+      .back-button {
+        background: rgba(255, 215, 0, 0.2);
+        border: 2px solid #ffd700;
+        color: #ffd700;
+        padding: 14px 40px;
+        font-size: 1.15em;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 600;
+        letter-spacing: 2px;
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+      }
+
+      .back-button:hover {
+        background: rgba(255, 215, 0, 0.4);
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.7);
+        transform: scale(1.08);
+      }
+
+      /* Controles de audio */
+      .audio-controls {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 30;
+        display: flex;
+        gap: 10px;
+      }
+
+      .audio-btn {
+        background: rgba(255, 215, 0, 0.2);
+        border: 2px solid #ffd700;
+        color: #ffd700;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 1.2em;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+      }
+
+      .audio-btn:hover {
+        background: rgba(255, 215, 0, 0.4);
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
+        transform: scale(1.1);
+      }
+
+      /* Modelos 3D */
+      .model-3d {
+        position: fixed;
+        z-index: 8;
+        pointer-events: none;
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+      }
+
+      .model-left {
+        left: 5%;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .model-right {
+        right: 5%;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .model-top {
+        top: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .model-bottom {
+        bottom: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      /* Efectos de partículas mejorados */
+      .floating-elements {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 5;
+      }
+
+      .floating-element {
+        position: absolute;
+        background: rgba(255, 215, 0, 0.1);
+        border: 1px solid rgba(255, 215, 0, 0.3);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(180deg);
+        }
+      }
+
+      /* Decoraciones adicionales */
+      .military-decoration {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 6;
+      }
+
+      .decoration-corner {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border: 2px solid rgba(255, 215, 0, 0.3);
+      }
+
+      .corner-tl {
+        top: 50px;
+        left: 50px;
+        border-right: none;
+        border-bottom: none;
+      }
+
+      .corner-tr {
+        top: 50px;
+        right: 50px;
+        border-left: none;
+        border-bottom: none;
+      }
+
+      .corner-bl {
+        bottom: 50px;
+        left: 50px;
+        border-right: none;
+        border-top: none;
+      }
+
+      .corner-br {
+        bottom: 50px;
+        right: 50px;
+        border-left: none;
+        border-top: none;
+      }
+
+      @media (max-width: 768px) {
+        .main-title h1 {
+          font-size: 2.5em;
+        }
+        .main-title h2 {
+          font-size: 1.3em;
+        }
+        .arrow {
+          width: 70px;
+          height: 70px;
+        }
+        .arrow.left {
+          left: 25px;
+        }
+        .arrow.right {
+          right: 25px;
+        }
+        .card-title {
+          font-size: 2em;
+        }
+        .card-description {
+          font-size: 1.05em;
+        }
+        .info-card {
+          padding: 30px;
+        }
+        .audio-controls {
+          bottom: 10px;
+          right: 10px;
+        }
+        .audio-btn {
+          width: 40px;
+          height: 40px;
+          font-size: 1em;
+        }
+        .model-3d {
+          display: none; /* Ocultar modelos en móviles para mejor rendimiento */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+
+    <!-- Elementos flotantes adicionales -->
+    <div class="floating-elements" id="floatingElements"></div>
+
+    <!-- Decoraciones militares -->
+    <div class="military-decoration">
+      <div class="decoration-corner corner-tl"></div>
+      <div class="decoration-corner corner-tr"></div>
+      <div class="decoration-corner corner-bl"></div>
+      <div class="decoration-corner corner-br"></div>
+    </div>
+
+    <!-- Modelos 3D -->
+    <model-viewer
+      class="model-3d model-left"
+      src="https://milanesadev.github.io/models3Dof/logo.glb"
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      tone-mapping="neutral"
+      shadow-intensity="1"
+      auto-rotate
+      auto-rotate-delay="0"
+      rotation-per-second="70deg"
+      camera-orbit="0deg 75deg 105%"
+      style="width: 300px; height: 300px; background: transparent"
+    ></model-viewer>
+
+    <model-viewer
+      class="model-3d model-right"
+      src="https://milanesadev.github.io/models3Dof/flags.glb"
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      tone-mapping="neutral"
+      shadow-intensity="1"
+      auto-rotate
+      auto-rotate-delay="0"
+      rotation-per-second="50deg"
+      camera-orbit="0deg 75deg 105%"
+      style="width: 250px; height: 250px; background: transparent"
+    ></model-viewer>
+
+    <model-viewer
+      class="model-3d model-top"
+      id="flagModel"
+      src="https://milanesadev.github.io/models3Dof/eggbert-owl.glb"
+      auto-rotate
+      auto-rotate-delay="0"
+      rotation-per-second="20deg"
+      camera-orbit="0deg 75deg 105%"
+      style="width: 150px; height: 100px; background: transparent"
+      camera-controls="false"
+      interaction-prompt="none"
+      ar-modes="none"
+      shadow-intensity="1.5"
+      exposure="1.4"
+      disable-zoom
+    ></model-viewer>
+
+    <!-- Controles de audio -->
+    <div class="audio-controls">
+      <button class="audio-btn" id="musicToggle" title="Música de fondo">
+        🎵
+      </button>
+      <button class="audio-btn" id="voiceToggle" title="Voz automática">
+        🔊
+      </button>
+    </div>
+
+    <div class="navigation-arrows">
+      <div class="arrow left" id="arrowLeft">
+        <svg viewBox="0 0 24 24">
+          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+        </svg>
+      </div>
+      <div class="arrow right" id="arrowRight">
+        <svg viewBox="0 0 24 24">
+          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="home-screen" id="homeScreen">
+      <div class="main-title">
+        <h1>BIENVENIDO A LA E.I.E. - FILIAL UNCIA</h1>
+        <h2>Escuela de Idiomas del Ejército</h2>
+        <a href="#" class="web-button" id="webButton">🌐 PÁGINA WEB</a>
+      </div>
+
+      <div class="assistant-container">
+        <div class="hologram-panel">
+          <div class="message-area">
+            <div id="assistant-message"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-container" id="cardContainer">
+      <div class="info-card">
+        <div class="card-glow"></div>
+        <div class="card-image-container">
+          <div class="rotating-image">
+            <div class="card-image" id="cardImage"></div>
+          </div>
+        </div>
+        <div class="card-content">
+          <h2 class="card-title" id="cardTitle">Título</h2>
+          <p class="card-description" id="cardDescription">Descripción</p>
+          <button class="back-button" id="backButton">
+            ← VOLVER AL INICIO
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+      // ===== CONFIGURACIÓN DE AUDIO =====
+      let backgroundMusic = null;
+      let isMusicPlaying = true;
+      let isVoiceEnabled = true;
+      let currentSpeech = null;
+
+      // Inicializar música de fondo con música militar boliviana
+      function initBackgroundMusic() {
+        try {
+          backgroundMusic = new Audio();
+          backgroundMusic.loop = true;
+          backgroundMusic.volume = 0.4;
+
+          // Música militar/patriótica
+          backgroundMusic.src =
+            "https://assets.mixkit.co/music/preview/mixkit-patriotic-urgent-667.mp3";
+
+          backgroundMusic.play().catch((e) => {
+            console.log("La reproducción automática fue bloqueada:", e);
+            typeWriter(
+              "Haz clic en cualquier parte de la página para activar la música de fondo.",
+              messageElement
+            );
+          });
+
+          document.addEventListener("click", () => {
+            if (backgroundMusic && backgroundMusic.paused) {
+              backgroundMusic
+                .play()
+                .catch((e) => console.log("Error al reproducir música:", e));
+            }
+          });
+        } catch (error) {
+          console.log("Error al cargar música:", error);
+        }
+      }
+
+      // Función para leer texto con voz
+      function speakText(text) {
+        if (!isVoiceEnabled) return;
+
+        if (currentSpeech) {
+          window.speechSynthesis.cancel();
+        }
+
+        const speech = new SpeechSynthesisUtterance(text);
+        speech.lang = "es-ES";
+        speech.rate = 0.9;
+        speech.pitch = 1;
+        speech.volume = 1;
+
+        const voices = window.speechSynthesis.getVoices();
+        const spanishVoice = voices.find((voice) => voice.lang.includes("es"));
+        if (spanishVoice) {
+          speech.voice = spanishVoice;
+        }
+
+        currentSpeech = speech;
+        window.speechSynthesis.speak(speech);
+      }
+
+      // ===== THREE.JS MEJORADO - PARTÍCULAS SUAVES =====
+      const canvas = document.getElementById("canvas");
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+      });
+
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      camera.position.set(0, 0, 15);
+
+      scene.background = new THREE.Color(0x0a0a2a);
+      scene.fog = new THREE.Fog(0x0a0a2a, 15, 80);
+
+      // Sistema de partículas SUAVES y doradas
+      const particleCount = 2000;
+      const particles = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+      const velocities = [];
+
+      for (let i = 0; i < particleCount * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 80;
+        positions[i + 1] = (Math.random() - 0.5) * 80;
+        positions[i + 2] = (Math.random() - 0.5) * 80;
+
+        // Velocidades MUY SUAVES
+        velocities.push({
+          x: (Math.random() - 0.5) * 0.005, // Muy lento
+          y: (Math.random() - 0.5) * 0.005,
+          z: (Math.random() - 0.5) * 0.005,
+        });
+      }
+
+      particles.setAttribute(
+        "position",
+        new THREE.BufferAttribute(positions, 3)
+      );
+
+      const particleMaterial = new THREE.PointsMaterial({
+        color: 0xffd700, // Solo dorado
+        size: 0.12,
+        transparent: true,
+        opacity: 0.8,
+        blending: THREE.AdditiveBlending,
+        sizeAttenuation: true,
+      });
+
+      const particleSystem = new THREE.Points(particles, particleMaterial);
+      scene.add(particleSystem);
+
+      // Geometrías decorativas sutiles
+      const torusGeometry = new THREE.TorusGeometry(12, 2, 16, 100);
+      const torusMaterial = new THREE.MeshBasicMaterial({
+        color: 0xffd700,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.05,
+      });
+      const torus = new THREE.Mesh(torusGeometry, torusMaterial);
+      scene.add(torus);
+
+      // Luces suaves
+      const ambientLight = new THREE.AmbientLight(0xffd700, 0.2);
+      scene.add(ambientLight);
+
+      const directionalLight = new THREE.DirectionalLight(0xffd700, 0.3);
+      directionalLight.position.set(5, 5, 5);
+      scene.add(directionalLight);
+
+      let targetPosition = { x: 0, y: 0, z: 15 };
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        // Rotación MUY SUAVE de partículas
+        particleSystem.rotation.y += 0.0005;
+        particleSystem.rotation.x += 0.0002;
+
+        // Rotación suave de torus
+        torus.rotation.x += 0.005;
+        torus.rotation.y += 0.003;
+
+        // Animación SUAVE de partículas
+        const positions = particleSystem.geometry.attributes.position.array;
+
+        for (let i = 0; i < particleCount; i++) {
+          const i3 = i * 3;
+
+          positions[i3] += velocities[i].x;
+          positions[i3 + 1] += velocities[i].y;
+          positions[i3 + 2] += velocities[i].z;
+
+          const distance = Math.sqrt(
+            positions[i3] * positions[i3] +
+              positions[i3 + 1] * positions[i3 + 1] +
+              positions[i3 + 2] * positions[i3 + 2]
+          );
+
+          if (distance > 40) {
+            // Rebote muy suave
+            velocities[i].x *= -0.9;
+            velocities[i].y *= -0.9;
+            velocities[i].z *= -0.9;
+          }
+        }
+
+        particleSystem.geometry.attributes.position.needsUpdate = true;
+
+        // Movimiento suave de cámara
+        camera.position.x += (targetPosition.x - camera.position.x) * 0.03;
+        camera.position.y += (targetPosition.y - camera.position.y) * 0.03;
+        camera.position.z += (targetPosition.z - camera.position.z) * 0.03;
+
+        camera.lookAt(targetPosition.x, targetPosition.y, 0);
+
+        renderer.render(scene, camera);
+      }
+
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      // Crear elementos flotantes
+      function createFloatingElements() {
+        const container = document.getElementById("floatingElements");
+        for (let i = 0; i < 12; i++) {
+          const element = document.createElement("div");
+          element.className = "floating-element";
+          element.style.width = Math.random() * 40 + 10 + "px";
+          element.style.height = element.style.width;
+          element.style.left = Math.random() * 100 + "%";
+          element.style.top = Math.random() * 100 + "%";
+          element.style.animationDelay = Math.random() * 5 + "s";
+          element.style.opacity = Math.random() * 0.2 + 0.1;
+          container.appendChild(element);
+        }
+      }
+
+      // ===== DATOS Y FUNCIONALIDAD EXISTENTE =====
+      const cardData = [
+        {
+          image: "img/EIE.jpg",
+          title: "HISTORIA E.I.E.",
+          description:
+            "La Escuela de Idiomas del Ejército fue fundada para formar profesionales en idiomas al servicio de la patria. Con más de 20 años de trayectoria, nos destacamos por la excelencia académica y valores militares que forjan el carácter de nuestros estudiantes.",
+          position: { x: -8, y: 3, z: 8 },
+        },
+        {
+          image: "img/poster.jpg",
+          title: "HORARIOS Y MODALIDADES",
+          description:
+            "Horarios flexibles adaptados a tus necesidades. Lunes a Viernes: 8:00 - 20:00 hrs. Sábados: 8:00 - 13:00 hrs. Modalidades presencial, semipresencial y virtual. Cursos intensivos y regulares disponibles.",
+          position: { x: 8, y: -3, z: 8 },
+        },
+        {
+          image: "img/everyone.jpg",
+          title: "STAFF DOCENTE",
+          description:
+            "Contamos con docentes altamente capacitados con certificaciones internacionales y experiencia en enseñanza de idiomas. Personal militar y civil comprometido con la excelencia académica. Profesores nativos y especializados en cada idioma.",
+          position: { x: -8, y: -3, z: 8 },
+        },
+        {
+          image: "img/instalacion.jpg",
+          title: "BENEFICIOS Y CERTIFICACIÓN",
+          description:
+            "Certificación oficial reconocida a nivel nacional e internacional. Acceso a convenios con instituciones extranjeras. Descuentos especiales para militares y familiares. Biblioteca y recursos digitales incluidos. Preparación para exámenes internacionales.",
+          position: { x: 0, y: 0, z: 10 },
+        },
+      ];
+
+      const homeScreen = document.getElementById("homeScreen");
+      const cardContainer = document.getElementById("cardContainer");
+      const cardTitle = document.getElementById("cardTitle");
+      const cardDescription = document.getElementById("cardDescription");
+      const cardImage = document.getElementById("cardImage");
+      const backButton = document.getElementById("backButton");
+      const arrowLeft = document.getElementById("arrowLeft");
+      const arrowRight = document.getElementById("arrowRight");
+      const messageElement = document.getElementById("assistant-message");
+      const webButton = document.getElementById("webButton");
+      const musicToggle = document.getElementById("musicToggle");
+      const voiceToggle = document.getElementById("voiceToggle");
+
+      let currentSection = -1;
+      const totalSections = cardData.length;
+      let isTransitioning = false;
+
+      function showCard(index) {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
+        const data = cardData[index];
+        homeScreen.classList.add("hidden");
+
+        setTimeout(() => {
+          if (data.image) {
+            cardImage.style.backgroundImage = `url('${data.image}')`;
+          } else {
+            cardImage.style.background =
+              "linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FFD700 100%)";
+          }
+
+          cardTitle.textContent = data.title;
+          cardDescription.textContent = data.description;
+          cardContainer.classList.add("active");
+          targetPosition = data.position;
+
+          if (isVoiceEnabled) {
+            const textToSpeak = `${data.title}. ${data.description}`;
+            speakText(textToSpeak);
+          }
+
+          isTransitioning = false;
+        }, 700);
+      }
+
+      function hideCard() {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
+        cardContainer.classList.remove("active");
+
+        setTimeout(() => {
+          homeScreen.classList.remove("hidden");
+          targetPosition = { x: 0, y: 0, z: 15 };
+          currentSection = -1;
+
+          if (isVoiceEnabled) {
+            speakText(
+              "Bienvenido a la Escuela de Idiomas del Ejército, Filial Uncia. Usa las flechas para explorar nuestras secciones."
+            );
+          }
+
+          isTransitioning = false;
+        }, 800);
+      }
+
+      arrowLeft.addEventListener("click", () => {
+        if (isTransitioning) return;
+        if (currentSection === -1) return;
+
+        if (cardContainer.classList.contains("active")) {
+          if (currentSection === 0) {
+            hideCard();
+          } else {
+            currentSection--;
+            showCard(currentSection);
+          }
+        }
+      });
+
+      arrowRight.addEventListener("click", () => {
+        if (isTransitioning) return;
+
+        if (currentSection === -1) {
+          currentSection = 0;
+          showCard(currentSection);
+          return;
+        }
+
+        if (cardContainer.classList.contains("active")) {
+          if (currentSection === totalSections - 1) {
+            hideCard();
+          } else {
+            currentSection++;
+            showCard(currentSection);
+          }
+        }
+      });
+
+      backButton.addEventListener("click", hideCard);
+
+      webButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "index.html";
+      });
+
+      // Controles de audio
+      musicToggle.addEventListener("click", () => {
+        if (backgroundMusic) {
+          if (isMusicPlaying) {
+            backgroundMusic.pause();
+            musicToggle.textContent = "🔇";
+          } else {
+            backgroundMusic.play();
+            musicToggle.textContent = "🎵";
+          }
+          isMusicPlaying = !isMusicPlaying;
+        }
+      });
+
+      voiceToggle.addEventListener("click", () => {
+        isVoiceEnabled = !isVoiceEnabled;
+        voiceToggle.textContent = isVoiceEnabled ? "🔊" : "🔇";
+
+        if (!isVoiceEnabled && currentSpeech) {
+          window.speechSynthesis.cancel();
+        }
+      });
+
+      function typeWriter(text, element, speed = 30) {
+        let i = 0;
+        element.innerHTML = "";
+        const cursor = document.createElement("span");
+        cursor.className = "typing-cursor";
+
+        function type() {
+          if (i < text.length) {
+            element.innerHTML = text.substring(0, i + 1);
+            element.appendChild(cursor);
+            i++;
+            setTimeout(type, speed);
+          } else {
+            setTimeout(() => cursor.remove(), 500);
+          }
+        }
+        type();
+      }
+
+      // Inicialización cuando la página carga
+      window.addEventListener("load", () => {
+        initBackgroundMusic();
+        createFloatingElements();
+        animate();
+
+        setTimeout(() => {
+          const welcomeText =
+            "¡Bienvenido a la E.I.E. Filial Uncia! Usa la flecha derecha para explorar nuestras secciones. Al final regresarás aquí.";
+          typeWriter(welcomeText, messageElement);
+
+          if (isVoiceEnabled) {
+            speakText(welcomeText);
+          }
+        }, 3000);
+      });
+    </script>
+  </body>
+</html>

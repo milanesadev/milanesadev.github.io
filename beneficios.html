@@ -17,6 +17,31 @@
         color: #333;
         background: #f8f9fa;
       }
+      /* ========== SISTEMAS THREE.JS - ESTILOS MEJORADOS ========== */
+      #threejs-particles,
+      #threejs-cursor,
+      #threejs-waves {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1; /* Partículas y ondas detrás del contenido */
+      }
+
+      #threejs-cursor {
+        z-index: 9999; /* Cursor siempre arriba */
+      }
+
+      /* Asegurar que el contenido esté por encima */
+      .section-container,
+      .hero-content-wrapper,
+      .nav-links,
+      footer {
+        position: relative;
+        z-index: 2;
+      }
 
       /* ========== HEADER ========== */
       header {
@@ -627,6 +652,15 @@
         <a href="index.html" class="btn-volver">← Volver al Inicio</a>
       </div>
     </header>
+    <!-- ========== SISTEMAS THREE.JS ========== -->
+    <!-- Partículas Doradas -->
+    <div id="threejs-particles"></div>
+
+    <!-- Cursor 3D con Estela -->
+    <div id="threejs-cursor"></div>
+
+    <!-- Ondas 3D (Opcional) -->
+    <div id="threejs-waves"></div>
 
     <!-- ========== HERO ========== -->
     <section class="page-hero">
@@ -1131,6 +1165,939 @@
           }
         });
       });
+      // ========== SISTEMA DE PARTÍCULAS DORADAS ==========
+      function initParticles(config = {}) {
+        const container = document.getElementById("threejs-particles");
+        if (!container) return;
+
+        // Configuración personalizable
+        const defaults = {
+          particleCount: 150,
+          colors: [0xffd700, 0xffa500, 0xffec8b], // Dorados
+          size: 0.1,
+          speed: 0.05,
+          area: 20,
+        };
+
+        const settings = { ...defaults, ...config };
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        );
+        const renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true,
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        camera.position.z = 5;
+
+        // Crear partículas
+        const particlesGeometry = new THREE.BufferGeometry();
+        const posArray = new Float32Array(settings.particleCount * 3);
+        const colorsArray = new Float32Array(settings.particleCount * 3);
+        const sizesArray = new Float32Array(settings.particleCount);
+
+        for (let i = 0; i < settings.particleCount * 3; i += 3) {
+          posArray[i] = (Math.random() - 0.5) * settings.area;
+          posArray[i + 1] = (Math.random() - 0.5) * settings.area;
+          posArray[i + 2] = (Math.random() - 0.5) * (settings.area / 2);
+
+          sizesArray[i / 3] = Math.random() * settings.size + settings.size / 2;
+
+          const colorIndex = Math.floor(Math.random() * settings.colors.length);
+          const color = new THREE.Color(settings.colors[colorIndex]);
+
+          colorsArray[i] = color.r;
+          colorsArray[i + 1] = color.g;
+          colorsArray[i + 2] = color.b;
+        }
+
+        particlesGeometry.setAttribute(
+          "position",
+          new THREE.BufferAttribute(posArray, 3)
+        );
+        particlesGeometry.setAttribute(
+          "color",
+          new THREE.BufferAttribute(colorsArray, 3)
+        );
+        particlesGeometry.setAttribute(
+          "size",
+          new THREE.BufferAttribute(sizesArray, 1)
+        );
+
+        const particlesMaterial = new THREE.PointsMaterial({
+          size: settings.size,
+          vertexColors: true,
+          transparent: true,
+          opacity: 0.8,
+          blending: THREE.AdditiveBlending,
+          sizeAttenuation: true,
+        });
+
+        const particlesMesh = new THREE.Points(
+          particlesGeometry,
+          particlesMaterial
+        );
+        scene.add(particlesMesh);
+
+        // Animación mejorada
+        const clock = new THREE.Clock();
+
+        function animate() {
+          const elapsedTime = clock.getElapsedTime();
+
+          particlesMesh.rotation.y = elapsedTime * settings.speed;
+          particlesMesh.rotation.x = elapsedTime * (settings.speed * 0.6);
+
+          const positions = particlesMesh.geometry.attributes.position.array;
+          for (let i = 0; i < settings.particleCount * 3; i += 3) {
+            const i3 = i / 3;
+            positions[i + 1] += Math.sin(elapsedTime + i3) * 0.002;
+            positions[i] += Math.cos(elapsedTime + i3) * 0.001;
+
+            // Rebote suave en los bordes
+            if (Math.abs(positions[i + 1]) > settings.area / 2)
+              positions[i + 1] *= -0.99;
+            if (Math.abs(positions[i]) > settings.area / 2)
+              positions[i] *= -0.99;
+          }
+          particlesMesh.geometry.attributes.position.needsUpdate = true;
+
+          renderer.render(scene, camera);
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Responsive mejorado
+        function handleResize() {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener("resize", handleResize);
+
+        // Limpiar recursos
+        return () => {
+          window.removeEventListener("resize", handleResize);
+          renderer.dispose();
+          particlesGeometry.dispose();
+          particlesMaterial.dispose();
+          container.removeChild(renderer.domElement);
+        };
+      }
+
+      // ========== SISTEMA DE CURSOR 3D CON ESTELA ==========
+      function initCursor3D(config = {}) {
+        const container = document.getElementById("threejs-cursor");
+        if (!container) return;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          100
+        );
+        const renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true,
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+        camera.position.z = 5;
+
+        // Configuración personalizable
+        const defaults = {
+          cursorColor: 0xffd700,
+          trailColor: 0xffd700,
+          cursorSize: 0.1,
+          trailSize: 0.05,
+          trailLength: 15,
+          smoothness: 0.1,
+        };
+
+        const settings = { ...defaults, ...config };
+
+        // Sistema de estela/rastro
+        const trailParticles = [];
+        const trailGeometry = new THREE.BufferGeometry();
+        const trailMaterial = new THREE.PointsMaterial({
+          size: settings.trailSize,
+          color: settings.trailColor,
+          transparent: true,
+          opacity: 0.7,
+          blending: THREE.AdditiveBlending,
+          sizeAttenuation: true,
+        });
+
+        const trailMesh = new THREE.Points(trailGeometry, trailMaterial);
+        scene.add(trailMesh);
+
+        // Cursor principal
+        const cursor = new THREE.Mesh(
+          new THREE.SphereGeometry(settings.cursorSize, 16, 16),
+          new THREE.MeshBasicMaterial({
+            color: settings.cursorColor,
+            transparent: true,
+            opacity: 0.9,
+          })
+        );
+        scene.add(cursor);
+
+        // Calibración mejorada
+        const CALIBRATION = {
+          multiplierX: 8,
+          multiplierY: -3.9,
+          offsetX: 0,
+          offsetY: 0,
+          smoothness: settings.smoothness,
+        };
+
+        const mouse = { x: 0, y: 0 };
+        const target = { x: 0, y: 0 };
+
+        document.addEventListener("mousemove", (event) => {
+          target.x = (event.clientX / window.innerWidth) * 2 - 1;
+          target.y = (event.clientY / window.innerHeight) * 2 - 1;
+        });
+
+        // Efectos de click mejorados
+        document.addEventListener("click", (event) => {
+          createClickWave(mouse.x, mouse.y);
+        });
+
+        function createClickWave(x, y) {
+          const waveGeometry = new THREE.RingGeometry(0.08, 0.2, 20);
+          const waveMaterial = new THREE.MeshBasicMaterial({
+            color: 0xffa500,
+            transparent: true,
+            opacity: 0.8,
+            side: THREE.DoubleSide,
+          });
+
+          const waveMesh = new THREE.Mesh(waveGeometry, waveMaterial);
+          waveMesh.position.set(
+            x * CALIBRATION.multiplierX,
+            y * CALIBRATION.multiplierY,
+            0
+          );
+          scene.add(waveMesh);
+
+          let scale = 1;
+          let opacity = 0.8;
+
+          function animateWave() {
+            scale += 0.3;
+            opacity -= 0.04;
+
+            waveMesh.scale.set(scale, scale, 1);
+            waveMaterial.opacity = opacity;
+
+            if (opacity > 0) {
+              requestAnimationFrame(animateWave);
+            } else {
+              scene.remove(waveMesh);
+              waveGeometry.dispose();
+              waveMaterial.dispose();
+            }
+          }
+          animateWave();
+        }
+
+        // Sistema de estela mejorado
+        function updateTrail() {
+          const positions = [];
+
+          trailParticles.push({
+            x: mouse.x * CALIBRATION.multiplierX,
+            y: mouse.y * CALIBRATION.multiplierY,
+            life: 1.0,
+          });
+
+          if (trailParticles.length > settings.trailLength) {
+            trailParticles.shift();
+          }
+
+          trailParticles.forEach((particle, index) => {
+            particle.life -= 0.07;
+
+            if (particle.life > 0) {
+              positions.push(particle.x, particle.y, 0);
+              trailMaterial.opacity = particle.life * 0.7;
+            }
+          });
+
+          if (positions.length > 0) {
+            trailGeometry.setAttribute(
+              "position",
+              new THREE.Float32BufferAttribute(positions, 3)
+            );
+          }
+
+          while (trailParticles.length > 0 && trailParticles[0].life <= 0) {
+            trailParticles.shift();
+          }
+        }
+
+        // Animación principal
+        function animate() {
+          mouse.x += (target.x - mouse.x) * CALIBRATION.smoothness;
+          mouse.y += (target.y - mouse.y) * CALIBRATION.smoothness;
+
+          cursor.position.x =
+            mouse.x * CALIBRATION.multiplierX + CALIBRATION.offsetX;
+          cursor.position.y =
+            mouse.y * CALIBRATION.multiplierY + CALIBRATION.offsetY;
+
+          updateTrail();
+
+          const pulse =
+            Math.sin(Date.now() * 0.01) * 0.04 + settings.cursorSize;
+          cursor.scale.set(pulse, pulse, pulse);
+
+          renderer.render(scene, camera);
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        function handleResize() {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener("resize", handleResize);
+
+        // Limpiar recursos
+        return () => {
+          window.removeEventListener("resize", handleResize);
+          document.removeEventListener("mousemove");
+          document.removeEventListener("click");
+          renderer.dispose();
+          trailGeometry.dispose();
+          trailMaterial.dispose();
+          container.removeChild(renderer.domElement);
+        };
+      }
+      // ========== SISTEMA DE PARTÍCULAS AVANZADO CON FÍSICA ==========
+      function initAdvancedParticles(config = {}) {
+        const container = document.getElementById("threejs-particles");
+        if (!container) return;
+
+        // Limpiar contenedor existente
+        container.innerHTML = "";
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        );
+        const renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true,
+          powerPreference: "high-performance",
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        camera.position.z = 15;
+
+        // Configuración avanzada con física
+        const defaults = {
+          particleCount: 200,
+          colors: [0xffd700, 0xffa500, 0xff6b6b, 0x4ecdc4, 0x45b7d1],
+          size: 0.1,
+          area: 25,
+          gravity: -0.001,
+          wind: { x: 0.002, y: 0.001 },
+          musicReactivity: true,
+          collision: true,
+        };
+
+        const settings = { ...defaults, ...config };
+
+        // Sistema de partículas con física
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesMaterial = new THREE.PointsMaterial({
+          size: settings.size,
+          vertexColors: true,
+          transparent: true,
+          opacity: 0.9,
+          blending: THREE.AdditiveBlending,
+          sizeAttenuation: true,
+        });
+
+        // Inicializar partículas con propiedades físicas
+        const positions = new Float32Array(settings.particleCount * 3);
+        const colors = new Float32Array(settings.particleCount * 3);
+        const velocities = [];
+        const originalPositions = [];
+
+        for (let i = 0; i < settings.particleCount; i++) {
+          const i3 = i * 3;
+
+          // Posición aleatoria en un área más grande
+          positions[i3] = (Math.random() - 0.5) * settings.area;
+          positions[i3 + 1] = (Math.random() - 0.5) * settings.area;
+          positions[i3 + 2] = (Math.random() - 0.5) * (settings.area / 2);
+
+          originalPositions.push({
+            x: positions[i3],
+            y: positions[i3 + 1],
+            z: positions[i3 + 2],
+          });
+
+          // Velocidad inicial aleatoria
+          velocities.push({
+            x: (Math.random() - 0.5) * 0.02,
+            y: (Math.random() - 0.5) * 0.02,
+            z: (Math.random() - 0.5) * 0.02,
+          });
+
+          // Colores aleatorios del esquema
+          const colorIndex = Math.floor(Math.random() * settings.colors.length);
+          const color = new THREE.Color(settings.colors[colorIndex]);
+          colors[i3] = color.r;
+          colors[i3 + 1] = color.g;
+          colors[i3 + 2] = color.b;
+        }
+
+        particlesGeometry.setAttribute(
+          "position",
+          new THREE.BufferAttribute(positions, 3)
+        );
+        particlesGeometry.setAttribute(
+          "color",
+          new THREE.BufferAttribute(colors, 3)
+        );
+
+        const particlesMesh = new THREE.Points(
+          particlesGeometry,
+          particlesMaterial
+        );
+        scene.add(particlesMesh);
+
+        // Sistema de audio para reactividad musical
+        let audioContext, analyser, audioData;
+
+        function initAudioSystem() {
+          if (!settings.musicReactivity) return;
+
+          try {
+            audioContext = new (window.AudioContext ||
+              window.webkitAudioContext)();
+            analyser = audioContext.createAnalyser();
+            analyser.fftSize = 256;
+            audioData = new Uint8Array(analyser.frequencyBinCount);
+
+            console.log("🎵 Sistema de audio listo para reactividad musical");
+          } catch (error) {
+            console.log("🔇 Reactividad musical no disponible:", error.message);
+          }
+        }
+
+        // Efectos de física
+        let time = 0;
+        let mouse = { x: 0, y: 0, active: false };
+
+        // Seguimiento de mouse para interacción
+        document.addEventListener("mousemove", (event) => {
+          mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+          mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+          mouse.active = true;
+        });
+
+        document.addEventListener("mouseleave", () => {
+          mouse.active = false;
+        });
+
+        // Efectos de viento aleatorio
+        function getWindForce(time) {
+          return {
+            x: settings.wind.x + Math.sin(time * 0.1) * 0.001,
+            y: settings.wind.y + Math.cos(time * 0.15) * 0.001,
+          };
+        }
+
+        // Colisiones simples
+        function handleCollisions(particle, index) {
+          if (!settings.collision) return;
+
+          // Colisión con bordes del área
+          const bounds = settings.area / 2;
+          if (Math.abs(particle.x) > bounds) {
+            particle.vx *= -0.8; // Rebote con amortiguación
+            particle.x = Math.sign(particle.x) * bounds * 0.95;
+          }
+          if (Math.abs(particle.y) > bounds) {
+            particle.vy *= -0.8;
+            particle.y = Math.sign(particle.y) * bounds * 0.95;
+          }
+          if (Math.abs(particle.z) > bounds / 2) {
+            particle.vz *= -0.8;
+            particle.z = Math.sign(particle.z) * (bounds / 2) * 0.95;
+          }
+        }
+
+        // Animación principal con física
+        function animate() {
+          requestAnimationFrame(animate);
+          time += 0.016; // ≈60fps
+
+          const positions = particlesMesh.geometry.attributes.position.array;
+          const colors = particlesMesh.geometry.attributes.color.array;
+
+          // Obtener datos de audio si está disponible
+          let bass = 0,
+            mid = 0,
+            treble = 0;
+          if (analyser && settings.musicReactivity) {
+            analyser.getByteFrequencyData(audioData);
+            bass = audioData[0] / 255; // Frecuencias bajas
+            mid = audioData[Math.floor(audioData.length / 2)] / 255; // Medias
+            treble = audioData[audioData.length - 1] / 255; // Altas
+          }
+
+          const wind = getWindForce(time);
+          const mouseInfluence = mouse.active ? 0.3 : 0;
+
+          for (let i = 0; i < settings.particleCount; i++) {
+            const i3 = i * 3;
+            const originalPos = originalPositions[i];
+
+            // Actualizar velocidades con física
+            velocities[i].y += settings.gravity; // Gravedad
+            velocities[i].x += wind.x; // Viento
+            velocities[i].y += wind.y;
+
+            // Influencia del mouse
+            if (mouse.active) {
+              const dx = mouse.x * 10 - positions[i3];
+              const dy = mouse.y * 10 - positions[i3 + 1];
+              const distance = Math.sqrt(dx * dx + dy * dy);
+
+              if (distance < 5) {
+                const force = (5 - distance) * 0.001 * mouseInfluence;
+                velocities[i].x += (dx / distance) * force;
+                velocities[i].y += (dy / distance) * force;
+              }
+            }
+
+            // Reactividad musical
+            if (settings.musicReactivity) {
+              const musicForce = bass * 0.1;
+              velocities[i].z += (Math.random() - 0.5) * musicForce;
+
+              // Cambio de color según frecuencias
+              if (bass > 0.5) {
+                colors[i3] = 1; // Rojo en bajos fuertes
+                colors[i3 + 1] = 0.2;
+                colors[i3 + 2] = 0.2;
+              } else if (treble > 0.7) {
+                colors[i3] = 0.2; // Azul en agudos
+                colors[i3 + 1] = 0.2;
+                colors[i3 + 2] = 1;
+              }
+            }
+
+            // Aplicar velocidades
+            positions[i3] += velocities[i].x;
+            positions[i3 + 1] += velocities[i].y;
+            positions[i3 + 2] += velocities[i].z;
+
+            // Amortiguación
+            velocities[i].x *= 0.99;
+            velocities[i].y *= 0.99;
+            velocities[i].z *= 0.99;
+
+            // Fuerzas de restauración hacia posición original
+            const restoreForce = 0.001;
+            velocities[i].x += (originalPos.x - positions[i3]) * restoreForce;
+            velocities[i].y +=
+              (originalPos.y - positions[i3 + 1]) * restoreForce;
+            velocities[i].z +=
+              (originalPos.z - positions[i3 + 2]) * restoreForce;
+
+            // Manejar colisiones
+            handleCollisions(
+              {
+                x: positions[i3],
+                y: positions[i3 + 1],
+                z: positions[i3 + 2],
+                vx: velocities[i].x,
+                vy: velocities[i].y,
+                vz: velocities[i].z,
+              },
+              i
+            );
+          }
+
+          particlesMesh.geometry.attributes.position.needsUpdate = true;
+          particlesMesh.geometry.attributes.color.needsUpdate = true;
+
+          // Rotación suave de toda la nube
+          particlesMesh.rotation.y = time * 0.05;
+          particlesMesh.rotation.x = Math.sin(time * 0.03) * 0.1;
+
+          renderer.render(scene, camera);
+        }
+
+        // Inicializar sistemas
+        initAudioSystem();
+        animate();
+
+        // Conectar a fuente de audio (ejemplo: elementos de audio/video en la página)
+        function connectAudioSource(source) {
+          if (!audioContext || !analyser) return;
+
+          try {
+            const sourceNode = audioContext.createMediaElementSource(source);
+            sourceNode.connect(analyser);
+            analyser.connect(audioContext.destination);
+            console.log("🎵 Conectado a fuente de audio");
+          } catch (error) {
+            console.log("❌ Error conectando audio:", error);
+          }
+        }
+
+        // Responsive
+        function handleResize() {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener("resize", handleResize);
+
+        // API pública para controlar efectos
+        return {
+          setWind: (x, y) => {
+            settings.wind = { x, y };
+          },
+          setGravity: (value) => {
+            settings.gravity = value;
+          },
+          connectAudio: connectAudioSource,
+          explode: () => {
+            // Efecto de explosión
+            velocities.forEach((vel) => {
+              vel.x += (Math.random() - 0.5) * 0.5;
+              vel.y += (Math.random() - 0.5) * 0.5;
+              vel.z += (Math.random() - 0.5) * 0.5;
+            });
+          },
+          implode: () => {
+            // Efecto de implosión hacia el centro
+            velocities.forEach((vel, i) => {
+              const i3 = i * 3;
+              const positions =
+                particlesMesh.geometry.attributes.position.array;
+              const dx = -positions[i3] * 0.01;
+              const dy = -positions[i3 + 1] * 0.01;
+              const dz = -positions[i3 + 2] * 0.01;
+
+              vel.x += dx;
+              vel.y += dy;
+              vel.z += dz;
+            });
+          },
+          cleanup: () => {
+            window.removeEventListener("resize", handleResize);
+            renderer.dispose();
+            particlesGeometry.dispose();
+            particlesMaterial.dispose();
+            container.removeChild(renderer.domElement);
+          },
+        };
+      }
+      // ========== LIBRO 3D ANIMADO - MANTENIENDO TU ESTRUCTURA ==========
+      function initBookCompanion() {
+        const bookCompanion = document.createElement("div");
+        bookCompanion.id = "bookCompanion";
+        bookCompanion.className =
+          "book-companion book-right book-medium book-floating";
+        bookCompanion.innerHTML = `
+    <model-viewer
+      id="bookModel"
+      src="https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb"
+      auto-rotate
+      auto-rotate-delay="0"
+      camera-orbit="0deg 75deg 105%"
+      style="width: 200px; height: 130px; background: transparent"
+      camera-controls="false"
+      interaction-prompt="none"
+      ar-modes="none"
+      shadow-intensity="1.5"
+      exposure="1.4"
+      disable-zoom
+    >
+    </model-viewer>
+    <div id="bookMessage" class="book-message book-message-top"></div>
+  `;
+
+        document.body.appendChild(bookCompanion);
+
+        const bookModel = document.getElementById("bookModel");
+        const bookMessage = document.getElementById("bookMessage");
+
+        // Configuración de secciones para el libro
+        const bookSectionConfig = {
+          historia: {
+            position: "book-left",
+            size: "book-medium",
+            message: "📖 Nuestra historia comienza en 1993...",
+            animation: "book-floating",
+          },
+          mision: {
+            position: "book-right",
+            size: "book-large",
+            message: "🎯 Formando profesionales con excelencia",
+            animation: "book-open",
+          },
+          logros: {
+            position: "book-center",
+            size: "book-large",
+            message: "🏆 Más de 8,500 estudiantes graduados",
+            animation: "book-celebrate",
+          },
+        };
+
+        // Mensajes contextuales para el libro
+        const bookMessages = {
+          historia: [
+            "📖 32 años de trayectoria educativa",
+            "🏫 Desde 1993 formando profesionales",
+            '⭐ Fundación con el lema "Knowing to Teach"',
+          ],
+          mision: [
+            "🎯 Compromiso con la excelencia educativa",
+            "💫 Metodologías modernas y docentes especializados",
+            "🌍 Formando profesionales multilingües",
+          ],
+          logros: [
+            "🏆 100% de satisfacción estudiantil",
+            "⭐ Certificaciones internacionales",
+            "🚀 Líderes en enseñanza de idiomas",
+          ],
+        };
+
+        let currentBookSection = "";
+        let bookMessageTimeout;
+
+        // Actualizar posición del libro según scroll
+        function updateBookPosition() {
+          const sections = document.querySelectorAll("section[id]");
+          const scrollY = window.scrollY + 200;
+
+          let newSection = "";
+
+          sections.forEach((section) => {
+            const rect = section.getBoundingClientRect();
+            const sectionTop = rect.top + window.scrollY;
+            const sectionBottom = sectionTop + rect.height;
+
+            if (scrollY >= sectionTop && scrollY < sectionBottom) {
+              newSection = section.id;
+            }
+          });
+
+          if (
+            newSection &&
+            newSection !== currentBookSection &&
+            bookSectionConfig[newSection]
+          ) {
+            currentBookSection = newSection;
+            const config = bookSectionConfig[newSection];
+
+            // Transición suave
+            bookCompanion.style.opacity = "0";
+
+            setTimeout(() => {
+              bookCompanion.className = "book-companion";
+              bookCompanion.classList.add(
+                config.position,
+                config.size,
+                config.animation
+              );
+              bookCompanion.style.opacity = "1";
+
+              showBookMessage(newSection);
+            }, 300);
+          }
+        }
+
+        // Mostrar mensaje del libro
+        function showBookMessage(section) {
+          const messages = bookMessages[section];
+          if (!messages) return;
+
+          const randomMessage =
+            messages[Math.floor(Math.random() * messages.length)];
+
+          if (bookMessageTimeout) clearTimeout(bookMessageTimeout);
+
+          bookMessage.classList.remove("show");
+
+          setTimeout(() => {
+            bookMessage.textContent = randomMessage;
+            bookMessage.classList.add("show");
+
+            bookMessageTimeout = setTimeout(() => {
+              bookMessage.classList.remove("show");
+            }, 4000);
+          }, 500);
+        }
+
+        // Interacciones del libro
+        bookCompanion.addEventListener("click", function () {
+          bookCompanion.style.animation = "none";
+          void bookCompanion.offsetWidth;
+          bookCompanion.style.animation = "bookBounce 0.6s ease-in-out";
+
+          const clickMessages = [
+            "¡Hola! Soy tu libro guía 📚",
+            "¿Listo para aprender? 🎓",
+            "La educación transforma vidas 💫",
+            "Cada página es una nueva oportunidad 🌟",
+          ];
+
+          const clickMessage =
+            clickMessages[Math.floor(Math.random() * clickMessages.length)];
+          showCustomBookMessage(clickMessage);
+        });
+
+        function showCustomBookMessage(message) {
+          bookMessage.textContent = message;
+          bookMessage.classList.add("show");
+
+          if (bookMessageTimeout) clearTimeout(bookMessageTimeout);
+          bookMessageTimeout = setTimeout(() => {
+            bookMessage.classList.remove("show");
+          }, 3000);
+        }
+
+        // Scroll listener para el libro
+        let bookScrollTimeout;
+        window.addEventListener("scroll", function () {
+          updateBookPosition();
+
+          // Efecto sutil al hacer scroll
+          bookCompanion.style.transform += " scale(1.05)";
+          clearTimeout(bookScrollTimeout);
+          bookScrollTimeout = setTimeout(() => {
+            bookCompanion.style.transform =
+              bookCompanion.style.transform.replace(" scale(1.05)", "");
+          }, 200);
+        });
+
+        // Inicializar
+        setTimeout(() => {
+          updateBookPosition();
+          showCustomBookMessage("Bienvenido a nuestra historia 📖");
+        }, 1500);
+
+        return {
+          showMessage: showCustomBookMessage,
+          cleanup: () => {
+            bookCompanion.remove();
+            window.removeEventListener("scroll", updateBookPosition);
+          },
+        };
+      }
+
+      // ========== INICIALIZADOR GLOBAL MEJORADO ==========
+      class ThreeJSManager {
+        constructor() {
+          this.cleanupFunctions = [];
+          this.isInitialized = false;
+        }
+
+        init(options = {}) {
+          if (this.isInitialized) return;
+
+          // Cargar Three.js si no está disponible
+          if (typeof THREE === "undefined") {
+            this.loadThreeJS(() => this.initializeSystems(options));
+          } else {
+            this.initializeSystems(options);
+          }
+        }
+
+        loadThreeJS(callback) {
+          const script = document.createElement("script");
+          script.src =
+            "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+          script.onload = callback;
+          document.head.appendChild(script);
+        }
+
+        initializeSystems(options) {
+          const { particles = true, cursor = true, waves = false } = options;
+
+          if (particles) {
+            const cleanupParticles = initParticles(options.particlesConfig);
+            if (cleanupParticles) this.cleanupFunctions.push(cleanupParticles);
+          }
+
+          if (cursor) {
+            const cleanupCursor = initCursor3D(options.cursorConfig);
+            if (cleanupCursor) this.cleanupFunctions.push(cleanupCursor);
+          }
+
+          // (Opcional) Puedes agregar initWaves() aquí si lo necesitas
+
+          this.isInitialized = true;
+          console.log("✅ Sistemas Three.js inicializados");
+        }
+
+        destroy() {
+          this.cleanupFunctions.forEach((cleanup) => cleanup());
+          this.cleanupFunctions = [];
+          this.isInitialized = false;
+          console.log("🧹 Sistemas Three.js limpiados");
+        }
+      }
+
+      // ========== USO FÁCIL ==========
+      // Crear instancia global
+      const threeManager = new ThreeJSManager();
+
+      // Inicializar cuando la página cargue
+      window.addEventListener("DOMContentLoaded", () => {
+        threeManager.init({
+          particles: true,
+          cursor: true,
+          particlesConfig: {
+            particleCount: 200, // Más partículas
+            colors: [0xffd700, 0xffa500, 0xffffff], // Dorado + blanco
+            size: 0.08,
+          },
+          cursorConfig: {
+            cursorColor: 0x00ff00, // Cursor verde
+            trailColor: 0x00ff00, // Estela verde
+            cursorSize: 0.12,
+          },
+        });
+      });
+
+      // Para limpiar (si es necesario)
+      // threeManager.destroy();
     </script>
   </body>
 </html>

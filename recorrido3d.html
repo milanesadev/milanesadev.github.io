@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recorrido Virtual 3D - EIE-UNCÍA</title>
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"
+    ></script>
+    <style>
+      /* ========== SISTEMAS THREE.JS - ESTILOS MEJORADOS ========== */
+      #threejs-particles,
+      #threejs-cursor,
+      #threejs-waves {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1; /* Partículas y ondas detrás del contenido */
+      }
+
+      #threejs-cursor {
+        z-index: 9999; /* Cursor siempre arriba */
+      }
+
+      /* Asegurar que el contenido esté por encima */
+      .section-container,
+      .hero-content-wrapper,
+      .nav-links,
+      footer {
+        position: relative;
+        z-index: 2;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #1a1a2e, #2d3561, #1a1a2e);
+        color: white;
+        overflow-x: hidden;
+        line-height: 1.6;
+      }
+
+      /* HEADER */
+      .tour-header {
+        background: linear-gradient(
+          135deg,
+          rgba(20, 30, 70, 0.95),
+          rgba(40, 60, 120, 0.95)
+        );
+        backdrop-filter: blur(10px);
+        padding: 20px 8%;
+        text-align: center;
+        border-bottom: 3px solid #ffd700;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .tour-header h1 {
+        font-size: 2.5em;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 10px;
+      }
+
+      .tour-header p {
+        font-size: 1.2em;
+        opacity: 0.9;
+      }
+
+      /* CONTENEDOR PRINCIPAL */
+      .tour-container {
+        display: flex;
+        height: calc(100vh - 120px);
+        padding: 20px;
+        gap: 20px;
+      }
+
+      /* PANEL DE CONTROL */
+      .control-panel {
+        width: 300px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 25px;
+        border: 2px solid rgba(255, 215, 0, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .control-section {
+        margin-bottom: 30px;
+      }
+
+      .control-section h3 {
+        color: #ffd700;
+        margin-bottom: 15px;
+        font-size: 1.3em;
+        border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+        padding-bottom: 8px;
+      }
+
+      .location-btn {
+        width: 100%;
+        padding: 15px;
+        margin: 8px 0;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 215, 0, 0.3);
+        border-radius: 12px;
+        color: white;
+        font-size: 1em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .location-btn:hover {
+        background: rgba(255, 215, 0, 0.2);
+        border-color: #ffd700;
+        transform: translateX(5px);
+      }
+
+      .location-btn.active {
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        border-color: #ffd700;
+      }
+
+      .config-btn {
+        width: 100%;
+        padding: 12px;
+        margin: 5px 0;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 215, 0, 0.3);
+        border-radius: 10px;
+        color: white;
+        font-size: 0.9em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .config-btn:hover {
+        background: rgba(255, 215, 0, 0.2);
+        border-color: #ffd700;
+      }
+
+      /* VISOR 3D */
+      .viewer-container {
+        flex: 1;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        border: 3px solid rgba(255, 215, 0, 0.3);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+      }
+
+      /* ESTILOS PARA MODEL-VIEWER */
+      model-viewer {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #2d3561, #1a1a2e);
+      }
+
+      .progress-bar {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(20, 30, 70, 0.95);
+        padding: 30px;
+        border-radius: 20px;
+        border: 3px solid #ffd700;
+        color: #ffd700;
+        z-index: 1000;
+        text-align: center;
+        min-width: 200px;
+      }
+
+      .progress-bar.hide {
+        display: none;
+      }
+
+      .update-bar {
+        width: 100%;
+        height: 4px;
+        background: rgba(255, 215, 0, 0.3);
+        border-radius: 2px;
+        overflow: hidden;
+        margin-top: 10px;
+      }
+
+      .update-bar::after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: #ffd700;
+        animation: loading 2s infinite;
+      }
+
+      @keyframes loading {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      #ar-button {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 25px;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+      }
+
+      #ar-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+      }
+
+      #ar-prompt {
+        position: absolute;
+        bottom: 80px;
+        right: 20px;
+        background: rgba(20, 30, 70, 0.9);
+        padding: 10px;
+        border-radius: 10px;
+        border: 2px solid #ffd700;
+        display: none;
+      }
+
+      .viewer-overlay {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        right: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        pointer-events: none;
+        z-index: 100;
+      }
+
+      .location-info {
+        background: rgba(20, 30, 70, 0.9);
+        padding: 20px;
+        border-radius: 15px;
+        border: 2px solid #ffd700;
+        max-width: 400px;
+        backdrop-filter: blur(10px);
+      }
+
+      .location-info h2 {
+        color: #ffd700;
+        margin-bottom: 10px;
+        font-size: 1.5em;
+      }
+
+      .controls-info {
+        background: rgba(20, 30, 70, 0.9);
+        padding: 15px;
+        border-radius: 15px;
+        border: 2px solid #ffd700;
+        backdrop-filter: blur(10px);
+        text-align: center;
+      }
+
+      .controls-info h4 {
+        color: #ffd700;
+        margin-bottom: 10px;
+      }
+
+      .control-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 5px 0;
+        font-size: 0.9em;
+      }
+
+      /* INSTRUCCIONES */
+      .upload-info {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 10px;
+      }
+
+      .upload-info p {
+        font-size: 0.9em;
+        margin-bottom: 10px;
+      }
+
+      .upload-info ol {
+        font-size: 0.8em;
+        padding-left: 20px;
+        opacity: 0.8;
+        margin-bottom: 10px;
+      }
+
+      .upload-info li {
+        margin-bottom: 5px;
+      }
+
+      .code-example {
+        margin-top: 10px;
+        padding: 10px;
+        background: rgba(255, 215, 0, 0.1);
+        border-radius: 5px;
+        border: 1px solid rgba(255, 215, 0, 0.3);
+      }
+
+      .code-example code {
+        font-size: 0.7em;
+        word-break: break-all;
+        color: #ffd700;
+      }
+
+      /* BOTÓN VOLVER */
+      .back-btn {
+        position: fixed;
+        bottom: 30px;
+        left: 30px;
+        padding: 15px 30px;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .back-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 968px) {
+        .tour-container {
+          flex-direction: column;
+          height: auto;
+        }
+
+        .control-panel {
+          width: 100%;
+          order: 2;
+        }
+
+        .viewer-container {
+          height: 60vh;
+          order: 1;
+        }
+
+        .viewer-overlay {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .location-info,
+        .controls-info {
+          max-width: 100%;
+        }
+
+        #ar-button {
+          bottom: 10px;
+          right: 10px;
+          padding: 10px 15px;
+          font-size: 0.9em;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .tour-header h1 {
+          font-size: 2em;
+        }
+
+        .tour-header p {
+          font-size: 1em;
+        }
+
+        .control-panel {
+          padding: 15px;
+        }
+
+        .location-btn {
+          padding: 12px;
+          font-size: 0.9em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="tour-header">
+      <h1>🎮 Recorrido Virtual 3D</h1>
+      <p>Explora nuestras instalaciones de manera inmersiva - EIE-UNCÍA</p>
+    </header>
+    <!-- ========== SISTEMAS THREE.JS ========== -->
+    <!-- Partículas Doradas -->
+    <div id="threejs-particles"></div>
+
+    <!-- Cursor 3D con Estela -->
+    <div id="threejs-cursor"></div>
+
+    <!-- Ondas 3D (Opcional) -->
+    <div id="threejs-waves"></div>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="tour-container">
+      <!-- PANEL DE CONTROL -->
+      <div class="control-panel">
+        <div class="control-section">
+          <h3>📍 Navegación Rápida</h3>
+          <button
+            class="location-btn"
+            data-camera="-2m 1.5m 3m"
+            data-target="0m 0.5m 0m"
+          >
+            🏛️ Entrada Principal
+          </button>
+          <button
+            class="location-btn"
+            data-camera="1m 1m 2m"
+            data-target="0m 0.5m 0m"
+          >
+            🏫 Aulas de Clases
+          </button>
+          <button
+            class="location-btn"
+            data-camera="0m 2m 4m"
+            data-target="0m 1m 0m"
+          >
+            📚 Biblioteca
+          </button>
+          <button
+            class="location-btn"
+            data-camera="3m 1.5m 2m"
+            data-target="0m 0.5m 0m"
+          >
+            💼 Administración
+          </button>
+          <button
+            class="location-btn"
+            data-camera="0m 5m 0m"
+            data-target="0m 0m 0m"
+          >
+            🚁 Vista Aérea
+          </button>
+        </div>
+
+        <div class="control-section">
+          <h3>⚙️ Configuración</h3>
+          <button class="config-btn" id="toggleShadow">🌓 Sombras: ON</button>
+          <button class="config-btn" id="autoRotate">🔄 Auto Rotar: OFF</button>
+          <button class="config-btn" id="resetView">🔄 Vista Inicial</button>
+        </div>
+
+        <!-- INSTRUCCIONES PARA CARGAR MODELOS -->
+      </div>
+
+      <!-- VISOR 3D -->
+      <div class="viewer-container">
+        <!-- ⚠️ REEMPLAZA ESTA URL CON TU MODELO 3D ⚠️ -->
+        <model-viewer
+          src="https://milanesadev.github.io/models3Dof/escuela.glb"
+          ar
+          ar-modes="webxr scene-viewer quick-look"
+          camera-controls
+          tone-mapping="neutral"
+          shadow-intensity="1"
+          camera-orbit="0deg 75deg 4m"
+          field-of-view="45deg"
+          auto-rotate-delay="0"
+          id="model-viewer"
+        >
+          <div class="progress-bar hide" slot="progress-bar">
+            <div class="update-bar"></div>
+          </div>
+
+          <button slot="ar-button" id="ar-button">👁️ Ver en AR</button>
+
+          <div id="ar-prompt">
+            <img
+              src="https://modelviewer.dev/shared-assets/icons/hand.png"
+              alt="AR prompt"
+            />
+          </div>
+        </model-viewer>
+
+        <!-- OVERLAY DE INFORMACIÓN -->
+        <div class="viewer-overlay">
+          <div class="location-info">
+            <h2>🏛️ Entrada Principal</h2>
+            <p>
+              Bienvenido a la Escuela de Idiomas del Ejército - Filial Uncía
+            </p>
+          </div>
+
+          <div class="controls-info">
+            <h4>🎮 Controles</h4>
+            <div class="control-item">🖱️ Click + Arrastrar = Rotar</div>
+            <div class="control-item">🖱️ Rueda = Zoom</div>
+            <div class="control-item">🖱️ Click Derecho = Mover</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTÓN VOLVER -->
+    <a href="index.html" class="back-btn"> ← Volver al Inicio </a>
+
+    <script>
+      // CONFIGURACIÓN DEL MODEL-VIEWER
+      const modelViewer = document.querySelector("#model-viewer");
+      let autoRotate = false;
+      let shadowsEnabled = true;
+
+      // BOTONES DE NAVEGACIÓN
+      document.querySelectorAll(".location-btn").forEach((btn) => {
+        btn.addEventListener("click", function () {
+          const cameraOrbit = this.getAttribute("data-camera");
+          const target = this.getAttribute("data-target");
+
+          // Actualizar cámara
+          if (cameraOrbit) {
+            modelViewer.cameraOrbit = cameraOrbit;
+          }
+          if (target) {
+            modelViewer.cameraTarget = target;
+          }
+
+          // Actualizar estado activo
+          document
+            .querySelectorAll(".location-btn")
+            .forEach((b) => b.classList.remove("active"));
+          this.classList.add("active");
+
+          // Actualizar información
+          updateLocationInfo(this.textContent.trim());
+        });
+      });
+
+      // BOTONES DE CONFIGURACIÓN
+      document
+        .getElementById("toggleShadow")
+        .addEventListener("click", function () {
+          shadowsEnabled = !shadowsEnabled;
+          modelViewer.shadowIntensity = shadowsEnabled ? 1 : 0;
+          this.textContent = `🌓 Sombras: ${shadowsEnabled ? "ON" : "OFF"}`;
+        });
+
+      document
+        .getElementById("autoRotate")
+        .addEventListener("click", function () {
+          autoRotate = !autoRotate;
+          modelViewer.autoRotate = autoRotate;
+          this.textContent = `🔄 Auto Rotar: ${autoRotate ? "ON" : "OFF"}`;
+        });
+
+      document
+        .getElementById("resetView")
+        .addEventListener("click", function () {
+          modelViewer.cameraOrbit = "0deg 75deg 4m";
+          modelViewer.cameraTarget = "0m 0m 0m";
+          document
+            .querySelectorAll(".location-btn")
+            .forEach((btn) => btn.classList.remove("active"));
+          updateLocationInfo("🏛️ Entrada Principal");
+        });
+
+      function updateLocationInfo(locationName) {
+        const infoDiv = document.querySelector(".location-info");
+        const titles = {
+          "🏛️ Entrada Principal":
+            "Bienvenido a la entrada principal de la EIE-UNCÍA",
+          "🏫 Aulas de Clases":
+            "Nuestras modernas aulas equipadas para aprendizaje de idiomas",
+          "📚 Biblioteca":
+            "Espacio de estudio con amplia colección de materiales",
+          "💼 Administración":
+            "Área administrativa y de coordinación académica",
+          "🚁 Vista Aérea": "Vista panorámica de nuestras instalaciones",
+        };
+
+        infoDiv.innerHTML = `
+          <h2>${locationName}</h2>
+          <p>${titles[locationName] || "Explorando nuestras instalaciones"}</p>
+        `;
+      }
+
+      // MOSTRAR/OCULTAR PROGRESS BAR
+      modelViewer.addEventListener("load", () => {
+        document.querySelector(".progress-bar").classList.add("hide");
+      });
+
+      modelViewer.addEventListener("progress", (event) => {
+        const progressBar = document.querySelector(".progress-bar");
+        if (event.detail.totalProgress === 1.0) {
+          progressBar.classList.add("hide");
+        } else {
+          progressBar.classList.remove("hide");
+        }
+      });
+
+      // MANEJAR ERRORES DE CARGA
+      modelViewer.addEventListener("error", (event) => {
+        console.error("Error cargando el modelo:", event.detail);
+        const progressBar = document.querySelector(".progress-bar");
+        progressBar.innerHTML = `
+          <h3>❌ Error al cargar</h3>
+          <p>No se pudo cargar el modelo 3D</p>
+          <small>Verifica la URL del modelo</small>
+        `;
+      });
+      // ========== SISTEMA DE PARTÍCULAS DORADAS ==========
+      function initParticles(config = {}) {
+        const container = document.getElementById("threejs-particles");
+        if (!container) return;
+
+        // Configuración personalizable
+        const defaults = {
+          particleCount: 150,
+          colors: [0xffd700, 0xffa500, 0xffec8b], // Dorados
+          size: 0.1,
+          speed: 0.05,
+          area: 20,
+        };
+
+        const settings = { ...defaults, ...config };
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        );
+        const renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true,
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        camera.position.z = 5;
+
+        // Crear partículas
+        const particlesGeometry = new THREE.BufferGeometry();
+        const posArray = new Float32Array(settings.particleCount * 3);
+        const colorsArray = new Float32Array(settings.particleCount * 3);
+        const sizesArray = new Float32Array(settings.particleCount);
+
+        for (let i = 0; i < settings.particleCount * 3; i += 3) {
+          posArray[i] = (Math.random() - 0.5) * settings.area;
+          posArray[i + 1] = (Math.random() - 0.5) * settings.area;
+          posArray[i + 2] = (Math.random() - 0.5) * (settings.area / 2);
+
+          sizesArray[i / 3] = Math.random() * settings.size + settings.size / 2;
+
+          const colorIndex = Math.floor(Math.random() * settings.colors.length);
+          const color = new THREE.Color(settings.colors[colorIndex]);
+
+          colorsArray[i] = color.r;
+          colorsArray[i + 1] = color.g;
+          colorsArray[i + 2] = color.b;
+        }
+
+        particlesGeometry.setAttribute(
+          "position",
+          new THREE.BufferAttribute(posArray, 3)
+        );
+        particlesGeometry.setAttribute(
+          "color",
+          new THREE.BufferAttribute(colorsArray, 3)
+        );
+        particlesGeometry.setAttribute(
+          "size",
+          new THREE.BufferAttribute(sizesArray, 1)
+        );
+
+        const particlesMaterial = new THREE.PointsMaterial({
+          size: settings.size,
+          vertexColors: true,
+          transparent: true,
+          opacity: 0.8,
+          blending: THREE.AdditiveBlending,
+          sizeAttenuation: true,
+        });
+
+        const particlesMesh = new THREE.Points(
+          particlesGeometry,
+          particlesMaterial
+        );
+        scene.add(particlesMesh);
+
+        // Animación mejorada
+        const clock = new THREE.Clock();
+
+        function animate() {
+          const elapsedTime = clock.getElapsedTime();
+
+          particlesMesh.rotation.y = elapsedTime * settings.speed;
+          particlesMesh.rotation.x = elapsedTime * (settings.speed * 0.6);
+
+          const positions = particlesMesh.geometry.attributes.position.array;
+          for (let i = 0; i < settings.particleCount * 3; i += 3) {
+            const i3 = i / 3;
+            positions[i + 1] += Math.sin(elapsedTime + i3) * 0.002;
+            positions[i] += Math.cos(elapsedTime + i3) * 0.001;
+
+            // Rebote suave en los bordes
+            if (Math.abs(positions[i + 1]) > settings.area / 2)
+              positions[i + 1] *= -0.99;
+            if (Math.abs(positions[i]) > settings.area / 2)
+              positions[i] *= -0.99;
+          }
+          particlesMesh.geometry.attributes.position.needsUpdate = true;
+
+          renderer.render(scene, camera);
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Responsive mejorado
+        function handleResize() {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener("resize", handleResize);
+
+        // Limpiar recursos
+        return () => {
+          window.removeEventListener("resize", handleResize);
+          renderer.dispose();
+          particlesGeometry.dispose();
+          particlesMaterial.dispose();
+          container.removeChild(renderer.domElement);
+        };
+      }
+
+      // ========== SISTEMA DE CURSOR 3D CON ESTELA ==========
+      function initCursor3D(config = {}) {
+        const container = document.getElementById("threejs-cursor");
+        if (!container) return;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          100
+        );
+        const renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true,
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+        camera.position.z = 5;
+
+        // Configuración personalizable
+        const defaults = {
+          cursorColor: 0xffd700,
+          trailColor: 0xffd700,
+          cursorSize: 0.1,
+          trailSize: 0.05,
+          trailLength: 15,
+          smoothness: 0.1,
+        };
+
+        const settings = { ...defaults, ...config };
+
+        // Sistema de estela/rastro
+        const trailParticles = [];
+        const trailGeometry = new THREE.BufferGeometry();
+        const trailMaterial = new THREE.PointsMaterial({
+          size: settings.trailSize,
+          color: settings.trailColor,
+          transparent: true,
+          opacity: 0.7,
+          blending: THREE.AdditiveBlending,
+          sizeAttenuation: true,
+        });
+
+        const trailMesh = new THREE.Points(trailGeometry, trailMaterial);
+        scene.add(trailMesh);
+
+        // Cursor principal
+        const cursor = new THREE.Mesh(
+          new THREE.SphereGeometry(settings.cursorSize, 16, 16),
+          new THREE.MeshBasicMaterial({
+            color: settings.cursorColor,
+            transparent: true,
+            opacity: 0.9,
+          })
+        );
+        scene.add(cursor);
+
+        // Calibración mejorada
+        const CALIBRATION = {
+          multiplierX: 8,
+          multiplierY: -3.9,
+          offsetX: 0,
+          offsetY: 0,
+          smoothness: settings.smoothness,
+        };
+
+        const mouse = { x: 0, y: 0 };
+        const target = { x: 0, y: 0 };
+
+        document.addEventListener("mousemove", (event) => {
+          target.x = (event.clientX / window.innerWidth) * 2 - 1;
+          target.y = (event.clientY / window.innerHeight) * 2 - 1;
+        });
+
+        // Efectos de click mejorados
+        document.addEventListener("click", (event) => {
+          createClickWave(mouse.x, mouse.y);
+        });
+
+        function createClickWave(x, y) {
+          const waveGeometry = new THREE.RingGeometry(0.08, 0.2, 20);
+          const waveMaterial = new THREE.MeshBasicMaterial({
+            color: 0xffa500,
+            transparent: true,
+            opacity: 0.8,
+            side: THREE.DoubleSide,
+          });
+
+          const waveMesh = new THREE.Mesh(waveGeometry, waveMaterial);
+          waveMesh.position.set(
+            x * CALIBRATION.multiplierX,
+            y * CALIBRATION.multiplierY,
+            0
+          );
+          scene.add(waveMesh);
+
+          let scale = 1;
+          let opacity = 0.8;
+
+          function animateWave() {
+            scale += 0.3;
+            opacity -= 0.04;
+
+            waveMesh.scale.set(scale, scale, 1);
+            waveMaterial.opacity = opacity;
+
+            if (opacity > 0) {
+              requestAnimationFrame(animateWave);
+            } else {
+              scene.remove(waveMesh);
+              waveGeometry.dispose();
+              waveMaterial.dispose();
+            }
+          }
+          animateWave();
+        }
+
+        // Sistema de estela mejorado
+        function updateTrail() {
+          const positions = [];
+
+          trailParticles.push({
+            x: mouse.x * CALIBRATION.multiplierX,
+            y: mouse.y * CALIBRATION.multiplierY,
+            life: 1.0,
+          });
+
+          if (trailParticles.length > settings.trailLength) {
+            trailParticles.shift();
+          }
+
+          trailParticles.forEach((particle, index) => {
+            particle.life -= 0.07;
+
+            if (particle.life > 0) {
+              positions.push(particle.x, particle.y, 0);
+              trailMaterial.opacity = particle.life * 0.7;
+            }
+          });
+
+          if (positions.length > 0) {
+            trailGeometry.setAttribute(
+              "position",
+              new THREE.Float32BufferAttribute(positions, 3)
+            );
+          }
+
+          while (trailParticles.length > 0 && trailParticles[0].life <= 0) {
+            trailParticles.shift();
+          }
+        }
+
+        // Animación principal
+        function animate() {
+          mouse.x += (target.x - mouse.x) * CALIBRATION.smoothness;
+          mouse.y += (target.y - mouse.y) * CALIBRATION.smoothness;
+
+          cursor.position.x =
+            mouse.x * CALIBRATION.multiplierX + CALIBRATION.offsetX;
+          cursor.position.y =
+            mouse.y * CALIBRATION.multiplierY + CALIBRATION.offsetY;
+
+          updateTrail();
+
+          const pulse =
+            Math.sin(Date.now() * 0.01) * 0.04 + settings.cursorSize;
+          cursor.scale.set(pulse, pulse, pulse);
+
+          renderer.render(scene, camera);
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        function handleResize() {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener("resize", handleResize);
+
+        // Limpiar recursos
+        return () => {
+          window.removeEventListener("resize", handleResize);
+          document.removeEventListener("mousemove");
+          document.removeEventListener("click");
+          renderer.dispose();
+          trailGeometry.dispose();
+          trailMaterial.dispose();
+          container.removeChild(renderer.domElement);
+        };
+      }
+
+      // ========== INICIALIZADOR GLOBAL MEJORADO ==========
+      class ThreeJSManager {
+        constructor() {
+          this.cleanupFunctions = [];
+          this.isInitialized = false;
+        }
+
+        init(options = {}) {
+          if (this.isInitialized) return;
+
+          // Cargar Three.js si no está disponible
+          if (typeof THREE === "undefined") {
+            this.loadThreeJS(() => this.initializeSystems(options));
+          } else {
+            this.initializeSystems(options);
+          }
+        }
+
+        loadThreeJS(callback) {
+          const script = document.createElement("script");
+          script.src =
+            "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+          script.onload = callback;
+          document.head.appendChild(script);
+        }
+
+        initializeSystems(options) {
+          const { particles = true, cursor = true, waves = false } = options;
+
+          if (particles) {
+            const cleanupParticles = initParticles(options.particlesConfig);
+            if (cleanupParticles) this.cleanupFunctions.push(cleanupParticles);
+          }
+
+          if (cursor) {
+            const cleanupCursor = initCursor3D(options.cursorConfig);
+            if (cleanupCursor) this.cleanupFunctions.push(cleanupCursor);
+          }
+
+          // (Opcional) Puedes agregar initWaves() aquí si lo necesitas
+
+          this.isInitialized = true;
+          console.log("✅ Sistemas Three.js inicializados");
+        }
+
+        destroy() {
+          this.cleanupFunctions.forEach((cleanup) => cleanup());
+          this.cleanupFunctions = [];
+          this.isInitialized = false;
+          console.log("🧹 Sistemas Three.js limpiados");
+        }
+      }
+
+      // ========== USO FÁCIL ==========
+      // Crear instancia global
+      const threeManager = new ThreeJSManager();
+
+      // Inicializar cuando la página cargue
+      window.addEventListener("DOMContentLoaded", () => {
+        threeManager.init({
+          particles: true,
+          cursor: true,
+          particlesConfig: {
+            particleCount: 200, // Más partículas
+            colors: [0xffd700, 0xffa500, 0xffffff], // Dorado + blanco
+            size: 0.08,
+          },
+          cursorConfig: {
+            cursorColor: 0x00ff00, // Cursor verde
+            trailColor: 0x00ff00, // Estela verde
+            cursorSize: 0.12,
+          },
+        });
+      });
+
+      // Para limpiar (si es necesario)
+      // threeManager.destroy();
+    </script>
+  </body>
+</html>

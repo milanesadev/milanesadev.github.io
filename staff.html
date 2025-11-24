@@ -4,7 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nuestro Equipo - EIE-UNCÍA</title>
+    <!-- En la sección <head> de tu código staff.html, agrega esto: -->
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"
+    ></script>
     <style>
+      /* ========== SISTEMAS THREE.JS - ESTILOS MEJORADOS ========== */
+      #threejs-particles,
+      #threejs-cursor,
+      #threejs-waves {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1; /* Partículas y ondas detrás del contenido */
+      }
+
+      #threejs-cursor {
+        z-index: 9999; /* Cursor siempre arriba */
+      }
+
+      /* Asegurar que el contenido esté por encima */
+      .section-container,
+      .hero-content-wrapper,
+      .nav-links,
+      footer {
+        position: relative;
+        z-index: 2;
+      }
       * {
         margin: 0;
         padding: 0;
@@ -16,6 +46,76 @@
         line-height: 1.6;
         color: #333;
         background: #f5f7fa;
+      }
+      .sketchfab-embed-wrapper {
+        width: 400px; /* Extra grande */
+        height: 400px; /* Cambia de 250px a 350px */
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        border: 3px solid rgba(255, 215, 0, 0.3);
+      }
+
+      .sketchfab-embed-wrapper iframe {
+        width: 100% !important;
+        height: 100% !important;
+        border: none !important;
+        background: transparent !important;
+      }
+
+      /* Ocultar cualquier elemento residual */
+      .sketchfab-embed-wrapper * {
+        background: transparent !important;
+      }
+      /* ==================== ESTILOS PARA SKETCHFAB ==================== */
+      .model-3d-container {
+        position: absolute;
+        right: 8%;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2;
+      }
+
+      .sketchfab-embed-wrapper {
+        width: 250px;
+        height: 250px;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        border: 3px solid rgba(255, 215, 0, 0.3);
+      }
+
+      .sketchfab-embed-wrapper iframe {
+        width: 100% !important;
+        height: 100% !important;
+        border: none !important;
+      }
+
+      .sketchfab-embed-wrapper p {
+        display: none !important; /* Oculta el texto de créditos */
+      }
+
+      /* Ajustes responsivos */
+      @media (max-width: 968px) {
+        .model-3d-container {
+          position: relative;
+          right: auto;
+          top: auto;
+          transform: none;
+          margin: 30px auto 0;
+          text-align: center;
+        }
+
+        .sketchfab-embed-wrapper {
+          width: 200px;
+          height: 200px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .model-3d-container {
+          display: none; /* Oculta en móviles muy pequeños si es necesario */
+        }
       }
 
       /* ========== HEADER ========== */
@@ -803,14 +903,47 @@
         <a href="index.html" class="btn-volver">← Volver al Inicio</a>
       </div>
     </header>
+    <!-- ========== SISTEMAS THREE.JS ========== -->
+    <!-- Partículas Doradas -->
+    <div id="threejs-particles"></div>
+
+    <!-- Cursor 3D con Estela -->
+    <div id="threejs-cursor"></div>
+
+    <!-- Ondas 3D (Opcional) -->
+    <div id="threejs-waves"></div>
 
     <!-- ========== HERO ========== -->
     <section class="page-hero">
-      <h1>Nuestro Equipo</h1>
-      <p>
-        Profesionales apasionados dedicados a tu éxito en el aprendizaje de
-        idiomas
-      </p>
+      <div class="hero-content-wrapper">
+        <div class="hero-text-content">
+          <h1>Nuestro Equipo</h1>
+          <p>
+            Profesionales apasionados dedicados a tu éxito en el aprendizaje de
+            idiomas
+          </p>
+        </div>
+
+        <!-- Modelo 3D del Teniente -->
+        <div class="model-3d-container">
+          <div class="sketchfab-embed-wrapper">
+            <iframe
+              title="Teniente EIE-UNCÍA"
+              frameborder="0"
+              allowfullscreen
+              mozallowfullscreen="true"
+              webkitallowfullscreen="true"
+              allow="autoplay; fullscreen; xr-spatial-tracking"
+              xr-spatial-tracking
+              execution-while-out-of-viewport
+              execution-while-not-rendered
+              web-share
+              src="https://sketchfab.com/models/d7d9f9159c1b44ac8fbb7ad595d7d82a/embed?autospin=1&autostart=1&ui_controls=0&ui_infos=0&ui_watermark=0&ui_stop=0&ui_inspector=0&ui_help=0&ui_settings=0&ui_vr=0&ui_fullscreen=0&ui_annotations=0&dnt=1&transparent=1&background_alpha=0"
+            >
+            </iframe>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- ========== BREADCRUMB ========== -->
@@ -837,7 +970,7 @@
 
         <div class="equipo-hero">
           <div class="equipo-imagen">
-            <img src="img/frontis.jpg" alt="Equipo Completo EIE-UNCÍA" />
+            <img src="img/everyone.jpg" alt="Equipo Completo EIE-UNCÍA" />
             <div class="equipo-overlay">
               <h3>Equipo EIE-UNCÍA 2025</h3>
               <p>Más de 30 profesionales comprometidos con tu educación</p>
@@ -906,7 +1039,7 @@
           <div class="docentes-grid">
             <div class="docente-card">
               <div class="docente-imagen">
-                <img src="img/frontis.jpg" alt="Director General" />
+                <img src="img/docente1.jpg" alt="Director General" />
                 <div class="docente-badge">DIRECTOR</div>
               </div>
               <div class="docente-content">
@@ -936,7 +1069,7 @@
 
             <div class="docente-card">
               <div class="docente-imagen">
-                <img src="img/EIE.jpg" alt="Coordinadora Académica" />
+                <img src="img/docente2.jpg" alt="Coordinadora Académica" />
                 <div class="docente-badge">COORDINADORA</div>
               </div>
               <div class="docente-content">
@@ -972,7 +1105,7 @@
           <div class="docentes-grid">
             <div class="docente-card">
               <div class="docente-imagen">
-                <img src="img/EIE_UNCIA.jpg" alt="Profesor Nativo" />
+                <img src="img/docente3.jpg" alt="Profesor Nativo" />
                 <div class="docente-badge">NATIVO USA</div>
               </div>
               <div class="docente-content">
@@ -1001,7 +1134,7 @@
 
             <div class="docente-card">
               <div class="docente-imagen">
-                <img src="img/frontis.jpg" alt="Profesora Inglés" />
+                <img src="img/docente4.jpg" alt="Profesora Inglés" />
                 <div class="docente-badge">CERTIFICADA</div>
               </div>
               <div class="docente-content">
@@ -1030,7 +1163,7 @@
 
             <div class="docente-card">
               <div class="docente-imagen">
-                <img src="img/EIE.jpg" alt="Profesor Inglés" />
+                <img src="img/docente1.jpg" alt="Profesor Inglés" />
                 <div class="docente-badge">EXPERTO</div>
               </div>
               <div class="docente-content">
@@ -1065,7 +1198,7 @@
           <div class="docentes-grid">
             <div class="docente-card">
               <div class="docente-imagen">
-                <img src="img/EIE_UNCIA.jpg" alt="Profesora Coreana" />
+                <img src="img/docente2.jpg" alt="Profesora Coreana" />
                 <div class="docente-badge">NATIVA COREA</div>
               </div>
               <div class="docente-content">
@@ -1095,7 +1228,7 @@
 
             <div class="docente-card">
               <div class="docente-imagen">
-                <img src="img/frontis.jpg" alt="Profesor Coreano" />
+                <img src="img/docente3.jpg" alt="Profesor Coreano" />
                 <div class="docente-badge">CERTIFICADO</div>
               </div>
               <div class="docente-content">
@@ -1130,7 +1263,7 @@
           <div class="docentes-grid">
             <div class="docente-card">
               <div class="docente-imagen">
-                <img src="img/EIE.jpg" alt="Profesor Quechua" />
+                <img src="img/docente4.jpg" alt="Profesor Quechua" />
                 <div class="docente-badge">HABLANTE NATIVO</div>
               </div>
               <div class="docente-content">
@@ -1160,7 +1293,7 @@
 
             <div class="docente-card">
               <div class="docente-imagen">
-                <img src="img/EIE_UNCIA.jpg" alt="Profesora Quechua" />
+                <img src="img/docente2.jpg" alt="Profesora Quechua" />
                 <div class="docente-badge">NATIVA</div>
               </div>
               <div class="docente-content">
@@ -1195,7 +1328,7 @@
           <div class="docentes-grid">
             <div class="docente-card">
               <div class="docente-imagen">
-                <img src="img/frontis.jpg" alt="Profesor Francés" />
+                <img src="img/docente2.jpg" alt="Profesor Francés" />
                 <div class="docente-badge">FRANCÉS</div>
               </div>
               <div class="docente-content">
@@ -1216,7 +1349,7 @@
 
             <div class="docente-card">
               <div class="docente-imagen">
-                <img src="img/EIE.jpg" alt="Profesora Chino" />
+                <img src="img/docente4.jpg" alt="Profesora Chino" />
                 <div class="docente-badge">CHINO</div>
               </div>
               <div class="docente-content">
@@ -1237,7 +1370,7 @@
 
             <div class="docente-card">
               <div class="docente-imagen">
-                <img src="img/EIE_UNCIA.jpg" alt="Profesor Alemán" />
+                <img src="img/docente3.jpg" alt="Profesor Alemán" />
                 <div class="docente-badge">ALEMÁN</div>
               </div>
               <div class="docente-content">
@@ -1258,7 +1391,7 @@
 
             <div class="docente-card">
               <div class="docente-imagen">
-                <img src="img/frontis.jpg" alt="Profesor Japonés" />
+                <img src="img/docente4.jpg" alt="Profesor Japonés" />
                 <div class="docente-badge">JAPONÉS</div>
               </div>
               <div class="docente-content">
@@ -1279,7 +1412,7 @@
 
             <div class="docente-card">
               <div class="docente-imagen">
-                <img src="img/EIE.jpg" alt="Profesora Italiano" />
+                <img src="img/docente1.jpg" alt="Profesora Italiano" />
                 <div class="docente-badge">ITALIANO</div>
               </div>
               <div class="docente-content">
@@ -1302,7 +1435,7 @@
 
             <div class="docente-card">
               <div class="docente-imagen">
-                <img src="img/EIE_UNCIA.jpg" alt="Profesor Portugués" />
+                <img src="img/docente2.jpg" alt="Profesor Portugués" />
                 <div class="docente-badge">PORTUGUÉS</div>
               </div>
               <div class="docente-content">
@@ -1341,7 +1474,7 @@
           <!-- Item 1 -->
           <div class="experiencia-item">
             <div class="experiencia-imagen">
-              <img src="img/frontis.jpg" alt="32 años de experiencia" />
+              <img src="img/instalacion.jpg" alt="32 años de experiencia" />
             </div>
             <div class="experiencia-content">
               <span class="experiencia-badge">1993 - 2025</span>
@@ -1395,7 +1528,7 @@
               </ul>
             </div>
             <div class="experiencia-imagen">
-              <img src="img/EIE.jpg" alt="Metodología innovadora" />
+              <img src="img/.jpg" alt="Metodología innovadora" />
             </div>
           </div>
 
@@ -1625,6 +1758,437 @@
       if (statsSection) {
         statsObserver.observe(statsSection);
       }
+      // Eliminar cualquier elemento de UI de Sketchfab que persista
+      setTimeout(() => {
+        const iframe = document.querySelector(
+          ".sketchfab-embed-wrapper iframe"
+        );
+        if (iframe) {
+          // Forzar estilos adicionales
+          iframe.style.background = "transparent";
+          iframe.style.border = "none";
+
+          // Observar cambios en el iframe
+          const observer = new MutationObserver(() => {
+            const sketchfabElements = document.querySelectorAll(
+              '[class*="sketchfab"], [id*="sketchfab"]'
+            );
+            sketchfabElements.forEach((el) => {
+              if (
+                el.style &&
+                (el.style.background || el.style.backgroundColor)
+              ) {
+                el.style.background = "transparent";
+                el.style.backgroundColor = "transparent";
+              }
+            });
+          });
+        }
+      }, 2000);
+      // ========== SISTEMA DE PARTÍCULAS DORADAS ==========
+      function initParticles(config = {}) {
+        const container = document.getElementById("threejs-particles");
+        if (!container) return;
+
+        // Configuración personalizable
+        const defaults = {
+          particleCount: 150,
+          colors: [0xffd700, 0xffa500, 0xffec8b], // Dorados
+          size: 0.1,
+          speed: 0.05,
+          area: 20,
+        };
+
+        const settings = { ...defaults, ...config };
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        );
+        const renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true,
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        camera.position.z = 5;
+
+        // Crear partículas
+        const particlesGeometry = new THREE.BufferGeometry();
+        const posArray = new Float32Array(settings.particleCount * 3);
+        const colorsArray = new Float32Array(settings.particleCount * 3);
+        const sizesArray = new Float32Array(settings.particleCount);
+
+        for (let i = 0; i < settings.particleCount * 3; i += 3) {
+          posArray[i] = (Math.random() - 0.5) * settings.area;
+          posArray[i + 1] = (Math.random() - 0.5) * settings.area;
+          posArray[i + 2] = (Math.random() - 0.5) * (settings.area / 2);
+
+          sizesArray[i / 3] = Math.random() * settings.size + settings.size / 2;
+
+          const colorIndex = Math.floor(Math.random() * settings.colors.length);
+          const color = new THREE.Color(settings.colors[colorIndex]);
+
+          colorsArray[i] = color.r;
+          colorsArray[i + 1] = color.g;
+          colorsArray[i + 2] = color.b;
+        }
+
+        particlesGeometry.setAttribute(
+          "position",
+          new THREE.BufferAttribute(posArray, 3)
+        );
+        particlesGeometry.setAttribute(
+          "color",
+          new THREE.BufferAttribute(colorsArray, 3)
+        );
+        particlesGeometry.setAttribute(
+          "size",
+          new THREE.BufferAttribute(sizesArray, 1)
+        );
+
+        const particlesMaterial = new THREE.PointsMaterial({
+          size: settings.size,
+          vertexColors: true,
+          transparent: true,
+          opacity: 0.8,
+          blending: THREE.AdditiveBlending,
+          sizeAttenuation: true,
+        });
+
+        const particlesMesh = new THREE.Points(
+          particlesGeometry,
+          particlesMaterial
+        );
+        scene.add(particlesMesh);
+
+        // Animación mejorada
+        const clock = new THREE.Clock();
+
+        function animate() {
+          const elapsedTime = clock.getElapsedTime();
+
+          particlesMesh.rotation.y = elapsedTime * settings.speed;
+          particlesMesh.rotation.x = elapsedTime * (settings.speed * 0.6);
+
+          const positions = particlesMesh.geometry.attributes.position.array;
+          for (let i = 0; i < settings.particleCount * 3; i += 3) {
+            const i3 = i / 3;
+            positions[i + 1] += Math.sin(elapsedTime + i3) * 0.002;
+            positions[i] += Math.cos(elapsedTime + i3) * 0.001;
+
+            // Rebote suave en los bordes
+            if (Math.abs(positions[i + 1]) > settings.area / 2)
+              positions[i + 1] *= -0.99;
+            if (Math.abs(positions[i]) > settings.area / 2)
+              positions[i] *= -0.99;
+          }
+          particlesMesh.geometry.attributes.position.needsUpdate = true;
+
+          renderer.render(scene, camera);
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Responsive mejorado
+        function handleResize() {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener("resize", handleResize);
+
+        // Limpiar recursos
+        return () => {
+          window.removeEventListener("resize", handleResize);
+          renderer.dispose();
+          particlesGeometry.dispose();
+          particlesMaterial.dispose();
+          container.removeChild(renderer.domElement);
+        };
+      }
+
+      // ========== SISTEMA DE CURSOR 3D CON ESTELA ==========
+      function initCursor3D(config = {}) {
+        const container = document.getElementById("threejs-cursor");
+        if (!container) return;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          100
+        );
+        const renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true,
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+        camera.position.z = 5;
+
+        // Configuración personalizable
+        const defaults = {
+          cursorColor: 0xffd700,
+          trailColor: 0xffd700,
+          cursorSize: 0.1,
+          trailSize: 0.05,
+          trailLength: 15,
+          smoothness: 0.1,
+        };
+
+        const settings = { ...defaults, ...config };
+
+        // Sistema de estela/rastro
+        const trailParticles = [];
+        const trailGeometry = new THREE.BufferGeometry();
+        const trailMaterial = new THREE.PointsMaterial({
+          size: settings.trailSize,
+          color: settings.trailColor,
+          transparent: true,
+          opacity: 0.7,
+          blending: THREE.AdditiveBlending,
+          sizeAttenuation: true,
+        });
+
+        const trailMesh = new THREE.Points(trailGeometry, trailMaterial);
+        scene.add(trailMesh);
+
+        // Cursor principal
+        const cursor = new THREE.Mesh(
+          new THREE.SphereGeometry(settings.cursorSize, 16, 16),
+          new THREE.MeshBasicMaterial({
+            color: settings.cursorColor,
+            transparent: true,
+            opacity: 0.9,
+          })
+        );
+        scene.add(cursor);
+
+        // Calibración mejorada
+        const CALIBRATION = {
+          multiplierX: 8,
+          multiplierY: -3.9,
+          offsetX: 0,
+          offsetY: 0,
+          smoothness: settings.smoothness,
+        };
+
+        const mouse = { x: 0, y: 0 };
+        const target = { x: 0, y: 0 };
+
+        document.addEventListener("mousemove", (event) => {
+          target.x = (event.clientX / window.innerWidth) * 2 - 1;
+          target.y = (event.clientY / window.innerHeight) * 2 - 1;
+        });
+
+        // Efectos de click mejorados
+        document.addEventListener("click", (event) => {
+          createClickWave(mouse.x, mouse.y);
+        });
+
+        function createClickWave(x, y) {
+          const waveGeometry = new THREE.RingGeometry(0.08, 0.2, 20);
+          const waveMaterial = new THREE.MeshBasicMaterial({
+            color: 0xffa500,
+            transparent: true,
+            opacity: 0.8,
+            side: THREE.DoubleSide,
+          });
+
+          const waveMesh = new THREE.Mesh(waveGeometry, waveMaterial);
+          waveMesh.position.set(
+            x * CALIBRATION.multiplierX,
+            y * CALIBRATION.multiplierY,
+            0
+          );
+          scene.add(waveMesh);
+
+          let scale = 1;
+          let opacity = 0.8;
+
+          function animateWave() {
+            scale += 0.3;
+            opacity -= 0.04;
+
+            waveMesh.scale.set(scale, scale, 1);
+            waveMaterial.opacity = opacity;
+
+            if (opacity > 0) {
+              requestAnimationFrame(animateWave);
+            } else {
+              scene.remove(waveMesh);
+              waveGeometry.dispose();
+              waveMaterial.dispose();
+            }
+          }
+          animateWave();
+        }
+
+        // Sistema de estela mejorado
+        function updateTrail() {
+          const positions = [];
+
+          trailParticles.push({
+            x: mouse.x * CALIBRATION.multiplierX,
+            y: mouse.y * CALIBRATION.multiplierY,
+            life: 1.0,
+          });
+
+          if (trailParticles.length > settings.trailLength) {
+            trailParticles.shift();
+          }
+
+          trailParticles.forEach((particle, index) => {
+            particle.life -= 0.07;
+
+            if (particle.life > 0) {
+              positions.push(particle.x, particle.y, 0);
+              trailMaterial.opacity = particle.life * 0.7;
+            }
+          });
+
+          if (positions.length > 0) {
+            trailGeometry.setAttribute(
+              "position",
+              new THREE.Float32BufferAttribute(positions, 3)
+            );
+          }
+
+          while (trailParticles.length > 0 && trailParticles[0].life <= 0) {
+            trailParticles.shift();
+          }
+        }
+
+        // Animación principal
+        function animate() {
+          mouse.x += (target.x - mouse.x) * CALIBRATION.smoothness;
+          mouse.y += (target.y - mouse.y) * CALIBRATION.smoothness;
+
+          cursor.position.x =
+            mouse.x * CALIBRATION.multiplierX + CALIBRATION.offsetX;
+          cursor.position.y =
+            mouse.y * CALIBRATION.multiplierY + CALIBRATION.offsetY;
+
+          updateTrail();
+
+          const pulse =
+            Math.sin(Date.now() * 0.01) * 0.04 + settings.cursorSize;
+          cursor.scale.set(pulse, pulse, pulse);
+
+          renderer.render(scene, camera);
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        function handleResize() {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener("resize", handleResize);
+
+        // Limpiar recursos
+        return () => {
+          window.removeEventListener("resize", handleResize);
+          document.removeEventListener("mousemove");
+          document.removeEventListener("click");
+          renderer.dispose();
+          trailGeometry.dispose();
+          trailMaterial.dispose();
+          container.removeChild(renderer.domElement);
+        };
+      }
+
+      // ========== INICIALIZADOR GLOBAL MEJORADO ==========
+      class ThreeJSManager {
+        constructor() {
+          this.cleanupFunctions = [];
+          this.isInitialized = false;
+        }
+
+        init(options = {}) {
+          if (this.isInitialized) return;
+
+          // Cargar Three.js si no está disponible
+          if (typeof THREE === "undefined") {
+            this.loadThreeJS(() => this.initializeSystems(options));
+          } else {
+            this.initializeSystems(options);
+          }
+        }
+
+        loadThreeJS(callback) {
+          const script = document.createElement("script");
+          script.src =
+            "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+          script.onload = callback;
+          document.head.appendChild(script);
+        }
+
+        initializeSystems(options) {
+          const { particles = true, cursor = true, waves = false } = options;
+
+          if (particles) {
+            const cleanupParticles = initParticles(options.particlesConfig);
+            if (cleanupParticles) this.cleanupFunctions.push(cleanupParticles);
+          }
+
+          if (cursor) {
+            const cleanupCursor = initCursor3D(options.cursorConfig);
+            if (cleanupCursor) this.cleanupFunctions.push(cleanupCursor);
+          }
+
+          // (Opcional) Puedes agregar initWaves() aquí si lo necesitas
+
+          this.isInitialized = true;
+          console.log("✅ Sistemas Three.js inicializados");
+        }
+
+        destroy() {
+          this.cleanupFunctions.forEach((cleanup) => cleanup());
+          this.cleanupFunctions = [];
+          this.isInitialized = false;
+          console.log("🧹 Sistemas Three.js limpiados");
+        }
+      }
+
+      // ========== USO FÁCIL ==========
+      // Crear instancia global
+      const threeManager = new ThreeJSManager();
+
+      // Inicializar cuando la página cargue
+      window.addEventListener("DOMContentLoaded", () => {
+        threeManager.init({
+          particles: true,
+          cursor: true,
+          particlesConfig: {
+            particleCount: 200, // Más partículas
+            colors: [0xffd700, 0xffa500, 0xffffff], // Dorado + blanco
+            size: 0.08,
+          },
+          cursorConfig: {
+            cursorColor: 0x00ff00, // Cursor verde
+            trailColor: 0x00ff00, // Estela verde
+            cursorSize: 0.12,
+          },
+        });
+      });
+
+      // Para limpiar (si es necesario)
+      // threeManager.destroy();
     </script>
   </body>
 </html>

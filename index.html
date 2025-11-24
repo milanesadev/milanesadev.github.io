@@ -4,6 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EIE-UNCÍA - Escuela de Idiomas del Ejército</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- En el <head>, después de three.min.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <!-- En la sección <head> de tu código, agrega esto: -->
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"
+    ></script>
     <style>
       * {
         margin: 0;
@@ -15,6 +24,208 @@
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         line-height: 1.6;
         overflow-x: hidden;
+      }
+      /* ==================== BÚHO 3D MEJORADO ==================== */
+      /* ==================== BÚHO 3D - TAMAÑO COMPLETO ==================== */
+      .owl-companion {
+        position: fixed;
+        right: 20px;
+        bottom: 80px;
+        width: 280px; /* Más grande */
+        height: 350px; /* Mucho más alto */
+        z-index: 9998;
+        pointer-events: none;
+        background: transparent !important;
+      }
+
+      #owl-threejs-container {
+        width: 100%;
+        height: 100%;
+        background: transparent !important;
+        overflow: visible !important; /* Importante: sin recorte */
+      }
+
+      .owl-speech-bubble {
+        position: absolute;
+        bottom: 360px; /* Ajustado por nuevo tamaño */
+        right: 0;
+        background: linear-gradient(135deg, #1a1a2e, #2d3561);
+        color: #ffd700;
+        padding: 12px 18px;
+        border-radius: 18px;
+        font-size: 0.9em;
+        font-weight: 600;
+        max-width: 240px;
+        text-align: center;
+        border: 2px solid #ffd700;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        transform: translateY(15px);
+        transition: all 0.4s ease;
+        pointer-events: none;
+        z-index: 10000;
+        backdrop-filter: blur(10px);
+      }
+
+      .owl-speech-bubble.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .owl-speech-bubble::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        right: 25px;
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #ffd700;
+      }
+
+      .owl-companion.idle {
+        animation: gentle-float-owl 4s ease-in-out infinite;
+      }
+
+      @keyframes gentle-float-owl {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(-1deg);
+        }
+        50% {
+          transform: translateY(-15px) rotate(1deg);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .owl-companion {
+          width: 200px;
+          height: 250px;
+          right: 15px;
+          bottom: 60px;
+        }
+
+        .owl-speech-bubble {
+          bottom: 260px;
+          max-width: 180px;
+          font-size: 0.8em;
+        }
+      }
+      /* ==================== THREE.JS OBJETOS FLOTANTES ==================== */
+      #threejs-floating-objects {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        pointer-events: none;
+      }
+      /* ==================== CURSOR 3D CON RASTRO ==================== */
+      #threejs-cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        pointer-events: none;
+      }
+      /* ==================== THREE.JS ONDAS 3D ==================== */
+      #threejs-waves {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+      }
+      /* ==================== THREE.JS PARTÍCULAS 3D ==================== */
+      #threejs-particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+      }
+      /* ==================== ESTILOS PARA MODELO 3D FLOTANTE ==================== */
+
+      /* ==================== Logo Editar posicion ==================== */
+      .model-3d-container {
+        position: absolute;
+        right: 72%;
+        top: 55%;
+        transform: translateY(-50%);
+        z-index: 2;
+      }
+
+      /* Rotación más rápida */
+      model-viewer {
+        --progress-bar-color: #ffd700;
+        --progress-bar-height: 3px;
+        animation: rotate-fast 15s linear infinite;
+      }
+
+      @keyframes rotate-fast {
+        from {
+          transform: rotateY(0deg);
+        }
+        to {
+          transform: rotateY(360deg);
+        }
+      }
+
+      /* Ajustes responsivos */
+      @media (max-width: 1200px) {
+        .model-3d-container {
+          right: 5%;
+        }
+      }
+
+      @media (max-width: 968px) {
+        .model-3d-container {
+          position: relative;
+          right: auto;
+          top: auto;
+          transform: none;
+          margin: 30px auto 0;
+          text-align: center;
+        }
+
+        .model-3d-container model-viewer {
+          width: 180px !important;
+          height: 180px !important;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .model-3d-container {
+          display: none; /* Ocultar en móviles muy pequeños si es necesario */
+        }
+      }
+
+      /* Estilos para el botón AR */
+      #ar-button {
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        color: #1a1a2e;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 8px;
+        font-size: 0.8em;
+      }
+
+      #ar-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
       }
 
       /* ==================== HEADER / NAVEGACIÓN ==================== */
@@ -431,41 +642,7 @@
       }
 
       /* PARTÍCULAS DECORATIVAS */
-      .particles {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        z-index: 1;
-        pointer-events: none;
-      }
-
-      .particle {
-        position: absolute;
-        background: rgba(255, 215, 0, 0.3);
-        border-radius: 50%;
-        animation: float 15s infinite;
-      }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0) rotate(0deg);
-          opacity: 0;
-        }
-        10% {
-          opacity: 1;
-        }
-        90% {
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(-100vh) rotate(360deg);
-          opacity: 0;
-        }
-      }
+      /* PARTÍCULAS DECORATIVAS elimnadas */
 
       /* ==================== SECCIÓN DE ESTADÍSTICAS ==================== */
       .stats-section {
@@ -1297,9 +1474,106 @@
           gap: 35px;
         }
       }
+
+      /* ==================== BÚHO 3D CORREGIDO ==================== */
+      .owl-companion {
+        position: fixed;
+        right: 40px;
+        bottom: 120px;
+        width: 180px;
+        height: 220px;
+        z-index: 9998;
+        pointer-events: none;
+        background: transparent !important;
+      }
+
+      #owl-threejs-container {
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        border-radius: 15px;
+        overflow: hidden;
+      }
+
+      .owl-speech-bubble {
+        position: absolute;
+        bottom: 230px;
+        right: 0;
+        background: linear-gradient(135deg, #1a1a2e, #2d3561);
+        color: #ffd700;
+        padding: 12px 18px;
+        border-radius: 18px;
+        font-size: 0.9em;
+        font-weight: 600;
+        max-width: 220px;
+        text-align: center;
+        border: 2px solid #ffd700;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        transform: translateY(15px);
+        transition: all 0.4s ease;
+        pointer-events: none;
+        z-index: 10000;
+        backdrop-filter: blur(10px);
+      }
+
+      .owl-speech-bubble.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .owl-speech-bubble::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        right: 25px;
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #ffd700;
+      }
+
+      /* Efectos de movimiento */
+      .owl-companion.idle {
+        animation: gentle-float 4s ease-in-out infinite;
+      }
+
+      @keyframes gentle-float {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(-1deg);
+        }
+        50% {
+          transform: translateY(-15px) rotate(1deg);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .owl-companion {
+          width: 120px;
+          height: 150px;
+          right: 20px;
+          bottom: 80px;
+        }
+
+        .owl-speech-bubble {
+          bottom: 160px;
+          max-width: 180px;
+          font-size: 0.8em;
+        }
+      }
     </style>
   </head>
   <body>
+    <!-- ==================== BÚHO 3D ==================== -->
+    <!-- ==================== BÚHO 3D MEJORADO ==================== -->
+    <div class="owl-companion" id="owlCompanion">
+      <div class="owl-speech-bubble" id="owlSpeechBubble">
+        ¡Hola! Soy Eggbert 🦉
+      </div>
+      <div id="owl-threejs-container"></div>
+    </div>
     <!-- ==================== HEADER / NAVEGACIÓN ==================== -->
     <!-- ==================== HEADER / NAVEGACIÓN ==================== -->
     <header id="header">
@@ -1392,10 +1666,18 @@
       </nav>
       <a href="#contacto" class="btn-contacto">Contáctanos</a>
     </header>
+    <!-- ==================== THREE.JS PARTÍCULAS 3D ==================== -->
+    <div id="threejs-particles"></div>
+
+    <!-- ==================== THREE.JS ONDAS 3D ==================== -->
+    <div id="threejs-waves"></div>
+
+    <!-- ==================== THREE.JS CURSOR 3D ==================== -->
+    <div id="threejs-cursor"></div>
 
     <!-- ==================== HERO SECTION / SLIDER PRINCIPAL ==================== -->
     <section class="hero" id="inicio">
-      <div class="particles" id="particles"></div>
+      <!-- ==================== eliminado particulas ==================== -->
 
       <div class="overlay">
         <div class="hero-text">
@@ -1403,12 +1685,33 @@
           <h1 class="titulo-principal">ESCUELA DE IDIOMAS DEL EJÉRCITO</h1>
           <h1 class="titulo-secundario">FILIAL UNCÍA</h1>
           <div class="hero-buttons">
-            <a href="#recorrido3d" class="btn-cta btn-primary">
+            <a href="recorrido3d.html" class="btn-cta btn-primary">
               🌐 Recorrido Virtual 3D
             </a>
             <a href="#nosotros" class="btn-cta btn-secondary">
               📚 Más Información
             </a>
+          </div>
+
+          <!-- Modelo 3D posicionado absolutamente -->
+          <div class="model-3d-container">
+            <model-viewer
+              src="https://milanesadev.github.io/models3Dof/logo.glb"
+              ar
+              ar-modes="webxr scene-viewer quick-look"
+              tone-mapping="neutral"
+              shadow-intensity="1"
+              auto-rotate
+              auto-rotate-delay="0"
+              rotation-per-second="70deg"
+              camera-orbit="0deg 75deg 105%"
+              style="width: 550px; height: 850px; background: transparent"
+            >
+              <div class="progress-bar hide" slot="progress-bar">
+                <div class="update-bar"></div>
+              </div>
+              <button slot="ar-button" id="ar-button">Ver en AR</button>
+            </model-viewer>
           </div>
         </div>
       </div>
@@ -1419,10 +1722,10 @@
             <img src="img/frontis.jpg" alt="Frontis Principal" class="active" />
             <img src="img/EIE.jpg" alt="Letrero EIE" />
             <img src="img/EIE_UNCIA.jpg" alt="Vista Nocturna" />
-            <img src="img/frontis.jpg" alt="Fachada Exterior" />
-            <img src="img/EIE.jpg" alt="Entrada Principal" />
-            <img src="img/EIE_UNCIA.jpg" alt="Iluminación Nocturna" />
-            <img src="img/frontis.jpg" alt="Vista Completa" />
+            <img src="img/everyone.jpg" alt="Fachada Exterior" />
+            <img src="img/poster.jpg" alt="Entrada Principal" />
+            <img src="img/instalacion.jpg" alt="Iluminación Nocturna" />
+            <img src="img/front.jpg" alt="Vista Completa" />
           </div>
         </div>
       </div>
@@ -1496,7 +1799,7 @@
         </div>
 
         <div class="about-image">
-          <img src="img/EIE_UNCIA.jpg" alt="Instalaciones EIE-UNCIA" />
+          <img src="img/everyone.jpg" alt="Instalaciones EIE-UNCIA" />
         </div>
       </div>
       <div style="text-align: center; margin-top: 50px">
@@ -1899,7 +2202,7 @@
           </div>
 
           <a
-            href="https://wa.me/59162795652?text=Hola,%20quiero%20información%20sobre%20los%20cursos%20de%20idiomas"
+            href="https://wa.me/59168405191?text=Hola,%20quiero%20información%20sobre%20los%20cursos%20de%20idiomas"
             target="_blank"
             class="whatsapp-btn"
           >
@@ -1977,6 +2280,406 @@
 
     <!-- ==================== JAVASCRIPT / FUNCIONALIDADES ==================== -->
     <script>
+      // ========== THREE.JS PARTÍCULAS DORADAS 3D ==========
+      // ========== THREE.JS SISTEMA COMPLETO (PARTÍCULAS + ONDAS) ==========
+
+      // ========== CURSOR 3D CON RASTRO ==========
+      // ========== CURSOR 3D CORREGIDO - EJE Y FIXED ==========
+      function initCursor3D() {
+        const container = document.getElementById("threejs-cursor");
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          100
+        );
+        const renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true,
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+        camera.position.z = 5;
+
+        // ========== SISTEMA DE RASTRO DORADO ==========
+        const trailParticles = [];
+        const trailGeometry = new THREE.BufferGeometry();
+        const trailMaterial = new THREE.PointsMaterial({
+          size: 0.03,
+          color: 0xffd700,
+          transparent: true,
+          opacity: 0.7,
+          blending: THREE.AdditiveBlending,
+          sizeAttenuation: true,
+        });
+
+        const trailMesh = new THREE.Points(trailGeometry, trailMaterial);
+        scene.add(trailMesh);
+
+        // ========== CURSOR PRINCIPAL ==========
+        const cursor = new THREE.Mesh(
+          new THREE.SphereGeometry(0.8, 12, 12),
+          new THREE.MeshBasicMaterial({
+            color: 0xffd700,
+            transparent: true,
+            opacity: 0.9,
+          })
+        );
+        scene.add(cursor);
+
+        // ========== CALIBRACIÓN PERFECTA ==========
+        const CALIBRATION = {
+          multiplierX: 8,
+          multiplierY: -3.9,
+          offsetX: 0,
+          offsetY: 0,
+          smoothness: 0.1,
+        };
+
+        const mouse = { x: 0, y: 0 };
+        const target = { x: 0, y: 0 };
+
+        document.addEventListener("mousemove", (event) => {
+          target.x = (event.clientX / window.innerWidth) * 2 - 1;
+          target.y = (event.clientY / window.innerHeight) * 2 - 1;
+        });
+
+        // ========== EFECTO DE ONDAS AL HACER CLICK ==========
+        document.addEventListener("click", (event) => {
+          createClickWave(mouse.x, mouse.y);
+        });
+
+        function createClickWave(x, y) {
+          const waveGeometry = new THREE.RingGeometry(0.08, 0.12, 20); // 🔥 Más grande
+          const waveMaterial = new THREE.MeshBasicMaterial({
+            color: 0xffa500,
+            transparent: true,
+            opacity: 0.8,
+            side: THREE.DoubleSide,
+          });
+
+          const waveMesh = new THREE.Mesh(waveGeometry, waveMaterial);
+
+          waveMesh.position.set(
+            x * CALIBRATION.multiplierX,
+            y * CALIBRATION.multiplierY,
+            0
+          );
+          scene.add(waveMesh);
+
+          let scale = 1;
+          let opacity = 0.8;
+
+          function animateWave() {
+            scale += 0.3; // 🔥 Más rápida la expansión
+            opacity -= 0.04;
+
+            waveMesh.scale.set(scale, scale, 1);
+            waveMaterial.opacity = opacity;
+
+            if (opacity > 0) {
+              requestAnimationFrame(animateWave);
+            } else {
+              scene.remove(waveMesh);
+              waveGeometry.dispose();
+              waveMaterial.dispose();
+            }
+          }
+          animateWave();
+        }
+
+        // ========== ACTUALIZAR RASTRO ==========
+        function updateTrail() {
+          const positions = [];
+
+          // Agregar nueva posición al rastro
+          trailParticles.push({
+            x: mouse.x * CALIBRATION.multiplierX,
+            y: mouse.y * CALIBRATION.multiplierY,
+            life: 1.0,
+          });
+
+          // Mantener solo las últimas 15 partículas
+          if (trailParticles.length > 15) {
+            trailParticles.shift();
+          }
+
+          // Actualizar geometría del rastro
+          trailParticles.forEach((particle, index) => {
+            particle.life -= 0.07;
+
+            // Solo agregar si sigue viva
+            if (particle.life > 0) {
+              positions.push(particle.x, particle.y, 0);
+
+              // Actualizar opacidad según vida
+              trailMaterial.opacity = particle.life * 0.7;
+            }
+          });
+
+          // Actualizar geometría
+          if (positions.length > 0) {
+            trailGeometry.setAttribute(
+              "position",
+              new THREE.Float32BufferAttribute(positions, 3)
+            );
+          }
+
+          // Limpiar partículas muertas
+          while (trailParticles.length > 0 && trailParticles[0].life <= 0) {
+            trailParticles.shift();
+          }
+        }
+
+        // ========== ANIMACIÓN PRINCIPAL ==========
+        function animate() {
+          // Suavizado del movimiento
+          mouse.x += (target.x - mouse.x) * CALIBRATION.smoothness;
+          mouse.y += (target.y - mouse.y) * CALIBRATION.smoothness;
+
+          // Actualizar posición del cursor
+          cursor.position.x =
+            mouse.x * CALIBRATION.multiplierX + CALIBRATION.offsetX;
+          cursor.position.y =
+            mouse.y * CALIBRATION.multiplierY + CALIBRATION.offsetY;
+
+          // Actualizar rastro
+          updateTrail();
+
+          // Efecto de pulso sutil en el cursor
+          const pulse = Math.sin(Date.now() * 0.01) * 0.02 + 0.06;
+          cursor.scale.set(pulse, pulse, pulse);
+
+          renderer.render(scene, camera);
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener("resize", () => {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+      }
+
+      // ========== INICIAR THREE.JS CUANDO LA PÁGINA CARGUE ==========
+      window.addEventListener("load", function () {
+        initThreeJS();
+        initCursor3D(); // ← Agregar esta línea
+      });
+      function initThreeJS() {
+        // ========== SISTEMA DE ONDAS 3D ==========
+        // ========== SISTEMA DE ONDAS 3D CORREGIDO ==========
+        function initWaves() {
+          const container = document.getElementById("threejs-waves");
+
+          const scene = new THREE.Scene();
+          const camera = new THREE.PerspectiveCamera(
+            60,
+            window.innerWidth / window.innerHeight,
+            0.1,
+            100
+          );
+          const renderer = new THREE.WebGLRenderer({
+            alpha: true,
+            antialias: true,
+          });
+
+          renderer.setSize(window.innerWidth, window.innerHeight);
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+          container.appendChild(renderer.domElement);
+
+          // Cámara más cercana para mejor perspectiva
+          camera.position.z = 8;
+
+          // Geometría más pequeña y con más detalle
+          // Geometría de onda - MÁS GRANDE
+          const geometry = new THREE.PlaneGeometry(20, 20, 80, 80); // 🔥 15→20, más detalle
+
+          const material = new THREE.MeshPhongMaterial({
+            color: 0x1a1a2e,
+            transparent: true,
+            opacity: 0.6, // 🔥 Más visible: 0.4→0.6
+            wireframe: false,
+            shininess: 100,
+            specular: 0x555555, // 🔥 Más reflectivo
+          });
+
+          const waveMesh = new THREE.Mesh(geometry, material);
+          waveMesh.rotation.x = -Math.PI / 2.5; // Ángulo más suave
+          scene.add(waveMesh);
+
+          // Luces mejor posicionadas
+          const ambientLight = new THREE.AmbientLight(0x4a5fd9, 0.4);
+          scene.add(ambientLight);
+
+          const directionalLight = new THREE.DirectionalLight(0xffd700, 0.6);
+          directionalLight.position.set(3, 5, 5);
+          scene.add(directionalLight);
+
+          // Animación de onda mejorada
+          const clock = new THREE.Clock();
+          const positions = geometry.attributes.position.array;
+
+          function animateWaves() {
+            const elapsedTime = clock.getElapsedTime();
+
+            // Efecto de onda más suave y natural
+            for (let i = 0; i < positions.length; i += 3) {
+              const x = positions[i];
+              const y = positions[i + 1];
+
+              // Ondas más sutiles
+              const wave1 = Math.sin(x * 1.2 + elapsedTime * 1.5) * 0.3;
+              const wave2 = Math.cos(y * 1.0 + elapsedTime * 1.2) * 0.2;
+              const wave3 = Math.sin((x + y) * 0.8 + elapsedTime * 0.8) * 0.15;
+
+              positions[i + 2] = wave1 + wave2 + wave3;
+            }
+
+            geometry.attributes.position.needsUpdate = true;
+            geometry.computeVertexNormals();
+
+            // Rotación más lenta
+            waveMesh.rotation.z = Math.sin(elapsedTime * 0.05) * 0.05;
+
+            renderer.render(scene, camera);
+            requestAnimationFrame(animateWaves);
+          }
+
+          animateWaves();
+
+          window.addEventListener("resize", () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+          });
+        }
+
+        // ========== SISTEMA DE PARTÍCULAS DORADAS ==========
+        function initParticles() {
+          const container = document.getElementById("threejs-particles");
+
+          const scene = new THREE.Scene();
+          const camera = new THREE.PerspectiveCamera(
+            75,
+            window.innerWidth / window.innerHeight,
+            0.1,
+            1000
+          );
+          const renderer = new THREE.WebGLRenderer({
+            alpha: true,
+            antialias: true,
+          });
+
+          renderer.setSize(window.innerWidth, window.innerHeight);
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+          container.appendChild(renderer.domElement);
+
+          camera.position.z = 5;
+
+          const particlesGeometry = new THREE.BufferGeometry();
+          const particlesCount = 150;
+
+          const posArray = new Float32Array(particlesCount * 3);
+          const colorsArray = new Float32Array(particlesCount * 3);
+          const sizesArray = new Float32Array(particlesCount);
+
+          const goldColor1 = new THREE.Color(0xffd700);
+          const goldColor2 = new THREE.Color(0xffa500);
+          const goldColor3 = new THREE.Color(0xffec8b);
+
+          for (let i = 0; i < particlesCount * 3; i += 3) {
+            posArray[i] = (Math.random() - 0.5) * 20;
+            posArray[i + 1] = (Math.random() - 0.5) * 20;
+            posArray[i + 2] = (Math.random() - 0.5) * 10;
+
+            sizesArray[i / 3] = Math.random() * 0.1 + 0.05;
+
+            const rand = Math.random();
+            let color;
+            if (rand < 0.6) color = goldColor1;
+            else if (rand < 0.8) color = goldColor2;
+            else color = goldColor3;
+
+            colorsArray[i] = color.r;
+            colorsArray[i + 1] = color.g;
+            colorsArray[i + 2] = color.b;
+          }
+
+          particlesGeometry.setAttribute(
+            "position",
+            new THREE.BufferAttribute(posArray, 3)
+          );
+          particlesGeometry.setAttribute(
+            "color",
+            new THREE.BufferAttribute(colorsArray, 3)
+          );
+          particlesGeometry.setAttribute(
+            "size",
+            new THREE.BufferAttribute(sizesArray, 1)
+          );
+
+          const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.1,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.8,
+            blending: THREE.AdditiveBlending,
+            sizeAttenuation: true,
+          });
+
+          const particlesMesh = new THREE.Points(
+            particlesGeometry,
+            particlesMaterial
+          );
+          scene.add(particlesMesh);
+
+          const clock = new THREE.Clock();
+
+          function animateParticles() {
+            const elapsedTime = clock.getElapsedTime();
+
+            particlesMesh.rotation.y = elapsedTime * 0.05;
+            particlesMesh.rotation.x = elapsedTime * 0.03;
+
+            const positions = particlesMesh.geometry.attributes.position.array;
+            for (let i = 0; i < particlesCount * 3; i += 3) {
+              const i3 = i / 3;
+              positions[i + 1] += Math.sin(elapsedTime + i3) * 0.002;
+              positions[i] += Math.cos(elapsedTime + i3) * 0.001;
+
+              if (positions[i + 1] > 10) positions[i + 1] = -10;
+              if (positions[i] > 10) positions[i] = -10;
+            }
+            particlesMesh.geometry.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+            requestAnimationFrame(animateParticles);
+          }
+
+          animateParticles();
+
+          window.addEventListener("resize", () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+          });
+        }
+
+        // Inicializar ambos sistemas
+        initWaves();
+        initParticles();
+      }
+
+      // ========== INICIAR THREE.JS CUANDO LA PÁGINA CARGUE ==========
+      //window.addEventListener("load", initThreeJS);
+
       // ========== CARRUSEL AUTOMÁTICO ==========
       const carrusel = document.getElementById("carrusel");
       const images = carrusel.getElementsByTagName("img");
@@ -1984,36 +2687,31 @@
         "img/frontis.jpg",
         "img/EIE.jpg",
         "img/EIE_UNCIA.jpg",
-        "img/frontis.jpg",
-        "img/EIE.jpg",
-        "img/EIE_UNCIA.jpg",
-        "img/frontis.jpg",
+        "img/everyone.jpg",
+        "img/poster.jpg",
+        "img/instalacion.jpg",
+        "img/front.jpg",
       ];
       let currentIndex = 0;
 
-      // Función para cambiar fondo
       function cambiarFondo(index) {
         const hero = document.querySelector(".hero");
         hero.style.background = `url('${imageUrls[index]}') no-repeat center center/cover`;
 
-        // Actualizar imagen activa
         Array.from(images).forEach((img) => img.classList.remove("active"));
         images[index].classList.add("active");
 
         currentIndex = index;
       }
 
-      // Click en miniaturas
       Array.from(images).forEach((img, index) => {
         img.addEventListener("click", () => cambiarFondo(index));
       });
 
-      // Auto-cambio cada 4 segundos
       setInterval(() => {
         currentIndex = (currentIndex + 1) % images.length;
         cambiarFondo(currentIndex);
 
-        // Scroll suave del carrusel
         const scrollAmount =
           images[currentIndex].offsetLeft -
           carrusel.offsetWidth / 2 +
@@ -2034,19 +2732,6 @@
         }
       });
 
-      // ========== CREAR PARTÍCULAS DECORATIVAS ==========
-      const particlesContainer = document.getElementById("particles");
-      for (let i = 0; i < 30; i++) {
-        const particle = document.createElement("div");
-        particle.classList.add("particle");
-        particle.style.width = Math.random() * 5 + 2 + "px";
-        particle.style.height = particle.style.width;
-        particle.style.left = Math.random() * 100 + "%";
-        particle.style.animationDelay = Math.random() * 15 + "s";
-        particle.style.animationDuration = Math.random() * 10 + 10 + "s";
-        particlesContainer.appendChild(particle);
-      }
-
       // ========== ANIMACIÓN DE NÚMEROS (CONTADOR) ==========
       const statNumbers = document.querySelectorAll(
         ".stat-number[data-target]"
@@ -2065,7 +2750,6 @@
         window.requestAnimationFrame(step);
       };
 
-      // ========== OBSERVADOR PARA ANIMAR CUANDO SEA VISIBLE ==========
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -2090,6 +2774,330 @@
             });
           }
         });
+      });
+
+      // ========== ROTACIÓN MÁS RÁPIDA DEL MODELO 3D ==========
+      document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(() => {
+          const modelViewer = document.querySelector("model-viewer");
+          if (modelViewer) {
+            modelViewer.autoRotate = true;
+            modelViewer.autoRotateDelay = 0;
+            try {
+              modelViewer.setAttribute("rotation-per-second", "70deg");
+            } catch (e) {
+              console.log("Rotación rápida aplicada");
+            }
+          }
+        }, 500);
+      });
+
+      // ========== INICIAR THREE.JS CUANDO LA PÁGINA CARGUE ==========
+      //window.addEventListener("load", initParticles);
+      // ========== BÚHO 3D - VERSIÓN DEFINITIVA ==========
+      // ========== BÚHO 3D - VERSIÓN CON GLTFLoader ==========
+      // ========== BÚHO 3D - VERSIÓN MEJORADA ==========
+      // ========== BÚHO 3D - VERSIÓN ENFOCADA EN MODELO REAL ==========
+      // ========== BÚHO 3D - VERSIÓN COMPLETA VISIBLE ==========
+      function initOwlFinal() {
+        console.log("🦉 INICIANDO BÚHO - TAMAÑO COMPLETO...");
+
+        const container = document.getElementById("owl-threejs-container");
+        if (!container) return;
+
+        if (
+          typeof THREE === "undefined" ||
+          typeof THREE.GLTFLoader === "undefined"
+        ) {
+          return;
+        }
+
+        try {
+          // 1. ESCENA MÁS GRANDE
+          const scene = new THREE.Scene();
+          const camera = new THREE.PerspectiveCamera(35, 280 / 350, 0.1, 1000); // Ángulo más amplio
+          const renderer = new THREE.WebGLRenderer({
+            alpha: true,
+            antialias: true,
+            preserveDrawingBuffer: true,
+          });
+
+          // 2. CANVAS MÁS GRANDE (mismo tamaño que el CSS)
+          renderer.setSize(280, 350);
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+          renderer.setClearColor(0x000000, 0);
+          renderer.domElement.style.width = "100%";
+          renderer.domElement.style.height = "100%";
+          container.innerHTML = "";
+          container.appendChild(renderer.domElement);
+
+          // 3. CÁMARA ALEJADA para ver todo el búho
+          camera.position.set(0, 0.2, 8); // Mucho más lejos
+          camera.lookAt(0, 0, 0);
+
+          // 4. LUCES MEJOR DISTRIBUIDAS
+          const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+          scene.add(ambientLight);
+
+          const directionalLight1 = new THREE.DirectionalLight(0xffd700, 1.0);
+          directionalLight1.position.set(3, 5, 5);
+          scene.add(directionalLight1);
+
+          const directionalLight2 = new THREE.DirectionalLight(0x4a5fd9, 0.6);
+          directionalLight2.position.set(-3, 3, -3);
+          scene.add(directionalLight2);
+
+          // 5. CARGAR MODELO CON ESCALA PEQUEÑA
+          const loader = new THREE.GLTFLoader();
+          const modelUrl =
+            "https://milanesadev.github.io/models3Dof/eggbert-owl.glb";
+
+          console.log("📦 Cargando modelo...");
+          showOwlMessage("Cargando búho completo... 🦉");
+
+          loader.load(
+            modelUrl,
+
+            // ✅ ÉXITO - ESCALA PEQUEÑA PARA QUE QUEPA
+            function (gltf) {
+              console.log("🎉 Modelo cargado - ajustando escala...");
+
+              const model = gltf.scene;
+
+              // 🔥 ESCALA MUY PEQUEÑA para que quepa completo
+              model.scale.set(1.0, 1.0, 1.0); // Escala normal
+              model.position.set(0, -0.8, 0); // Posición centrada
+              model.rotation.y = Math.PI / 6; // Rotación para ver mejor
+
+              scene.add(model);
+
+              // 🔥 FUNCIÓN PARA AJUSTAR EN TIEMPO REAL
+              function adjustModelSize() {
+                const box = new THREE.Box3().setFromObject(model);
+                const size = box.getSize(new THREE.Vector3());
+                const maxDim = Math.max(size.x, size.y, size.z);
+
+                console.log("📏 Tamaño del modelo:", size);
+                console.log("📐 Dimensión máxima:", maxDim);
+
+                // Ajustar escala si es muy grande
+                if (maxDim > 5) {
+                  const scale = 3.0 / maxDim; // Escala para que quepa
+                  model.scale.setScalar(scale);
+                  console.log("🔧 Escala ajustada a:", scale);
+                }
+              }
+
+              // Llamar después de un frame
+              setTimeout(adjustModelSize, 100);
+
+              // Animación
+              function animate() {
+                requestAnimationFrame(animate);
+                model.rotation.y += 0.004;
+                renderer.render(scene, camera);
+              }
+              animate();
+
+              showOwlMessage("¡Búho completo cargado! 🎊");
+              startMessageCycle();
+            },
+
+            // 📊 PROGRESO
+            function (xhr) {
+              const percent = Math.round((xhr.loaded / xhr.total) * 100);
+              if (percent === 100) {
+                showOwlMessage("Ajustando tamaño... ⚡");
+              }
+            },
+
+            // ❌ ERROR
+            function (error) {
+              console.error("Error:", error);
+              showOwlMessage("Error cargando 😢");
+
+              // Búho básico de emergencia
+              createEmergencyOwl(scene, camera, renderer);
+            }
+          );
+        } catch (error) {
+          console.error("Error crítico:", error);
+        }
+      }
+
+      // Búho de emergencia más pequeño
+      function createEmergencyOwl(scene, camera, renderer) {
+        console.log("🦉 Creando búho de emergencia pequeño...");
+
+        // Cuerpo pequeño
+        const bodyGeometry = new THREE.SphereGeometry(0.6, 16, 16);
+        const bodyMaterial = new THREE.MeshPhongMaterial({
+          color: 0x8b4513,
+          shininess: 30,
+        });
+        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        body.position.y = -0.3;
+        scene.add(body);
+
+        // Cabeza
+        const headGeometry = new THREE.SphereGeometry(0.4, 16, 16);
+        const head = new THREE.Mesh(headGeometry, bodyMaterial);
+        head.position.set(0, 0.5, 0);
+        body.add(head);
+
+        // Ojos
+        const eyeGeometry = new THREE.SphereGeometry(0.1, 12, 12);
+        const eyeMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+
+        const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+        leftEye.position.set(-0.15, 0.55, 0.25);
+        head.add(leftEye);
+
+        const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+        rightEye.position.set(0.15, 0.55, 0.25);
+        head.add(rightEye);
+
+        // Animación
+        function animate() {
+          requestAnimationFrame(animate);
+          body.rotation.y += 0.01;
+          renderer.render(scene, camera);
+        }
+        animate();
+
+        startMessageCycle();
+      }
+
+      // Sistema de mensajes (mantener igual)
+      function startMessageCycle() {
+        const messages = [
+          "¡Hola! Soy tu guía 🦉",
+          "Bienvenido a EIE-UNCÍA",
+          "Aprende idiomas con nosotros",
+          "Calidad educativa desde 1993",
+          "¡Tu éxito nos importa!",
+          "Hablemos pronto 📞",
+        ];
+
+        let index = 0;
+        setInterval(() => {
+          index = (index + 1) % messages.length;
+          showOwlMessage(messages[index]);
+        }, 7000);
+      }
+
+      function showOwlMessage(text) {
+        const bubble = document.getElementById("owlSpeechBubble");
+        const owl = document.getElementById("owlCompanion");
+
+        if (bubble && owl) {
+          bubble.textContent = text;
+          bubble.classList.add("show");
+          owl.classList.add("idle");
+          setTimeout(() => bubble.classList.remove("show"), 5000);
+        }
+      }
+
+      // Iniciar
+      document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(initOwlFinal, 1500);
+      });
+
+      // Búho simple temporal (solo si falla el modelo)
+      function createSimpleOwl(scene, camera, renderer) {
+        console.log("🦉 Creando búho simple temporal...");
+
+        // Geometría simple pero que se parezca más a un búho
+        const bodyGeometry = new THREE.SphereGeometry(0.8, 16, 16);
+        const bodyMaterial = new THREE.MeshPhongMaterial({
+          color: 0x8b4513, // Marrón en lugar de amarillo
+          shininess: 30,
+        });
+        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        body.position.y = -0.2;
+        scene.add(body);
+
+        // Cabeza de búho
+        const headGeometry = new THREE.SphereGeometry(0.5, 16, 16);
+        const head = new THREE.Mesh(headGeometry, bodyMaterial);
+        head.position.set(0, 0.6, 0);
+        body.add(head);
+
+        // Ojos grandes de búho
+        const eyeGeometry = new THREE.SphereGeometry(0.15, 12, 12);
+        const eyeMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 }); // Amarillo
+
+        const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+        leftEye.position.set(-0.18, 0.65, 0.35);
+        head.add(leftEye);
+
+        const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+        rightEye.position.set(0.18, 0.65, 0.35);
+        head.add(rightEye);
+
+        // Orejas de búho
+        const earGeometry = new THREE.ConeGeometry(0.08, 0.3, 8);
+        const earMaterial = new THREE.MeshPhongMaterial({ color: 0x8b4513 });
+
+        const leftEar = new THREE.Mesh(earGeometry, earMaterial);
+        leftEar.position.set(-0.25, 0.9, 0);
+        leftEar.rotation.z = -0.3;
+        head.add(leftEar);
+
+        const rightEar = new THREE.Mesh(earGeometry, earMaterial);
+        rightEar.position.set(0.25, 0.9, 0);
+        rightEar.rotation.z = 0.3;
+        head.add(rightEar);
+
+        // Animación
+        function animate() {
+          requestAnimationFrame(animate);
+          body.rotation.y += 0.01;
+          renderer.render(scene, camera);
+        }
+        animate();
+
+        startMessageCycle();
+      }
+
+      // Sistema de mensajes
+      function startMessageCycle() {
+        const messages = [
+          "¡Hola! Soy tu guía 🦉",
+          "Bienvenido a EIE-UNCÍA",
+          "Aprende idiomas con nosotros",
+          "Calidad educativa desde 1993",
+          "¡Tu éxito nos importa!",
+          "Hablemos pronto 📞",
+        ];
+
+        let index = 0;
+        setInterval(() => {
+          index = (index + 1) % messages.length;
+          showOwlMessage(messages[index]);
+        }, 7000);
+      }
+
+      function showOwlMessage(text) {
+        const bubble = document.getElementById("owlSpeechBubble");
+        const owl = document.getElementById("owlCompanion");
+
+        if (bubble && owl) {
+          bubble.textContent = text;
+          bubble.classList.add("show");
+
+          owl.classList.add("idle");
+
+          setTimeout(() => {
+            bubble.classList.remove("show");
+          }, 5000);
+        }
+      }
+
+      // INICIAR
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("🚀 Iniciando sistema del búho...");
+        setTimeout(initOwlFinal, 1500);
       });
     </script>
     <!-- ==================== FIN JAVASCRIPT ==================== -->
